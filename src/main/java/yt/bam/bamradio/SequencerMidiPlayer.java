@@ -52,7 +52,7 @@ public class SequencerMidiPlayer implements Receiver, MidiPlayer {
 	
 	public void tuneIn(Player player) {
 		tunedIn.add(player);
-		player.sendMessage(ChatColor.GRAY+"[BAMradio]"+ChatColor.AQUA + " Now playing: " + ChatColor.YELLOW + midiName);
+		player.sendMessage(ChatColor.GRAY+"[BAMradio]"+ChatColor.AQUA + " Now playing: " + ChatColor.YELLOW + midiName.replace("_", " "));
 	}
 	
 	public void tuneOut(Player player) {
@@ -100,7 +100,7 @@ public class SequencerMidiPlayer implements Receiver, MidiPlayer {
 		
 		for (Player player : tunedIn) {
 			
-			player.sendMessage(ChatColor.GRAY+"[BAMradio]"+ChatColor.AQUA + " Now playing: " + ChatColor.YELLOW + midiName);
+			player.sendMessage(ChatColor.GRAY+"[BAMradio]"+ChatColor.AQUA + " Now playing: " + ChatColor.YELLOW + midiName.replace("_", " "));
 			
 		}
 				

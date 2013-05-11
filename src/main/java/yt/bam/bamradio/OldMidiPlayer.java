@@ -60,7 +60,7 @@ public class OldMidiPlayer implements MidiPlayer {
 	
 	public void tuneIn(Player player) {
 		tunedIn.add(player);
-		player.sendMessage(ChatColor.GRAY+"[BAMradio]"+ChatColor.AQUA + " Now playing: " + ChatColor.YELLOW + midiName);
+		player.sendMessage(ChatColor.GRAY+"[BAMradio]"+ChatColor.AQUA + " Now playing: " + ChatColor.YELLOW + midiName.replace("_", " "));
 	}
 	
 	public void tuneOut(Player player) {
@@ -141,7 +141,7 @@ public class OldMidiPlayer implements MidiPlayer {
 		}
 		
 		for (Player player : tunedIn) {
-			player.sendMessage(ChatColor.GRAY+"[BAMradio]"+ChatColor.AQUA + " Now playing: " + ChatColor.YELLOW + midiName);
+			player.sendMessage(ChatColor.GRAY+"[BAMradio]"+ChatColor.AQUA + " Now playing: " + ChatColor.YELLOW + midiName.replace("_", " "));
 		}
 		
 		timer.scheduleAtFixedRate(new TickTask(), MILLIS_PER_TICK, MILLIS_PER_TICK);

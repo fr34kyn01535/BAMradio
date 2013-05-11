@@ -46,7 +46,6 @@ public enum NotePitch {
 			
 			if (notePitch.note == note)
 				return notePitch.pitch;
-			
 		}
 		
 		return 0;
