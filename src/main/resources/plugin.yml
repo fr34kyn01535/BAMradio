@@ -1,0 +1,8 @@
+name: BAMradio
+main: yt.bam.bamradio.BAMradio
+version: 1.0
+description: Plays midi files.
+commands:
+  play:
+    description: Play a song
+    usage: /<command> <args>
