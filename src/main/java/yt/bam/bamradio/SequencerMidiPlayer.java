@@ -21,6 +21,7 @@ import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Transmitter;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -52,7 +53,7 @@ public class SequencerMidiPlayer implements Receiver, MidiPlayer {
 	
 	public void tuneIn(Player player) {
 		tunedIn.add(player);
-		player.sendMessage(ChatColor.GRAY+"[BAMradio]"+ChatColor.AQUA + " Now playing: " + ChatColor.YELLOW + midiName.replace("_", " "));
+		player.sendMessage(ChatColor.GRAY+"[BAMradio]"+ChatColor.BLUE + " Now playing: " + ChatColor.YELLOW + midiName.replace("_", " "));
 	}
 	
 	public void tuneOut(Player player) {
@@ -100,7 +101,7 @@ public class SequencerMidiPlayer implements Receiver, MidiPlayer {
 		
 		for (Player player : tunedIn) {
 			
-			player.sendMessage(ChatColor.GRAY+"[BAMradio]"+ChatColor.AQUA + " Now playing: " + ChatColor.YELLOW + midiName.replace("_", " "));
+			player.sendMessage(ChatColor.GRAY+"[BAMradio]"+ChatColor.BLUE + " Now playing: " + ChatColor.YELLOW + midiName.replace("_", " "));
 			
 		}
 				
@@ -156,9 +157,10 @@ public class SequencerMidiPlayer implements Receiver, MidiPlayer {
 				patch = channelPatches.get(channel);
 			
 			for (Player player : tunedIn) {
-				
-				//Play the sound to each player tuned in
-				player.playSound(player.getLocation(), Instrument.getInstrument(patch, channel), volume, NotePitch.getPitch(note));
+				Sound sound = Instrument.getInstrument(patch, channel);
+                                if(sound!=null){
+                                    player.playSound(player.getLocation(), sound, volume, NotePitch.getPitch(note));
+                                }
 				
 			}
 			

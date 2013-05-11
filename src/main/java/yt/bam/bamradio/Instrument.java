@@ -12,10 +12,12 @@ public class Instrument {
 	
 	public static Sound getInstrument(int patch, int channel) {
 		
-		if (channel == 9) { // Drums - should actually be 10 but for some reason java makes it 9...
+		if (channel == 9) { 
+			return null;
+		}
+		if (channel == 10) { // Drums - should actually be 10 but for some reason java makes it 9...
 			return Sound.NOTE_BASS_DRUM;
 		}
-		
 		if ((patch >= 28 && patch <= 40) || (patch >= 44 && patch <= 46)) { // Guitars & bass
 			return Sound.NOTE_BASS_GUITAR;
 		}
@@ -27,7 +29,6 @@ public class Instrument {
 		if (patch >= 120 && patch <= 127) { // Misc.
 			return Sound.NOTE_SNARE_DRUM;
 		}
-		
 		return Sound.NOTE_PIANO;
 		
 	}

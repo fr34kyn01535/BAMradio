@@ -60,7 +60,7 @@ public class OldMidiPlayer implements MidiPlayer {
 	
 	public void tuneIn(Player player) {
 		tunedIn.add(player);
-		player.sendMessage(ChatColor.GRAY+"[BAMradio]"+ChatColor.AQUA + " Now playing: " + ChatColor.YELLOW + midiName.replace("_", " "));
+		player.sendMessage(ChatColor.GRAY+"[BAMradio]"+ChatColor.BLUE + " Now playing: " + ChatColor.YELLOW + midiName.replace("_", " "));
 	}
 	
 	public void tuneOut(Player player) {
@@ -141,7 +141,7 @@ public class OldMidiPlayer implements MidiPlayer {
 		}
 		
 		for (Player player : tunedIn) {
-			player.sendMessage(ChatColor.GRAY+"[BAMradio]"+ChatColor.AQUA + " Now playing: " + ChatColor.YELLOW + midiName.replace("_", " "));
+			player.sendMessage(ChatColor.GRAY+"[BAMradio]"+ChatColor.BLUE + " Now playing: " + ChatColor.YELLOW + midiName.replace("_", " "));
 		}
 		
 		timer.scheduleAtFixedRate(new TickTask(), MILLIS_PER_TICK, MILLIS_PER_TICK);
@@ -170,11 +170,11 @@ public class OldMidiPlayer implements MidiPlayer {
 				
 				Sound instrument = Instrument.getInstrument(patch, channel);
 				float notePitch = NotePitch.getPitch(note);
-				
-				for (Player player : tunedIn) {
-					player.playSound(player.getLocation(), instrument, volume, notePitch);
-				}
-				
+				if(instrument!=null){
+                                    for (Player player : tunedIn) {
+                                            player.playSound(player.getLocation(), instrument, volume, notePitch);
+                                    }
+                                }
 			} else if (message.getCommand() == ShortMessage.PROGRAM_CHANGE) {
 				channelPatches.put(message.getChannel(), message.getData1());
 			} else if (message.getCommand() == ShortMessage.STOP) {
