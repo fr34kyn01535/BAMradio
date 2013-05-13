@@ -1,10 +1,10 @@
 /**
- * Copyright (C) 2012 t7seven7t
+ * Copyright (C) 2013 fr34kyn01535
  */
 package yt.bam.bamradio;
 
 /**
- * @author t7seven7t
+ * @author fr34kyn01535
  */
 public enum NotePitch {
 	NOTE_0(0, 0.5f),

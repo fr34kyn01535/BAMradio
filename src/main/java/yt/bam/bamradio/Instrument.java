@@ -1,36 +1,54 @@
 /**
- * Copyright (C) 2012 t7seven7t
+ * Copyright (C) 2013 fr34kyn01535
  */
 package yt.bam.bamradio;
 
 import org.bukkit.Sound;
 
 /**
- * @author t7seven7t
+ * @author fr34kyn01535
  */
 public class Instrument {
 	
-	public static Sound getInstrument(int patch, int channel) {
-		
-		if (channel == 9) { 
-			return null;
+    
+    public static Sound getInstrument(int patch, int channel) {
+
+		if (channel == 10) {
+                    return null;
 		}
-		if (channel == 10) { // Drums - should actually be 10 but for some reason java makes it 9...
-			return Sound.NOTE_BASS_DRUM;
+
+                if(channel==9){
+                    return null;
+                }
+                
+                if ((patch >= 0 && patch <= 7)||(patch >= 40 && patch <= 55)||(patch >= 80 && patch <= 103)) { 
+			return Sound.NOTE_PIANO;
 		}
-		if ((patch >= 28 && patch <= 40) || (patch >= 44 && patch <= 46)) { // Guitars & bass
+                
+                if ((patch >= 8 && patch <= 15)||(patch >= 64 && patch <= 71)) { 
+			return Sound.NOTE_PLING;
+		}
+                
+		if ((patch >= 16 && patch <= 23)||(patch >= 44 && patch <= 46)) { // Guitars & bass
 			return Sound.NOTE_BASS_GUITAR;
 		}
-		
+                if((patch >= 28 && patch <= 40)||(patch >= 56 && patch <= 63)){
+                        return Sound.NOTE_BASS;
+                }
+
 		if (patch >= 113 && patch <= 119) { // Percussive
 			return Sound.NOTE_BASS_DRUM;
 		}
-		
+
 		if (patch >= 120 && patch <= 127) { // Misc.
 			return Sound.NOTE_SNARE_DRUM;
 		}
-		return Sound.NOTE_PIANO;
-		
+                
+                if (patch >= 120 && patch <= 127) { // Misc.
+			return Sound.NOTE_SNARE_DRUM;
+		}
+                
+		return Sound.NOTE_PLING;
+
 	}
-	
 }

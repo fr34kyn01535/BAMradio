@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 t7seven7t
+ * Copyright (C) 2013 fr34kyn01535
  */
 package yt.bam.bamradio;
 
@@ -26,9 +26,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
- * @author t7seven7t
+ * @author fr34kyn01535
  */
-public class SequencerMidiPlayer implements Receiver, MidiPlayer {
+public class SequencerMidiPlayer implements Receiver {
 	private final BAMradio plugin;
 	private final Sequencer sequencer;
 	
@@ -100,9 +100,7 @@ public class SequencerMidiPlayer implements Receiver, MidiPlayer {
 		}
 		
 		for (Player player : tunedIn) {
-			
 			player.sendMessage(ChatColor.GRAY+"[BAMradio]"+ChatColor.BLUE + " Now playing: " + ChatColor.YELLOW + midiName.replace("_", " "));
-			
 		}
 				
 		new BukkitRunnable() {
@@ -147,7 +145,7 @@ public class SequencerMidiPlayer implements Receiver, MidiPlayer {
 			float volume = event.getData2() / 127;
 			
 			if (volume == 0)
-				volume = 1;
+				volume = 3;
 			
 			int note = Integer.valueOf((midiNote - 6) % 24);
 			
@@ -159,9 +157,14 @@ public class SequencerMidiPlayer implements Receiver, MidiPlayer {
 			for (Player player : tunedIn) {
 				Sound sound = Instrument.getInstrument(patch, channel);
                                 if(sound!=null){
-                                    player.playSound(player.getLocation(), sound, volume, NotePitch.getPitch(note));
+                                    if(sound==Sound.NOTE_PLING){
+                                         player.playSound(player.getLocation().add(0, 20, 0), sound, 5, NotePitch.getPitch(note));
+                                    }else{
+                                        player.playSound(player.getLocation(), sound, volume, NotePitch.getPitch(note));
+                                    }
+                                    
+                                   
                                 }
-				
 			}
 			
 		} else if (event.getCommand() == ShortMessage.PROGRAM_CHANGE) {
@@ -169,7 +172,6 @@ public class SequencerMidiPlayer implements Receiver, MidiPlayer {
 			channelPatches.put(event.getChannel(), (byte) event.getData1());
 			
 		} else if (event.getCommand() == ShortMessage.STOP) {
-			
 			stopPlaying();
 			playNextSong();
 			
