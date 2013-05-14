@@ -3,6 +3,18 @@ main: yt.bam.bamradio.BAMradio
 version: 1.1
 description: Plays midi files.
 commands:
-  play:
-    description: Play a song
-    usage: /<command> <args>
+  bamradio:
+    description: List all midis
+    usage: /bamradio
+  br:
+    description: Alias to /bamradio
+    usage: /br
+  bamradio play:
+    description: Skip to next midi
+    usage: /bamradio play League_of_Legends_-_Season_1
+  bamradio next:
+    description: Play a midi
+    usage: /bamradio next
+  bamradio stop:
+    description: Stop a midi
+    usage: /bamradio stop

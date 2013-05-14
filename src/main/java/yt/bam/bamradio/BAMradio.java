@@ -23,6 +23,13 @@ public class BAMradio extends JavaPlugin {
 
 	private SequencerMidiPlayer midiPlayer;
 		
+        public static void sendMessage(Player player,String message){
+            player.sendMessage(ChatColor.GRAY+"[BAMradio] "+ChatColor.BLUE + message);
+        }
+        public static void sendMessage(CommandSender player,String message){
+            player.sendMessage(ChatColor.GRAY+"[BAMradio] "+ChatColor.BLUE + message);
+        }
+        
 	public void onEnable() {
 		
 		if (!getDataFolder().exists())
@@ -70,69 +77,61 @@ public class BAMradio extends JavaPlugin {
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		
-		if (command.getName().equals("play") && sender.hasPermission("bamradio.play")) {
-			
-			if (args.length == 1) {
-				
-				if (midiPlayer.isNowPlaying()) {
-					midiPlayer.stopPlaying();
-				}
-				
-                                if(args[0]=="next"){
-                                    midiPlayer.playNextSong();
-                                }else{
-                                    midiPlayer.playSong(args[0]);
-                                }
-				return true;
-                                
-			} else if (args.length == 0) {
-				StringBuilder msg = new StringBuilder();
-				msg.append(ChatColor.YELLOW);
-				for (String name : listMidiFiles()) {
-					msg.append(name + ", ");
-				}
-				msg.deleteCharAt(msg.lastIndexOf(","));
-				sender.sendMessage(ChatColor.AQUA + "List of midi files:");
-				sender.sendMessage(msg.toString());
-				return true;
-			}
-			
+		if ((command.getName().toLowerCase().equals("br") || command.getName().toLowerCase().equals("bamradio"))) {
+                    if (args.length == 0) {
+                            StringBuilder msg = new StringBuilder();
+                            msg.append(ChatColor.YELLOW);
+                            for (String name : listMidiFiles()) {
+                                    msg.append(name + ", ");
+                            }
+                            msg.deleteCharAt(msg.lastIndexOf(","));
+                            BAMradio.sendMessage(sender, ChatColor.GREEN + "BAMradio by FR34KYN01535@bam.yt");
+                            if(sender.hasPermission("bamradio.list")){
+                                sender.sendMessage(ChatColor.AQUA + "List of midi files:");
+                                sender.sendMessage(msg.toString());
+                            }
+                            return true;
+                    }
+                    if (args.length == 1) {
+                        if(args[0].toLowerCase().equals("next")){
+                            if (midiPlayer.isNowPlaying()) {
+                                midiPlayer.stopPlaying();
+                            }
+                            midiPlayer.playNextSong();
+                            return true;
+                        }
+                        if(args[0].toLowerCase().equals("stop")){
+                            if (midiPlayer.isNowPlaying()) {
+                                midiPlayer.stopPlaying();
+                                BAMradio.sendMessage(sender,"Stopped playing...");
+                            }
+                            return true;
+                        }
+                        return true;
+                    }
+                    if (args.length == 2) {
+                        if(args[0].toLowerCase().equals("play")){
+                            if (midiPlayer.isNowPlaying()) {
+                                midiPlayer.stopPlaying();
+                            }
+                            if(!midiPlayer.playSong(args[1])){
+                                BAMradio.sendMessage(sender,"Can not find midi "+args[1]);
+                            }
+                            return true;
+                        }
+                        return true;
+                    }
+                    return true;	
 		} 
-		if (command.getName().toLowerCase().equals("bamradio") && sender instanceof Player) {
-                    sender.sendMessage("BAMradio by FR34KYN01535@bam.yt");
-                }
-                
-		//if (command.getName().equals("tune") && sender instanceof Player) {
-		//	
-		//	if (args.length == 1) {
-		//		
-		//		Player player = (Player) sender;
-		//		
-		//		if (args[0].equalsIgnoreCase("in")) {
-		//			
-		//			midiPlayer.tuneIn(player);
-		//			return true;
-		//			
-		//		}
-		//		
-		//		if (args[0].equalsIgnoreCase("out")) {
-		//			
-		//			midiPlayer.tuneOut(player);
-		//			return true;
-		//			
-		//		}
-		//				
-		//	}
-		//	
-		//}
-		
 		return false;
-		
 	}
+        
+        
+        
 	
 	public File getMidiFile(String fileName) {
 		
-		File midiFile = new File(getDataFolder(), fileName + ".mid");
+		File midiFile = new File(getDataFolder(), fileName.replace(".mid", "") + ".mid");
 		if (!midiFile.exists())
 			return null;
 		return midiFile;
@@ -152,7 +151,6 @@ public class BAMradio extends JavaPlugin {
 			
 		}
 		return midiFiles.toArray(new String[0]);
-		
 	}
 	
 }

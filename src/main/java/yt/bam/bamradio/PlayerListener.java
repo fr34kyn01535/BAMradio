@@ -23,9 +23,7 @@ public class PlayerListener implements Listener {
 		
 		if (plugin.getMidiPlayer() != null)
 			plugin.getMidiPlayer().tuneOut(event.getPlayer());
-		
 	}
-        
         @EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		if (plugin.getMidiPlayer() != null)

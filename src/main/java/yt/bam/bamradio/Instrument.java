@@ -21,11 +21,11 @@ public class Instrument {
                     return null;
                 }
                 
-                if ((patch >= 0 && patch <= 7)||(patch >= 40 && patch <= 55)||(patch >= 80 && patch <= 103)) { 
+                if ((patch >= 0 && patch <= 7)||(patch >= 80 && patch <= 103)||(patch >= 64 && patch <= 71)) { 
 			return Sound.NOTE_PIANO;
 		}
                 
-                if ((patch >= 8 && patch <= 15)||(patch >= 64 && patch <= 71)) { 
+                if ((patch >= 8 && patch <= 15)) { 
 			return Sound.NOTE_PLING;
 		}
                 

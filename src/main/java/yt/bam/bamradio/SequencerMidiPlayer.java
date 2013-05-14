@@ -53,7 +53,7 @@ public class SequencerMidiPlayer implements Receiver {
 	
 	public void tuneIn(Player player) {
 		tunedIn.add(player);
-		player.sendMessage(ChatColor.GRAY+"[BAMradio]"+ChatColor.BLUE + " Now playing: " + ChatColor.YELLOW + midiName.replace("_", " "));
+		BAMradio.sendMessage(player,"Now playing: " + ChatColor.YELLOW + midiName.replace("_", " ").replace(".mid",""));
 	}
 	
 	public void tuneOut(Player player) {
@@ -76,49 +76,53 @@ public class SequencerMidiPlayer implements Receiver {
 		
 		if (currentSong >= midiFileNames.length)
 			currentSong = 0;
-		
+		 
 		playSong(midiFileNames[currentSong]);
 	}
 	
-	public void playSong(String midiName) {
-		
-		this.midiName = midiName;
-		
-		File midiFile = plugin.getMidiFile(midiName);
-		if (midiFile == null)
-			return;
-		
-		try {
-			Sequence midi = MidiSystem.getSequence(midiFile);
-			sequencer.setSequence(midi);
-			sequencer.start();
-			nowPlaying = true;
-		} catch (InvalidMidiDataException ex) {
-			System.err.println("Invalid midi file: " + midiName);
-		} catch (IOException e) {
-			System.err.println("Can't read file: " + midiName);
-		}
-		
-		for (Player player : tunedIn) {
-			player.sendMessage(ChatColor.GRAY+"[BAMradio]"+ChatColor.BLUE + " Now playing: " + ChatColor.YELLOW + midiName.replace("_", " "));
-		}
-				
-		new BukkitRunnable() {
+	public boolean playSong(String midiName) {
+		try{    
+                    this.midiName = midiName;
 
-			@Override
-			public void run() {
-				if (!nowPlaying)
-					this.cancel();
-			
-				if (!sequencer.isRunning() || sequencer.getMicrosecondPosition() > sequencer.getMicrosecondLength()) {
-					stopPlaying();
-					playNextSong();
-				}
-					
-			}
-			
-		}.runTaskTimer(plugin, 20L, 20L);
-		
+                    File midiFile = plugin.getMidiFile(midiName);
+                    if (midiFile == null){
+                     return false;
+                    }
+
+                    try {
+                            Sequence midi = MidiSystem.getSequence(midiFile);
+                            sequencer.setSequence(midi);
+                            sequencer.start();
+                            nowPlaying = true;
+                    } catch (InvalidMidiDataException ex) {
+                            System.err.println("Invalid midi file: " + midiName);
+                    } catch (IOException e) {
+                            System.err.println("Can't read file: " + midiName);
+                    }
+
+                    for (Player player : tunedIn) {
+                            BAMradio.sendMessage(player,"Now playing: " + ChatColor.YELLOW + midiName.replace("_", " ").replace(".mid",""));
+                    }
+
+                    new BukkitRunnable() {
+
+                            @Override
+                            public void run() {
+                                    if (!nowPlaying)
+                                            this.cancel();
+
+                                    if (!sequencer.isRunning() || sequencer.getMicrosecondPosition() > sequencer.getMicrosecondLength()) {
+                                            stopPlaying();
+                                            playNextSong();
+                                    }
+
+                            }
+
+                    }.runTaskTimer(plugin, 20L, 20L);
+                }catch(Exception e){
+			System.err.println("Can't read file: " + midiName+" ("+e.getMessage()+")");
+                }
+                        return true;
 	}
 	
 	@Override
