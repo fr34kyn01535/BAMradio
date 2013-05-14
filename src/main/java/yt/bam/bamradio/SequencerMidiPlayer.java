@@ -28,7 +28,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 /**
  * @author fr34kyn01535
  */
-public class SequencerMidiPlayer implements Receiver {
+public class SequencerMidiPlayer implements MidiPlayer, Receiver {
 	private final BAMradio plugin;
 	private final Sequencer sequencer;
 	
@@ -52,21 +52,23 @@ public class SequencerMidiPlayer implements Receiver {
 	}
 	
 	public void tuneIn(Player player) {
-		tunedIn.add(player);
-		BAMradio.sendMessage(player,"Now playing: " + ChatColor.YELLOW + midiName.replace("_", " ").replace(".mid",""));
-	}
+            tunedIn.add(player);
+            if(midiName!=null){
+                plugin.sendMessage(player,"Now playing: " + ChatColor.YELLOW + midiName.replace("_", " ").replace(".mid",""));
+            }
+        }
 	
 	public void tuneOut(Player player) {
-		tunedIn.remove(player);
+            tunedIn.remove(player);
 	}
 	
 	public boolean isNowPlaying() {
-		return nowPlaying;
+            return nowPlaying;
 	}
 	
 	public void stopPlaying() {
-		sequencer.stop();
-		plugin.getServer().getScheduler().cancelTasks(plugin);
+            sequencer.stop();
+            plugin.getServer().getScheduler().cancelTasks(plugin);
 	}
 	
 	public void playNextSong() {
@@ -101,7 +103,7 @@ public class SequencerMidiPlayer implements Receiver {
                     }
 
                     for (Player player : tunedIn) {
-                            BAMradio.sendMessage(player,"Now playing: " + ChatColor.YELLOW + midiName.replace("_", " ").replace(".mid",""));
+                            plugin.sendMessage(player,"Now playing: " + ChatColor.YELLOW + midiName.replace("_", " ").replace(".mid",""));
                     }
 
                     new BukkitRunnable() {
@@ -181,5 +183,6 @@ public class SequencerMidiPlayer implements Receiver {
 			
 		}
 	}
+
 
 }

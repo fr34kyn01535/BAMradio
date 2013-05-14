@@ -21,7 +21,7 @@ import yt.bam.bamradio.SequencerMidiPlayer;
  */
 public class BAMradio extends JavaPlugin {
 
-	private SequencerMidiPlayer midiPlayer;
+	private MidiPlayer midiPlayer;
 		
         public static void sendMessage(Player player,String message){
             player.sendMessage(ChatColor.GRAY+"[BAMradio] "+ChatColor.BLUE + message);
@@ -67,11 +67,13 @@ public class BAMradio extends JavaPlugin {
                         midiPlayer = new SequencerMidiPlayer(this);
                         getLogger().info("Sequencer device obtained!");
                 } catch (MidiUnavailableException ex) {
-                        getLogger().severe("Could not obtain sequencer device.");
+                        getLogger().severe("Could not obtain sequencer device - Falling back.");
+                        midiPlayer = new OldMidiPlayer(this);
                 }
+                
 	}
 	
-	public SequencerMidiPlayer getMidiPlayer() {
+	public MidiPlayer getMidiPlayer() {
 		return midiPlayer;
 	}
 	
@@ -84,8 +86,10 @@ public class BAMradio extends JavaPlugin {
                             for (String name : listMidiFiles()) {
                                     msg.append(name + ", ");
                             }
-                            msg.deleteCharAt(msg.lastIndexOf(","));
-                            BAMradio.sendMessage(sender, ChatColor.GREEN + "BAMradio by FR34KYN01535@bam.yt");
+                            if(msg.toString().contains(",")){
+                                msg.deleteCharAt(msg.lastIndexOf(","));
+                            }
+                            sendMessage(sender, ChatColor.GREEN + "BAMradio by FR34KYN01535@bam.yt");
                             if(sender.hasPermission("bamradio.list")){
                                 sender.sendMessage(ChatColor.AQUA + "List of midi files:");
                                 sender.sendMessage(msg.toString());
@@ -103,7 +107,7 @@ public class BAMradio extends JavaPlugin {
                         if(args[0].toLowerCase().equals("stop")){
                             if (midiPlayer.isNowPlaying()) {
                                 midiPlayer.stopPlaying();
-                                BAMradio.sendMessage(sender,"Stopped playing...");
+                                sendMessage(sender,"Stopped playing...");
                             }
                             return true;
                         }
@@ -115,7 +119,7 @@ public class BAMradio extends JavaPlugin {
                                 midiPlayer.stopPlaying();
                             }
                             if(!midiPlayer.playSong(args[1])){
-                                BAMradio.sendMessage(sender,"Can not find midi "+args[1]);
+                                sendMessage(sender,"Can not find midi "+args[1]);
                             }
                             return true;
                         }
@@ -139,14 +143,13 @@ public class BAMradio extends JavaPlugin {
 	}
 	
 	public String[] listMidiFiles() {
-		
 		File[] files = getDataFolder().listFiles();
 		List<String> midiFiles = new ArrayList<String>();
 		
 		for (File file : files) {
 			
 			if (file.getName().endsWith(".mid")) {
-				midiFiles.add(file.getName().substring(0, file.getName().lastIndexOf(".mid")));
+                            midiFiles.add(file.getName().substring(0, file.getName().lastIndexOf(".mid")));
 			}
 			
 		}
