@@ -29,7 +29,7 @@ public class BAMradio extends JavaPlugin {
         public static void sendMessage(CommandSender player,String message){
             player.sendMessage(ChatColor.GRAY+"[BAMradio] "+ChatColor.BLUE + message);
         }
-         private String[] fileList = listMidiFiles();
+         private String[] fileList;
         
 	public void onEnable() {
 		
