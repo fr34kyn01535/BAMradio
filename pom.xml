@@ -4,7 +4,7 @@
 
   <groupId>yt.bam</groupId>
   <artifactId>BAMradio</artifactId>
-  <version>1.2.1</version>
+  <version>1.2</version>
   <packaging>jar</packaging>
 
   <name>BAMradio</name>
@@ -52,14 +52,5 @@
         </executions>
       </plugin>
     </plugins>
-    <resources>
-        <resource>
-            <directory>src/main/resources</directory>
-            <excludes>
-                <exclude>**/*.mid</exclude>
-            </excludes>
-            <filtering>false</filtering>
-        </resource>
-    </resources>
     </build>
 </project>

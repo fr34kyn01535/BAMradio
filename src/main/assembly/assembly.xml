@@ -6,7 +6,7 @@
     </formats>
     <fileSets>
         <fileSet>
-            <directory>${project.basedir}/src/main/resources/</directory>
+            <directory>${project.basedir}/src/main/plugin/</directory>
             <outputDirectory>/BAMradio/</outputDirectory>
             <includes>
                 <include>League_of_Legends_-_Season_1.mid</include>
