@@ -4,16 +4,19 @@ version: 1.2.1
 description: Plays midi files.
 commands:
   bamradio:
-    description: List all midis
+    description: Show help
     usage: /bamradio
   br:
     description: Alias to /bamradio
     usage: /br
+  bamradio list:
+    description: List all midis
+    usage: /bamradio list
   bamradio play:
-    description: Skip to next midi
+    description: Play a midi
     usage: /bamradio play League_of_Legends_-_Season_1
   bamradio next:
-    description: Play a midi
+    description: Skip to next midi
     usage: /bamradio next
   bamradio stop:
     description: Stop a midi
