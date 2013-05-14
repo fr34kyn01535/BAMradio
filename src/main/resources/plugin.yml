@@ -1,6 +1,6 @@
 name: BAMradio
 main: yt.bam.bamradio.BAMradio
-version: 1.2
+version: 1.2.1
 description: Plays midi files.
 commands:
   bamradio:
