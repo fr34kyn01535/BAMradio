@@ -29,8 +29,6 @@ public class OldMidiPlayer implements MidiPlayer {
 	// Nice and fast
 	public static final long MILLIS_PER_TICK = 2;
 	
-	private final BAMradio plugin;
-	
 	private final List<Player> tunedIn = new ArrayList<Player>();
 	private final List<MidiTrack> midiTracks = new ArrayList<MidiTrack>();
 	private final Map<Integer, Integer> channelPatches = new HashMap<Integer, Integer>();
@@ -46,160 +44,117 @@ public class OldMidiPlayer implements MidiPlayer {
 	
 	private Timer timer;
 	
-	public OldMidiPlayer(BAMradio plugin) {
-		this.plugin = plugin;
-		timer = new Timer();
+	public OldMidiPlayer() {
+            timer = new Timer();
 	}
 	
 	public boolean isNowPlaying() {
-		return nowPlaying;
+            return nowPlaying;
 	}
 	
 	public void tuneIn(Player player) {
-		tunedIn.add(player);
-		plugin.sendMessage(player," Now playing: " + ChatColor.YELLOW + midiName.replace("_", " "));
+            tunedIn.add(player);
+            BAMradio.Instance.sendMessage(player," Now playing: " + ChatColor.YELLOW + midiName.replace("_", " "));
 	}
 	
 	public void tuneOut(Player player) {
-		tunedIn.remove(player);
+            tunedIn.remove(player);
 	}
 	
 	public void stopPlaying() {
-		
-		synchronized (midiTracks) {
-			nowPlaying = false;
-			midiTracks.clear();
-			timer.cancel();
-			timer = new Timer();
-		}
-		
+            synchronized (midiTracks) {
+                nowPlaying = false;
+                midiTracks.clear();
+                timer.cancel();
+                timer = new Timer();
+            }
 	}
 	
 	public void playNextSong() {
-		currentSong++;
-		
-		String[] midiFileNames = plugin.listMidiFiles();
-		if(currentSong >= midiFileNames.length)
-			currentSong = 0;
-		
-		playSong(midiFileNames[currentSong]);
+            currentSong++;
+            String[] midiFileNames = BAMradio.Instance.listMidiFiles();
+            if(currentSong >= midiFileNames.length)
+                currentSong = 0;
+            playSong(midiFileNames[currentSong]);
 	}
 	
 	public boolean playSong(final String midiName) {
-		
-		this.midiName = midiName;
-		
-		File midiFile = plugin.getMidiFile(midiName);
-		if (midiFile == null)
-			return false;
-				
-		try {
-			Sequence midi = MidiSystem.getSequence(midiFile);
-
-			int microsPerQuarterNote = 0;
-			
-			Track firstTrack = midi.getTracks()[0];
-			
-			for (int i = 0; i < firstTrack.size(); i++) {
-				
-				if (firstTrack.get(i).getMessage().getStatus() == MetaMessage.META
-						&& firstTrack.get(i).getMessage().getMessage()[1] == 81) {
-					
-					MetaMessage message = (MetaMessage) firstTrack.get(i).getMessage();
-					byte[] data = message.getData();
-					
-					for (byte b : data) {
-						
-						// Shift what we have left 8 bits and add the next byte
-						microsPerQuarterNote <<= 8;
-						microsPerQuarterNote += b;
-						
-					}
-					
-					break;
-				}
-			}
-			
-			tempo = (500000.0f / microsPerQuarterNote) * 0.8f * (MILLIS_PER_TICK / 20f);
-			timeLeft = midi.getMicrosecondLength() / 1000;
-			resolution = (int) Math.floor(midi.getResolution() / 24);
-			
-			for (int i = 0; i < midi.getTracks().length; i++) {
-				
-				MidiTrack midiTrack = new MidiTrack(this, midi.getTracks()[i]);
-				midiTracks.add(midiTrack);
-				
-			}
-			
-		} catch (InvalidMidiDataException ex) {
-			System.err.println("Invalid midi file: " + midiName);
-		} catch (IOException ex) {
-			System.err.println("Can't read file: " + midiName);
-		}
-		
-		for (Player player : tunedIn) {
-			plugin.sendMessage(player, " Now playing: " + ChatColor.YELLOW + midiName.replace("_", " "));
-		}
-		
-		timer.scheduleAtFixedRate(new TickTask(), MILLIS_PER_TICK, MILLIS_PER_TICK);
-		return true;
+            this.midiName = midiName;
+            File midiFile = BAMradio.Instance.getMidiFile(midiName);
+            if (midiFile == null)
+                return false;
+            try {
+                Sequence midi = MidiSystem.getSequence(midiFile);
+                int microsPerQuarterNote = 0;
+                Track firstTrack = midi.getTracks()[0];
+                for (int i = 0; i < firstTrack.size(); i++) {
+                    if (firstTrack.get(i).getMessage().getStatus() == MetaMessage.META && firstTrack.get(i).getMessage().getMessage()[1] == 81) {
+                        MetaMessage message = (MetaMessage) firstTrack.get(i).getMessage();
+                        byte[] data = message.getData();
+                        for (byte b : data) {
+                            microsPerQuarterNote <<= 8;
+                            microsPerQuarterNote += b;
+                        }
+                        break;
+                    }
+                }
+                tempo = (500000.0f / microsPerQuarterNote) * 0.8f * (MILLIS_PER_TICK / 20f);
+                timeLeft = midi.getMicrosecondLength() / 1000;
+                resolution = (int) Math.floor(midi.getResolution() / 24);
+                for (int i = 0; i < midi.getTracks().length; i++) {
+                    MidiTrack midiTrack = new MidiTrack(this, midi.getTracks()[i]);
+                    midiTracks.add(midiTrack);
+                }
+            } catch (InvalidMidiDataException ex) {
+                    System.err.println("Invalid midi file: " + midiName);
+            } catch (IOException ex) {
+                    System.err.println("Can't read file: " + midiName);
+            }
+            for (Player player : tunedIn) {
+                    BAMradio.Instance.sendMessage(player, " Now playing: " + ChatColor.YELLOW + midiName.replace("_", " "));
+            }
+            timer.scheduleAtFixedRate(new TickTask(), MILLIS_PER_TICK, MILLIS_PER_TICK);
+            return true;
 	}
 	
 	public void onMidiMessage(MidiMessage event) {
-		
 		if (event instanceof ShortMessage) {
-			ShortMessage message = (ShortMessage) event;
-			
-			if (message.getCommand() == ShortMessage.NOTE_ON) {
-				
-				int midiNote = message.getData1();
-				float volume = message.getData2();
-				
-				if (volume == 0)
-					volume =1;
-				
-				int note = Integer.valueOf((midiNote - 6) % 24);
-				
-				int channel = message.getChannel();
-				int patch = 1;
-				if (channelPatches.containsKey(channel))
-					patch = channelPatches.get(channel);
-				
-				Sound instrument = Instrument.getInstrument(patch, channel);
-				float notePitch = NotePitch.getPitch(note);
-				if(instrument!=null){
-                                    for (Player player : tunedIn) {
-                                            player.playSound(player.getLocation(), instrument, volume, notePitch);
-                                    }
-                                }
-			} else if (message.getCommand() == ShortMessage.PROGRAM_CHANGE) {
-				channelPatches.put(message.getChannel(), message.getData1());
-			} else if (message.getCommand() == ShortMessage.STOP) {
-				stopPlaying();
-				playNextSong();
-			}
-			
+                    ShortMessage message = (ShortMessage) event;
+                    if (message.getCommand() == ShortMessage.NOTE_ON) {
+                        int midiNote = message.getData1();
+                        float volume = message.getData2();
+                        if (volume == 0)
+                            volume =1;
+                        int note = Integer.valueOf((midiNote - 6) % 24);
+                        int channel = message.getChannel();
+                        int patch = 1;
+                        if (channelPatches.containsKey(channel))
+                            patch = channelPatches.get(channel);
+                        Sound instrument = Instrument.getInstrument(patch, channel);
+                        float notePitch = NotePitch.getPitch(note);
+                        if(instrument!=null){
+                            for (Player player : tunedIn) {
+                                    player.playSound(player.getLocation(), instrument, volume, notePitch);
+                            }
+                        }
+                    } else if (message.getCommand() == ShortMessage.PROGRAM_CHANGE) {
+                        channelPatches.put(message.getChannel(), message.getData1());
+                    } else if (message.getCommand() == ShortMessage.STOP) {
+                        stopPlaying();
+                        playNextSong();
+                    }
 		} else if (event instanceof MetaMessage) {
-			MetaMessage message = (MetaMessage) event;
-			
-			// Tempo change
-			if (message.getType() == 0x51) {
-				
-				int microsPerQuarterNote = 0;
-				byte[] data = message.getData();
-
-				for (byte b : data) {
-					
-					microsPerQuarterNote <<= 8;
-					microsPerQuarterNote += b;
-					
-				}
-				
-				tempo = (500000.0f / microsPerQuarterNote) * 0.8f * (MILLIS_PER_TICK / 20f);
-				
-			}
+                    MetaMessage message = (MetaMessage) event;
+                    if (message.getType() == 0x51) {
+                        int microsPerQuarterNote = 0;
+                        byte[] data = message.getData();
+                        for (byte b : data) {
+                            microsPerQuarterNote <<= 8;
+                            microsPerQuarterNote += b;
+                        }
+                        tempo = (500000.0f / microsPerQuarterNote) * 0.8f * (MILLIS_PER_TICK / 20f);
+                    }
 		}
-		
 	}
 	
 	public class TickTask extends TimerTask {
@@ -212,43 +167,27 @@ public class OldMidiPlayer implements MidiPlayer {
 		
 		@Override
 		public void run() {
-			
-			if (nowPlaying) {
-				
-				currentTick += tempo * resolution;
-				
-				synchronized (midiTracks) {
-					
-					for (MidiTrack track : midiTracks) {
-						track.nextTick(currentTick);
-					}
-					
-				}
-				
-				timeLeft -= MILLIS_PER_TICK;
-				
-				if (timeLeft <= 0) {
-					
-					stopPlaying();
-					new BukkitRunnable() {
-						
-						@Override
-						public void run() {
-							
-							playNextSong();
-							
-						}
-						
-					}.runTask(plugin);
-					
-				}
-				
-			} else {
-				this.cancel();
-			}
-			
+                    if (nowPlaying) {
+                        currentTick += tempo * resolution;
+                        synchronized (midiTracks) {
+                            for (MidiTrack track : midiTracks) {
+                                    track.nextTick(currentTick);
+                            }
+                        }
+                        timeLeft -= MILLIS_PER_TICK;
+
+                        if (timeLeft <= 0) {
+                            stopPlaying();
+                            new BukkitRunnable() {
+                                    @Override
+                                    public void run() {
+                                            playNextSong();
+                                    }
+                            }.runTask(BAMradio.Instance);
+                        }
+                    } else {
+                        this.cancel();
+                    }
 		}
-		
 	}
-	
 }

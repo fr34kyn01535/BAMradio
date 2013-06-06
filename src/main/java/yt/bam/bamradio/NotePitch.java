@@ -1,4 +1,3 @@
-
 package yt.bam.bamradio;
 
 /**
@@ -39,15 +38,10 @@ public enum NotePitch {
 	}
 	
 	public static float getPitch(int note) {
-		
-		for (NotePitch notePitch : values()) {
-			
-			if (notePitch.note == note)
-				return notePitch.pitch;
-		}
-		
-		return 0;
-		
+            for (NotePitch notePitch : values()) {
+                if (notePitch.note == note)
+                    return notePitch.pitch;
+            }
+            return 0;
 	}
-	
 }

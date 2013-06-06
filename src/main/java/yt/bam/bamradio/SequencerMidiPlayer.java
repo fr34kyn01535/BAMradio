@@ -25,32 +25,24 @@ import org.bukkit.scheduler.BukkitRunnable;
  * @author fr34kyn01535,t7seven7t
  */
 public class SequencerMidiPlayer implements MidiPlayer, Receiver {
-	private final BAMradio plugin;
 	private final Sequencer sequencer;
-	
 	private final List<Player> tunedIn = new ArrayList<Player>();
-	// For the life of me I can't figure out java's resources for Soundbank so we'll stick with this for now
 	private final Map<Integer, Byte> channelPatches = new HashMap<Integer, Byte>(); 
 	
 	private boolean nowPlaying = false;
 	private int currentSong = 0;
 	private String midiName;
 	
-	public SequencerMidiPlayer(BAMradio plugin) throws MidiUnavailableException {
-		this.plugin = plugin;
-		
+	public SequencerMidiPlayer() throws MidiUnavailableException {
 		sequencer = MidiSystem.getSequencer();
 		sequencer.open();
-                sequencer.getTransmitter().setReceiver(this);// Is the only way to stop this by hogging all transmitters? :/
-                //for (Transmitter t : sequencer.getTransmitters()) {
-                //	t.setReceiver(this);
-                //}
+                sequencer.getTransmitter().setReceiver(this);
 	}
 	
 	public void tuneIn(Player player) {
             tunedIn.add(player);
             if(midiName!=null){
-                plugin.sendMessage(player,"Now playing: " + ChatColor.YELLOW + midiName.replace("_", " ").replace(".mid",""));
+                BAMradio.Instance.sendMessage(player,"Now playing: " + ChatColor.YELLOW + midiName.replace("_", " ").replace(".mid",""));
             }
         }
 	
@@ -64,13 +56,13 @@ public class SequencerMidiPlayer implements MidiPlayer, Receiver {
 	
 	public void stopPlaying() {
             sequencer.stop();
-            plugin.getServer().getScheduler().cancelTasks(plugin);
+            BAMradio.Instance.getServer().getScheduler().cancelTasks(BAMradio.Instance);
 	}
 	
 	public void playNextSong() {
 		currentSong++;
 		
-		String[] midiFileNames = plugin.listMidiFiles();
+		String[] midiFileNames = BAMradio.Instance.listMidiFiles();
 		
 		if (currentSong >= midiFileNames.length)
 			currentSong = 0;
@@ -82,7 +74,7 @@ public class SequencerMidiPlayer implements MidiPlayer, Receiver {
 		try{    
                     this.midiName = midiName;
 
-                    File midiFile = plugin.getMidiFile(midiName);
+                    File midiFile = BAMradio.Instance.getMidiFile(midiName);
                     if (midiFile == null){
                      return false;
                     }
@@ -99,11 +91,10 @@ public class SequencerMidiPlayer implements MidiPlayer, Receiver {
                     }
 
                     for (Player player : tunedIn) {
-                            plugin.sendMessage(player,"Now playing: " + ChatColor.YELLOW + midiName.replace("_", " ").replace(".mid",""));
+                            BAMradio.Instance.sendMessage(player,"Now playing: " + ChatColor.YELLOW + midiName.replace("_", " ").replace(".mid",""));
                     }
 
                     new BukkitRunnable() {
-
                             @Override
                             public void run() {
                                     if (!nowPlaying)
@@ -113,10 +104,9 @@ public class SequencerMidiPlayer implements MidiPlayer, Receiver {
                                             stopPlaying();
                                             playNextSong();
                                     }
-
                             }
 
-                    }.runTaskTimer(plugin, 20L, 20L);
+                    }.runTaskTimer(BAMradio.Instance, 20L, 20L);
                 }catch(Exception e){
 			System.err.println("Can't read file: " + midiName+" ("+e.getMessage()+")");
                 }
@@ -163,9 +153,7 @@ public class SequencerMidiPlayer implements MidiPlayer, Receiver {
                                          player.playSound(player.getLocation().add(0, 20, 0), sound, 5, NotePitch.getPitch(note));
                                     }else{
                                         player.playSound(player.getLocation(), sound, volume, NotePitch.getPitch(note));
-                                    }
-                                    
-                                   
+                                    } 
                                 }
 			}
 			
@@ -176,7 +164,6 @@ public class SequencerMidiPlayer implements MidiPlayer, Receiver {
 		} else if (event.getCommand() == ShortMessage.STOP) {
 			stopPlaying();
 			playNextSong();
-			
 		}
 	}
 

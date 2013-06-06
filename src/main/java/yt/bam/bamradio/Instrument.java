@@ -6,8 +6,6 @@ import org.bukkit.Sound;
  * @author fr34kyn01535,t7seven7t
  */
 public class Instrument {
-	
-    
     public static Sound getInstrument(int patch, int channel) {
 
 		if (channel == 10) {
@@ -46,6 +44,5 @@ public class Instrument {
 		}
                 
 		return Sound.NOTE_PLING;
-
 	}
 }

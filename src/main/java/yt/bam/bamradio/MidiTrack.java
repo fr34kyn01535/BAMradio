@@ -13,16 +13,13 @@ public class MidiTrack {
 	private int event = 0;
 	
 	public MidiTrack(OldMidiPlayer player, Track track) {
-		this.player = player;
-		this.track = track;
+            this.player = player;
+            this.track = track;
 	}
 	
-	public void nextTick(float currentTick) {
-				
-		for (; (event < (track.size() - 1)) && (track.get(event).getTick() <= currentTick); event++) {
-			player.onMidiMessage(track.get(event).getMessage());
-		}
-		
+	public void nextTick(float currentTick) {	
+            for (; (event < (track.size() - 1)) && (track.get(event).getTick() <= currentTick); event++) {
+                    player.onMidiMessage(track.get(event).getMessage());
+            }
 	}
-	
 }
