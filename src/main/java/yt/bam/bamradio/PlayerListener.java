@@ -1,6 +1,3 @@
-/**
- * Copyright (C) 2013 fr34kyn01535
- */
 package yt.bam.bamradio;
 
 import org.bukkit.event.EventHandler;
@@ -9,7 +6,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 /**
- * @author fr34kyn01535
+ * @author fr34kyn01535,t7seven7t
  */
 public class PlayerListener implements Listener {
 	private final BAMradio plugin;

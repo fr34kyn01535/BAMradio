@@ -1,6 +1,3 @@
-/**
- * Copyright (C) 2012 t7seven7t
- */
 package yt.bam.bamradio;
 
 import java.io.File;
@@ -26,7 +23,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
- * @author t7seven7t
+ * @author fr34kyn01535,t7seven7t
  */
 public class OldMidiPlayer implements MidiPlayer {
 	// Nice and fast

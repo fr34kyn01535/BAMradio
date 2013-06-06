@@ -1,6 +1,3 @@
-/**
- * Copyright (C) 2013 fr34kyn01535
- */
 package yt.bam.bamradio;
 
 import java.io.File;
@@ -18,7 +15,6 @@ import javax.sound.midi.Receiver;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
-import javax.sound.midi.Transmitter;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -26,7 +22,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
- * @author fr34kyn01535
+ * @author fr34kyn01535,t7seven7t
  */
 public class SequencerMidiPlayer implements MidiPlayer, Receiver {
 	private final BAMradio plugin;

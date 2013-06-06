@@ -1,12 +1,9 @@
-/**
- * Copyright (C) 2012 t7seven7t
- */
 package yt.bam.bamradio;
 
 import org.bukkit.entity.Player;
 
 /**
- * @author t7seven7t
+ * @author fr34kyn01535,t7seven7t
  */
 public interface MidiPlayer {
 
@@ -21,5 +18,4 @@ public interface MidiPlayer {
 	public void playNextSong();
 	
 	public boolean playSong(String midiName);
-	
 }

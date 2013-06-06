@@ -1,12 +1,9 @@
-/**
- * Copyright (C) 2013 fr34kyn01535
- */
 package yt.bam.bamradio;
 
 import org.bukkit.Sound;
 
 /**
- * @author fr34kyn01535
+ * @author fr34kyn01535,t7seven7t
  */
 public class Instrument {
 	

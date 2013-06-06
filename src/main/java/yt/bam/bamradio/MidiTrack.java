@@ -1,12 +1,9 @@
-/**
- * Copyright (C) 2012 t7seven7t
- */
 package yt.bam.bamradio;
 
 import javax.sound.midi.Track;
 
 /**
- * @author t7seven7t
+ * @author fr34kyn01535,t7seven7t
  */
 public class MidiTrack {
 

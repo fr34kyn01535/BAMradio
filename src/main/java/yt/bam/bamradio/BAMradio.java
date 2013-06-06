@@ -1,24 +1,19 @@
-/**
- * Copyright (C) 2013 fr34kyn01535
- */
 package yt.bam.bamradio;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import javax.sound.midi.MidiUnavailableException;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import yt.bam.bamradio.PlayerListener;
-import yt.bam.bamradio.SequencerMidiPlayer;
 
 /**
  * @author fr34kyn01535,t7seven7t
  */
+
 public class BAMradio extends JavaPlugin {
 
 	private MidiPlayer midiPlayer;
@@ -82,22 +77,22 @@ public class BAMradio extends JavaPlugin {
 		
 		if ((command.getName().toLowerCase().equals("br") || command.getName().toLowerCase().equals("bamradio"))) {
                     if (args.length == 0 ) {
-                        sender.sendMessage(ChatColor.BOLD+""+ChatColor.GREEN+"#####################################################");
                         sender.sendMessage(ChatColor.BOLD+""+ChatColor.GREEN+"##############   BAMradio by FR34KYN01535   ############");
-                        sender.sendMessage(ChatColor.BOLD+""+ChatColor.GREEN+"#####################################################");
                         sender.sendMessage(ChatColor.BOLD+"/bamradio - Shows this help");
                         sender.sendMessage(ChatColor.BOLD+ "/br - Alias to /bamradio");
-                        sender.sendMessage(ChatColor.BOLD+ "/br list - List all midis");
-                        sender.sendMessage(ChatColor.BOLD+ "/br play <name/index> - Play a midi");
-                        sender.sendMessage(ChatColor.GRAY+""+ ChatColor.ITALIC+"/br play League_of_Legends_-_Season_1.mid "+ChatColor.RESET+""+ChatColor.GRAY+"or "+ChatColor.ITALIC+"/br play 42");
-                        sender.sendMessage(ChatColor.BOLD+ "/br next - Skip to next midi");
-                        sender.sendMessage(ChatColor.BOLD+"/br stop - Stop a midi");
+                        if(sender.hasPermission("bamradio.list"))sender.sendMessage(ChatColor.BOLD+ "/br list - List all midis");
+                        if(sender.hasPermission("bamradio.play"))sender.sendMessage(ChatColor.BOLD+ "/br play <name|index> - Play a midi");
+                        if(sender.hasPermission("bamradio.play"))sender.sendMessage(ChatColor.GRAY+""+ ChatColor.ITALIC+"/br play League_of_Legends_-_Season_1.mid "+ChatColor.RESET+""+ChatColor.GRAY+"or "+ChatColor.ITALIC+"/br play 42");
+                        if(sender.hasPermission("bamradio.next"))sender.sendMessage(ChatColor.BOLD+ "/br next - Skip to next midi");
+                        if(sender.hasPermission("bamradio.stop"))sender.sendMessage(ChatColor.BOLD+"/br stop - Stop a midi");
+                        if(sender.hasPermission("bamradio.mute"))sender.sendMessage(ChatColor.BOLD+"/br mute - Mute BAMradio");
+                        if(sender.hasPermission("bamradio.mute"))sender.sendMessage(ChatColor.BOLD+"/br unmute - Unmute BAMradio");
                         sender.sendMessage(ChatColor.BOLD+""+ChatColor.GREEN+ "#####################################################");
                         return true;
                     }
                     if (args.length == 1) {
                         if(args[0].toLowerCase().equals("list")||args[0].toLowerCase().equals("play")){
-                            if(sender.hasPermission("bamradio.list")){
+                            if(hasPermission(sender,"bamradio.list")){
                                 sender.sendMessage(ChatColor.GREEN + "List of midi files:");
                                 fileList = listMidiFiles();
                                 int i = 0;
@@ -109,7 +104,7 @@ public class BAMradio extends JavaPlugin {
                             return true;
                         }
                         if(args[0].toLowerCase().equals("next")){
-                            if(sender.hasPermission("bamradio.next")){
+                            if(hasPermission(sender,"bamradio.next")){
                             if (midiPlayer.isNowPlaying()) {
                                 midiPlayer.stopPlaying();
                             }
@@ -118,7 +113,7 @@ public class BAMradio extends JavaPlugin {
                             }
                         }
                         if(args[0].toLowerCase().equals("stop")){
-                            if(sender.hasPermission("bamradio.stop")){
+                            if(hasPermission(sender,"bamradio.stop")){
                             if (midiPlayer.isNowPlaying()) {
                                 midiPlayer.stopPlaying();
                                 sendMessage(sender,"Stopped playing...");
@@ -126,6 +121,23 @@ public class BAMradio extends JavaPlugin {
                             return true;
                             }
                         }
+                        
+                        if(args[0].toLowerCase().equals("mute")){
+                            if(hasPermission(sender,"bamradio.mute")){
+                                midiPlayer.tuneOut((Player) sender);
+                                sendMessage(sender,"Muted BAMradio.");
+                                return true;
+                            }
+                        }
+                        
+                        if(args[0].toLowerCase().equals("unmute")){
+                            if(hasPermission(sender,"bamradio.mute")){
+                                midiPlayer.tuneIn((Player) sender);
+                                sendMessage(sender,"Unmuted BAMradio.");
+                                return true;
+                            }
+                        }
+                        
                         if(args[0].toLowerCase().equals("about")||args[0].toLowerCase().equals("info")){
                             sendMessage(sender, ChatColor.GREEN + "BAMradio by FR34KYN01535@bam.yt");
                             sendMessage(sender, ChatColor.GREEN + "Coded for BAMcraft (bam.yt)");
@@ -134,6 +146,7 @@ public class BAMradio extends JavaPlugin {
                         return true;
                     }
                     if (args.length == 2) {
+                        
                         if(args[0].toLowerCase().equals("play")){
                             if(sender.hasPermission("bamradio.play")){
                                 if (midiPlayer.isNowPlaying()) {
@@ -146,7 +159,7 @@ public class BAMradio extends JavaPlugin {
                                     }
                                 }else{ 
                                     if(!midiPlayer.playSong(args[1])){
-                                        sendMessage(sender,"Can not find midi \""+args[1]+"\"");
+                                        sendMessage(sender, ChatColor.RED + "Can not find midi \""+args[1]+"\"");
                                     }
                                 }
                                 return true;
@@ -159,7 +172,14 @@ public class BAMradio extends JavaPlugin {
 		return false;
 	}
         
-        
+        public boolean hasPermission(CommandSender player,String permission){
+            if(player.hasPermission(permission)){
+                return true;
+            }else{    
+                sendMessage(player, ChatColor.RED + "You dont have the permission: ("+permission+")");                 
+                return false;
+            }
+        }
         public boolean isInteger( String input )  
         {  
            try  

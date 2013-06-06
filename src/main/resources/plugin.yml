@@ -1,6 +1,6 @@
 name: BAMradio
 main: yt.bam.bamradio.BAMradio
-version: 1.2.1
+version: 1.3
 description: Plays midi files.
 commands:
   bamradio:
@@ -21,3 +21,9 @@ commands:
   bamradio stop:
     description: Stop a midi
     usage: /bamradio stop
+  bamradio mute:
+    description: Mute BAMradio
+    usage: /bamradio mute
+  bamradio unmute:
+    description: Unmute BAMradio
+    usage: /bamradio unmute
