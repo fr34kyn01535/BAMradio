@@ -1,4 +1,4 @@
-package yt.bam.bamradio.managers.commandmanager;
+package yt.bam.bamradio.managers.commandmanager.commands;
 
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
@@ -7,6 +7,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
 import yt.bam.bamradio.BAMradio;
 import yt.bam.bamradio.Helpers;
+import yt.bam.bamradio.managers.commandmanager.ICommand;
+import yt.bam.bamradio.managers.commandmanager.ICommand;
 
 /**
  * @author fr34kyn01535

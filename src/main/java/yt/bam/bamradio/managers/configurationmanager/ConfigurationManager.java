@@ -3,10 +3,12 @@ package yt.bam.bamradio.managers.configurationmanager;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
-import managers.IManager;
+import yt.bam.bamradio.IManager;
 
 /**
- * @author fr34kyn01535
+ * ConfigurationManager
+ * @author FR34KYN01535
+ * @version 1.1
  */
 
 public class ConfigurationManager implements IManager {
@@ -16,6 +18,7 @@ public class ConfigurationManager implements IManager {
     public boolean AutoPlayNext = false;
     public boolean AutoPlay = false;
     public boolean ForceSoftwareSequencer = false;
+    public String Language = "en";
     
     public ConfigurationManager(Plugin plugin){
         Plugin=plugin;
@@ -28,6 +31,7 @@ public class ConfigurationManager implements IManager {
         AutoPlay = Plugin.getConfig().getBoolean("auto-play");
         AutoPlayNext = Plugin.getConfig().getBoolean("auto-play-next");
         ForceSoftwareSequencer = Plugin.getConfig().getBoolean("force-software-sequencer");
+        Language = Plugin.getConfig().getString("language");
     }
 
     public void onEnable() {

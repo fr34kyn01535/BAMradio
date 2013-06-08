@@ -1,40 +1,70 @@
 package yt.bam.bamradio.managers.commandmanager;
 
+import yt.bam.bamradio.managers.commandmanager.commands.CmdHelp;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.sf.extcos.ComponentQuery;
+import net.sf.extcos.ComponentScanner;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
 import yt.bam.bamradio.Helpers;
-import managers.IManager;
+import yt.bam.bamradio.IManager;
+import yt.bam.bamradio.managers.translationmanager.TranslationManager;
 
 /**
- * @author fr34kyn01535
+ * CommandManager
+ * @author FR34KYN01535
+ * @version 1.1
  */
 
 public class CommandManager implements IManager {
     public static final Logger logger = Bukkit.getLogger();
     public Plugin Plugin;
+    public TranslationManager TranslationManager;
+    
     public static ArrayList<ICommand> AllCommands;
+    public static ArrayList<String> RootCommands = new ArrayList<String>();
+    
+    Set<Class<? extends ICommand>> commandClasses = new HashSet<Class<? extends ICommand>>();
 
-    public CommandManager(Plugin plugin){
+    public CommandManager(Plugin plugin,TranslationManager translationManager,String[] rootCommands){
         Plugin = plugin;
+        TranslationManager = translationManager;
+        for(String rootCommand :rootCommands) {
+            RootCommands.add(rootCommand.toLowerCase());
+        }
         //Commands
         AllCommands = new ArrayList<ICommand>();
-        AllCommands.add(new CmdList());
-        AllCommands.add(new CmdPlay());
-        AllCommands.add(new CmdStop());
-        AllCommands.add(new CmdNext());
-        AllCommands.add(new CmdUnmute());
-        AllCommands.add(new CmdMute());
-        AllCommands.add(new CmdHelp());
-        AllCommands.add(new CmdAbout());
+        
+        ComponentScanner scanner = new ComponentScanner();
+        scanner.getClasses(new ComponentQuery() {
+            @Override
+            protected void query() {
+                select().
+                from(this.getClass().getPackage().getName()).
+                andStore(thoseImplementing(ICommand.class).into(commandClasses)).
+                returning(none());
+            }
+        });
+        for (Class<? extends ICommand> c :commandClasses){
+            try {
+                AllCommands.add((ICommand)c.newInstance());
+            } catch (InstantiationException ex) {
+                Logger.getLogger(CommandManager.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(CommandManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
     public static boolean onCommand(CommandSender sender, org.bukkit.command.Command root, String commandLabel, String[] args) {
-      if (root.getName().equalsIgnoreCase("bamradio") || root.getName().equalsIgnoreCase("br")) {
+      if (RootCommands.contains(root.getName().toLowerCase())) {
 
             ICommand command=null;
             if(args.length==0){

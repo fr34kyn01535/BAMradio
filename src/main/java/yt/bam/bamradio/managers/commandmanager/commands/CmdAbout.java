@@ -1,49 +1,46 @@
-package yt.bam.bamradio.managers.commandmanager;
+package yt.bam.bamradio.managers.commandmanager.commands;
 
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
-import yt.bam.bamradio.BAMradio;
 import yt.bam.bamradio.Helpers;
+import yt.bam.bamradio.managers.commandmanager.ICommand;
+import yt.bam.bamradio.managers.commandmanager.ICommand;
 
 /**
  * @author fr34kyn01535
  */
 
-public class CmdList implements ICommand{
+public class CmdAbout implements ICommand{
         public static final Logger logger = Bukkit.getLogger();
 	@Override
 	public void execute(CommandSender sender, String commandLabel, String[] args) {
-            Helpers.sendMessage(sender,ChatColor.GREEN + "List of midi files:");
-            String[] fileList = BAMradio.Instance.MidiManager.listMidiFiles();
-            int i = 0;
-            for (String name : fileList) {
-                sender.sendMessage(ChatColor.GREEN + "["+ChatColor.BOLD+i+ChatColor.RESET+""+ChatColor.GREEN+"] "+ChatColor.RESET+ name);
-                i++;
-            }
+            Helpers.sendMessage(sender, ChatColor.GREEN + "BAMradio by FR34KYN01535@bam.yt");
+            Helpers.sendMessage(sender, ChatColor.GREEN + "Coded for BAMcraft (bam.yt)");
         }
 
 	@Override
 	public String getHelp() {
-		return "List all midis";
+		return "Credits";
 	}
 
 	@Override
 	public String getSyntax() {
-		return "/br list";
+		return "/br about";
 	}
 
 	@Override
 	public Permission getPermissions() {
-		return new Permission("bamradio.list");
+		return null;
 	}
         
         @Override
 	public String[] getName() {
-		return new String[] {"list"};
+		return new String[] {"about"};
 	}
+        
         @Override
         public String getExtendedHelp() {
             return null;

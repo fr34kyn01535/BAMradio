@@ -24,6 +24,16 @@
       <artifactId>craftbukkit</artifactId>
       <version>1.5.2-R0.2-SNAPSHOT</version>
     </dependency>
+        <dependency>
+            <groupId>net.sf.extcos</groupId>
+            <artifactId>extcos</artifactId>
+            <version>0.4b</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <version>1.7.5</version>
+        </dependency>
     </dependencies>
     <repositories>
             <repository>

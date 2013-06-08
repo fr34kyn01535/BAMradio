@@ -21,7 +21,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import yt.bam.bamradio.BAMradio;
 import yt.bam.bamradio.Helpers;
 
 /**
@@ -184,7 +183,7 @@ public class MinecraftMidiPlayer implements MidiPlayer {
 
                     if (timeLeft <= 0) {
                         stopPlaying();
-                        if(BAMradio.Instance.ConfigurationManager.AutoPlayNext){
+                        if(manager.ConfigurationManager.AutoPlayNext){
                             new BukkitRunnable() {
                                     @Override
                                     public void run() {

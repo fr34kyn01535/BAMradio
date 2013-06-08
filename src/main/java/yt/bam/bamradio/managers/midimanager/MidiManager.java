@@ -8,8 +8,9 @@ import javax.sound.midi.MidiUnavailableException;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import managers.IManager;
-import yt.bam.bamradio.BAMradio;
+import yt.bam.bamradio.IManager;
+import yt.bam.bamradio.managers.configurationmanager.ConfigurationManager;
+import yt.bam.bamradio.managers.translationmanager.TranslationManager;
 
 /**
  * @author fr34kyn01535
@@ -18,15 +19,17 @@ import yt.bam.bamradio.BAMradio;
 public class MidiManager implements IManager {
     public static final Logger logger = Bukkit.getLogger();
     public Plugin Plugin;
+    public TranslationManager TranslationManager;
+    public ConfigurationManager ConfigurationManager;
     public MidiPlayer MidiPlayer;
     
-    public MidiManager(Plugin plugin) {
-        this.Plugin=plugin;
+    public MidiManager(Plugin plugin,TranslationManager translationManager,ConfigurationManager configurationManager) {
+        this.Plugin = plugin;
+        ConfigurationManager = configurationManager;
         try {
             MidiPlayer = new SequencerMidiPlayer(this);
-            logger.info("Sequencer device obtained!");
         } catch (MidiUnavailableException ex) {
-            logger.severe("Could not obtain sequencer device - Falling back.");
+            logger.severe("Could not obtain sequencer device - Falling back to software sequencer.");
             MidiPlayer = new MinecraftMidiPlayer(this);
         }
         Player[] onlinePlayerList = plugin.getServer().getOnlinePlayers();
@@ -34,7 +37,7 @@ public class MidiManager implements IManager {
         if (MidiPlayer != null)
             MidiPlayer.tuneIn(player);
         }
-        if(BAMradio.Instance.ConfigurationManager.AutoPlay){
+        if(ConfigurationManager.AutoPlay){
             String[] midis = listMidiFiles();
             if (midis.length > 0)
                 MidiPlayer.playSong(midis[0]);

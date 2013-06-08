@@ -1,6 +1,5 @@
 package yt.bam.bamradio;
 
-import managers.IManager;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
@@ -10,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import yt.bam.bamradio.managers.configurationmanager.ConfigurationManager;
 import yt.bam.bamradio.managers.commandmanager.CommandManager;
 import yt.bam.bamradio.managers.midimanager.MidiManager;
+import yt.bam.bamradio.managers.translationmanager.TranslationManager;
 
 /**
  * @author fr34kyn01535
@@ -22,6 +22,7 @@ public class BAMradio extends JavaPlugin {
     
     public ConfigurationManager ConfigurationManager;
     public CommandManager CommandManager;
+    public TranslationManager TranslationManager;
     public MidiManager MidiManager;
     
     @Override
@@ -30,8 +31,9 @@ public class BAMradio extends JavaPlugin {
         registerListener();
         
         ConfigurationManager = (ConfigurationManager) registerManager(new ConfigurationManager(this));
-        CommandManager = (CommandManager) registerManager(new CommandManager(this));
-        MidiManager = (MidiManager) registerManager(new MidiManager(this));
+        TranslationManager = (TranslationManager) registerManager(new TranslationManager(this,ConfigurationManager));
+        CommandManager = (CommandManager) registerManager(new CommandManager(this,TranslationManager,new String[]{"bamradio","br"}));
+        MidiManager = (MidiManager) registerManager(new MidiManager(this,TranslationManager,ConfigurationManager));
         
         for(IManager manager : managers){
             manager.onEnable();

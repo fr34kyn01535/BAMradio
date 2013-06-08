@@ -20,7 +20,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import yt.bam.bamradio.BAMradio;
 import yt.bam.bamradio.Helpers;
 
 /**
@@ -61,7 +60,7 @@ public class SequencerMidiPlayer implements MidiPlayer, Receiver {
 
     public void stopPlaying() {
         sequencer.stop();
-        BAMradio.Instance.getServer().getScheduler().cancelTasks(BAMradio.Instance);
+        manager.Plugin.getServer().getScheduler().cancelTasks(manager.Plugin);
     }
 
     public void playNextSong() {
@@ -107,13 +106,13 @@ public class SequencerMidiPlayer implements MidiPlayer, Receiver {
 
                                 if (!sequencer.isRunning() || sequencer.getMicrosecondPosition() > sequencer.getMicrosecondLength()) {
                                         stopPlaying();
-                                        if(BAMradio.Instance.ConfigurationManager.AutoPlayNext){
+                                        if(manager.ConfigurationManager.AutoPlayNext){
                                             playNextSong();
                                         }
                                 }
                         }
 
-                }.runTaskTimer(BAMradio.Instance, 20L, 20L);
+                }.runTaskTimer(manager.Plugin, 20L, 20L);
             }catch(Exception e){
                     System.err.println("Can't read file: " + midiName+" ("+e.getMessage()+")");
             }
