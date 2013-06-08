@@ -1,8 +1,9 @@
-package yt.bam.bamradio;
+package yt.bam.bamradio.managers.midimanager;
 
 /**
- * @author fr34kyn01535,t7seven7t
+ * @author fr34kyn01535
  */
+
 public enum NotePitch {
 	NOTE_0(0, 0.5f),
 	NOTE_1(1, 0.53f),

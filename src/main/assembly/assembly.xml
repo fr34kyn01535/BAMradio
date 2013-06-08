@@ -16,6 +16,11 @@
             </includes>
         </fileSet>
         <fileSet>
+            <directory>${project.basedir}/src/main/resources/</directory>
+            <outputDirectory>/BAMradio/</outputDirectory>
+            <includes><include>config.yml</include></includes>
+        </fileSet>
+        <fileSet>
             <directory>${project.basedir}/lib/</directory>
             <outputDirectory>/BAMradio/</outputDirectory>
         </fileSet>

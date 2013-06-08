@@ -1,0 +1,11 @@
+# BAMradio -- Author: FR34KYN01535 
+# For more information visit http://dev.bukkit.org/server-mods/bamradio/
+
+auto-play: true
+
+auto-play-next: true
+
+force-software-sequencer: false
+
+#MC Hammer!
+config-version: 1

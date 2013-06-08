@@ -1,12 +1,13 @@
-package yt.bam.bamradio;
+package yt.bam.bamradio.managers.midimanager;
 
 import org.bukkit.entity.Player;
 
 /**
- * @author fr34kyn01535,t7seven7t
+ * @author fr34kyn01535
  */
+
 public interface MidiPlayer {
-	public void tuneIn(Player player);
+	public  void tuneIn(Player player);
 	
 	public void tuneOut(Player player);
 	

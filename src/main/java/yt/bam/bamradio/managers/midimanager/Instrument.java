@@ -1,11 +1,15 @@
-package yt.bam.bamradio;
+package yt.bam.bamradio.managers.midimanager;
 
+import java.util.logging.Logger;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 
 /**
- * @author fr34kyn01535,t7seven7t
+ * @author fr34kyn01535
  */
-public class Instrument {
+
+public class Instrument {    
+    public static final Logger logger = Bukkit.getLogger();
     public static Sound getInstrument(int patch, int channel) {
 
 		if (channel == 10) {
