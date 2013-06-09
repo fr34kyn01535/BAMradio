@@ -33,7 +33,7 @@ public class TranslationManager implements IManager {
         if(ConfigurationManager.Language == null){
             selectedLanguage = "en";
         }else{
-            File f = new File(Plugin.getDataFolder()+File.separator+ BAMradio.Instance.ConfigurationManager+".yml");
+            File f = new File(Plugin.getDataFolder()+File.separator+ BAMradio.Instance.ConfigurationManager.Language+".yml");
             if(f.exists()) {
                 this.selectedLanguage=ConfigurationManager.Language;
             }else{
@@ -73,7 +73,27 @@ public class TranslationManager implements IManager {
     }
     private void loadDefaults(){
         defaultTranslation = new HashMap<String, String>();
-        defaultTranslation.put("BAN_LIST_READ_ERR","Error occurred while attempting to read banned-ips.txt!");
+        defaultTranslation.put("MIDI_MANAGER_EXCEPTION_MIDI_UNAVAILABLE" , "Could not obtain sequencer device - Falling back to software sequencer.");
+        defaultTranslation.put("MIDI_MANAGER_NOW_PLAYING" , "Now playing:");
+        defaultTranslation.put("MIDI_MANAGER_INVALID_MIDI" , "Invalid midi file:");
+        defaultTranslation.put("MIDI_MANAGER_CORRUPT_MIDI" , "Can't read file:");
+        defaultTranslation.put("MIDI_MANAGER_NOW_PLAYING" , "Now playing:");
+        defaultTranslation.put("COMMAND_ABOUT_BY" , "by" );
+        defaultTranslation.put("COMMAND_ABOUT_FOR" , "for");
+        defaultTranslation.put("COMMAND_ABOUT_HELP " , "Credits");
+        defaultTranslation.put("COMMAND_HELP_HELP" , "Shows all commands" );
+        defaultTranslation.put("COMMAND_LIST_TITLE" , "List of midi files:");
+        defaultTranslation.put("COMMAND_LIST_HELP" , "List all midis");
+        defaultTranslation.put("COMMAND_MUTE_MESSAGE" , "Muted BAMradio.");
+        defaultTranslation.put("COMMAND_MUTE_HELP" , "Mute BAMradio");
+        defaultTranslation.put("COMMAND_UNMUTE_HELP" , "Unmute BAMradio");
+        defaultTranslation.put("COMMAND_NEXT_HELP" , "Skip to next midi");
+        defaultTranslation.put("COMMAND_STOP_MESSAGE" , "Stopped playing...");
+        defaultTranslation.put("COMMAND_STOP_HELP" , "Stop a midi");
+        defaultTranslation.put("COMMAND_PLAY_HELP" , "Stop a midi");
+        defaultTranslation.put("COMMAND_PLAY_EXCEPTION_NOT_FOUND" , "Can not find midi:");
+        defaultTranslation.put("COMMAND_PLAY_HELP" , "Play a midis");
+        defaultTranslation.put("COMMAND_PLAY_EXTENDED_HELP" , "/br play League_of_Legends_-_Season_1.mid or /br play 42");
     }
 
     public void onEnable() {

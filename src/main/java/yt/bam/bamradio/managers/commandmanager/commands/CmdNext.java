@@ -24,7 +24,7 @@ public class CmdNext implements ICommand{
 
 	@Override
 	public String getHelp() {
-		return "Skip to next midi";
+		return BAMradio.Instance.TranslationManager.getTranslation("COMMAND_NEXT_HELP");
 	}
 
 	@Override

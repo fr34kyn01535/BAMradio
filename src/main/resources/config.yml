@@ -1,11 +1,18 @@
 # BAMradio -- Author: FR34KYN01535 
 # For more information visit http://dev.bukkit.org/server-mods/bamradio/
 
+#Start playing when the server starts
 auto-play: true
 
+#Auto play new song after the current has ended
 auto-play-next: true
 
+#Force usage of software sequencer, even if a midi sequencer device is found
 force-software-sequencer: false
+
+# Default language is english if empty or "en". 
+# To switch language put in the name of the languagefile (e.g. "de" for de.yml)
+language: "de"
 
 #MC Hammer!
 config-version: 1

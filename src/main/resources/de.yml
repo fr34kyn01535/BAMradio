@@ -1,23 +1,28 @@
-# IP-Check -- Authors: Jnk1296, FR34KYN01535 
+# BAMradio -- Author: FR34KYN01535 
 # German languagefile -- Translator: FR34KYN01535
-# For more information visit http://dev.bukkit.org/server-mods/ip-check-jnk/
+# For more information visit http://dev.bukkit.org/server-mods/bamradio/
 name: German
 lname: Deutsch
 translation:
-  BAN_LIST_READ_ERR: "Beim versuch die Datei banned-ips.txt zu lesen trat ein Fehler auf!"
-  NO_FIND: "Der Spieler konnte nicht gefunden werden."
-  NO_PERM_ERR: "Du hast keine Berechtigung dies zu tun!"
-  NUM_ARGS_ERR: "Falsche Anzahl der Argumente"
-  ILL_ARGS_ERR: "Ein oder mehrere Argument(e) sind ungültig."
-  PLAYER_EXEMPT_SUC: "Spieler wurde ausgeschlossen!"
-  IP_EXEMPT_SUC: "IP wurde ausgeschlossen!"
-  EXEMPTION_FAIL: "Sorry. :( Irgendetwas ist fürchterlich schief gelaufen."
-  TOGGLE_SECURE: "Secure-Mode: "
-  TOGGLE_NOTIFY: "Notify-On-Login: "
-  TOGGLE_DETAIL: "Descriptive-Notify: "
-  TOGGLE_ERR: "Bein ändern der Einstellung ist ein Fehler aufgetreten!"
-  EXEMPTION_DEL_SUC: "Spieler wurde wieder eingeschlossen!"
-  EXEMPTION_DEL_ERR: "Dieser Spieler ist nicht ausgeschlossen"
-  ERROR_LOG_RMDR: "Ein Fehler ist aufgetreten! Der Error Log wurde im IP-Check Ordner unter ''Error_Reports'' abgespeichert."
-  PURGE_SUC: "Erfolgreich %s gelöscht."
-  PURGE_ERR: "Konnte %s nicht löschen!"
+  MIDI_MANAGER_EXCEPTION_MIDI_UNAVAILABLE : "Falle zurück auf Software Sequencer."
+  MIDI_MANAGER_NOW_PLAYING : "Momentan läuft:"
+  MIDI_MANAGER_INVALID_MIDI : "Ungültige Midi Datei:"
+  MIDI_MANAGER_CORRUPT_MIDI : "Kann Midi Datei nicht lesen:"
+  COMMAND_MANAGER_UNKNOWN_COMMAND : "Unbekannter Befehl. Tippe \"/br help\" für Hilfe."
+  COMMAND_MANAGER_NO_PERMISSION : "Dazu fehlt dir die Berechtigung:"
+  COMMAND_ABOUT_BY : "von" 
+  COMMAND_ABOUT_FOR : "für"
+  COMMAND_ABOUT_HELP  : "Credits"
+  COMMAND_HELP_HELP : "Zeigt alle Befehle" 
+  COMMAND_LIST_TITLE : "Verfügbare Midi's:"
+  COMMAND_LIST_HELP : "Liste der Midi Dateien:"
+  COMMAND_MUTE_MESSAGE : "BAMradio ist nun lautlos für dich"
+  COMMAND_MUTE_HELP : "BAMradio lokal ausschalten"
+  COMMAND_UNMUTE_HELP : "BAMradio lokal wieder einschalten"
+  COMMAND_NEXT_HELP : "Spielt die nächste Midi ab"
+  COMMAND_STOP_MESSAGE : "BAMradio wurde gestoppt"
+  COMMAND_STOP_HELP : "Stoppt BAMradio"
+  COMMAND_PLAY_HELP : "Spielt ein Midi ab"
+  COMMAND_PLAY_EXCEPTION_NOT_FOUND : "Kann folgendes Midi nicht finden:"
+  COMMAND_PLAY_EXTENDED_HELP : "/br play League_of_Legends_-_Season_1.mid oder /br play 42"
+

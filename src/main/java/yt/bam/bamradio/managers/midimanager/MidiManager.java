@@ -26,10 +26,11 @@ public class MidiManager implements IManager {
     public MidiManager(Plugin plugin,TranslationManager translationManager,ConfigurationManager configurationManager) {
         this.Plugin = plugin;
         ConfigurationManager = configurationManager;
+        TranslationManager = translationManager;
         try {
             MidiPlayer = new SequencerMidiPlayer(this);
         } catch (MidiUnavailableException ex) {
-            logger.severe("Could not obtain sequencer device - Falling back to software sequencer.");
+            logger.severe(TranslationManager.getTranslation("MIDI_MANAGER_EXCEPTION_MIDI_UNAVAILABLE"));
             MidiPlayer = new MinecraftMidiPlayer(this);
         }
         Player[] onlinePlayerList = plugin.getServer().getOnlinePlayers();

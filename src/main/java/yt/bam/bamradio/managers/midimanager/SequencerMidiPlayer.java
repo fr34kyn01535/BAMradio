@@ -46,7 +46,7 @@ public class SequencerMidiPlayer implements MidiPlayer, Receiver {
     public void tuneIn(Player player) {
         tunedIn.add(player);
         if(midiName!=null){
-            Helpers.sendMessage(player,"Now playing: " + ChatColor.YELLOW + midiName.replace("_", " ").replace(".mid",""));
+            Helpers.sendMessage(player,manager.TranslationManager.getTranslation("MIDI_MANAGER_NOW_PLAYING")+" " + ChatColor.YELLOW + midiName.replace("_", " ").replace(".mid",""));
         }
     }
 
@@ -89,13 +89,13 @@ public class SequencerMidiPlayer implements MidiPlayer, Receiver {
                         sequencer.start();
                         nowPlaying = true;
                 } catch (InvalidMidiDataException ex) {
-                        System.err.println("Invalid midi file: " + midiName);
+                        System.err.println(manager.TranslationManager.getTranslation("MIDI_MANAGER_INVALID_MIDI")+" " + midiName);
                 } catch (IOException e) {
-                        System.err.println("Can't read file: " + midiName);
+                        System.err.println(manager.TranslationManager.getTranslation("MIDI_MANAGER_CORRUPT_MIDI")+" " + midiName);
                 }
 
                 for (Player player : tunedIn) {
-                        Helpers.sendMessage(player,"Now playing: " + ChatColor.YELLOW + midiName.replace("_", " ").replace(".mid",""));
+                        Helpers.sendMessage(player,manager.TranslationManager.getTranslation("MIDI_MANAGER_NOW_PLAYING")+" " + ChatColor.YELLOW + midiName.replace("_", " ").replace(".mid",""));
                 }
 
                 new BukkitRunnable() {
@@ -114,7 +114,7 @@ public class SequencerMidiPlayer implements MidiPlayer, Receiver {
 
                 }.runTaskTimer(manager.Plugin, 20L, 20L);
             }catch(Exception e){
-                    System.err.println("Can't read file: " + midiName+" ("+e.getMessage()+")");
+                    System.err.println(manager.TranslationManager.getTranslation("MIDI_MANAGER_CORRUPT_MIDI")+" " + midiName+" ("+e.getMessage()+")");
             }
                     return true;
     }

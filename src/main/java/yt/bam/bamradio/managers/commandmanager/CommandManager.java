@@ -26,7 +26,7 @@ import yt.bam.bamradio.managers.translationmanager.TranslationManager;
 public class CommandManager implements IManager {
     public static final Logger logger = Bukkit.getLogger();
     public Plugin Plugin;
-    public TranslationManager TranslationManager;
+    public static TranslationManager TranslationManager;
     
     public static ArrayList<ICommand> AllCommands;
     public static ArrayList<String> RootCommands = new ArrayList<String>();
@@ -88,7 +88,7 @@ public class CommandManager implements IManager {
                 }
             }
             if (command == null) {
-                Helpers.sendMessage(sender, ChatColor.RED + "Unknown command. Type \"/br help\" for help.");
+                Helpers.sendMessage(sender, ChatColor.RED + TranslationManager.getTranslation("COMMAND_MANAGER_UNKNOWN_COMMAND"));
                 return true;
             }
 
@@ -112,7 +112,7 @@ public class CommandManager implements IManager {
     if(player.hasPermission(permission)){
         return true;
     }else{    
-        Helpers.sendMessage(player, ChatColor.RED + "You dont have the permission: ("+permission.toString()+")");                 
+        Helpers.sendMessage(player, ChatColor.RED + TranslationManager.getTranslation("COMMAND_MANAGER_NO_PERMISSION")+ " ("+permission.toString()+")");                 
         return false;
         }
     }

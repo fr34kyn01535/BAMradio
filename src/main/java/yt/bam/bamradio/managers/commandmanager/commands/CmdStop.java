@@ -19,14 +19,14 @@ public class CmdStop implements ICommand{
 	public void execute(CommandSender sender, String commandLabel, String[] args) {
             if(BAMradio.Instance.MidiManager.MidiPlayer.isNowPlaying()) {
                 BAMradio.Instance.MidiManager.MidiPlayer.stopPlaying();
-                Helpers.sendMessage(sender,"Stopped playing...");
+                Helpers.sendMessage(sender,BAMradio.Instance.TranslationManager.getTranslation("COMMAND_STOP_MESSAGE"));
             }
             
         }
 
 	@Override
 	public String getHelp() {
-		return "Stop a midi";
+		return BAMradio.Instance.TranslationManager.getTranslation("COMMAND_STOP_HELP");
 	}
 
 	@Override

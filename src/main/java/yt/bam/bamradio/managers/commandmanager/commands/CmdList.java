@@ -18,7 +18,7 @@ public class CmdList implements ICommand{
         public static final Logger logger = Bukkit.getLogger();
 	@Override
 	public void execute(CommandSender sender, String commandLabel, String[] args) {
-            Helpers.sendMessage(sender,ChatColor.GREEN + "List of midi files:");
+            Helpers.sendMessage(sender,ChatColor.GREEN + BAMradio.Instance.TranslationManager.getTranslation("COMMAND_LIST_TITLE"));
             String[] fileList = BAMradio.Instance.MidiManager.listMidiFiles();
             int i = 0;
             for (String name : fileList) {
@@ -29,7 +29,7 @@ public class CmdList implements ICommand{
 
 	@Override
 	public String getHelp() {
-		return "List all midis";
+		return BAMradio.Instance.TranslationManager.getTranslation("COMMAND_HELP_HELP");
 	}
 
 	@Override

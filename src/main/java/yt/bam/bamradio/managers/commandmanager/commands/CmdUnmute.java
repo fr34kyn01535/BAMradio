@@ -22,7 +22,7 @@ public class CmdUnmute implements ICommand{
 
 	@Override
 	public String getHelp() {
-		return "Unmute BAMradio";
+		return BAMradio.Instance.TranslationManager.getTranslation("COMMAND_UNMUTE_HELP");
 	}
 
 	@Override

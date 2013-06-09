@@ -8,7 +8,6 @@ import org.bukkit.permissions.Permission;
 import yt.bam.bamradio.BAMradio;
 import yt.bam.bamradio.Helpers;
 import yt.bam.bamradio.managers.commandmanager.ICommand;
-import yt.bam.bamradio.managers.commandmanager.ICommand;
 
 /**
  * @author fr34kyn01535
@@ -33,7 +32,7 @@ public class CmdPlay implements ICommand{
                     }
                 }else{ 
                     if(!BAMradio.Instance.MidiManager.MidiPlayer.playSong(args[1])){
-                        Helpers.sendMessage(sender, ChatColor.RED + "Can not find midi \""+args[1]+"\"");
+                        Helpers.sendMessage(sender, ChatColor.RED + BAMradio.Instance.TranslationManager.getTranslation("COMMAND_PLAY_EXCEPTION_NOT_FOUND")+" \""+args[1]+"\"");
                     }
                 }
             }
@@ -54,7 +53,7 @@ public class CmdPlay implements ICommand{
         
 	@Override
 	public String getHelp() {
-		return "Play a midis";
+		return BAMradio.Instance.TranslationManager.getTranslation("COMMAND_PLAY_HELP");
 	}
 
 	@Override
@@ -73,6 +72,6 @@ public class CmdPlay implements ICommand{
 	}
         @Override
         public String getExtendedHelp() {
-            return "/br play League_of_Legends_-_Season_1.mid or /br play 42";
+            return BAMradio.Instance.TranslationManager.getTranslation("COMMAND_PLAY_EXTENDED_HELP");
         }
 }

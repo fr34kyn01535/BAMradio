@@ -59,7 +59,7 @@ public class MinecraftMidiPlayer implements MidiPlayer {
 
     public void tuneIn(Player player) {
         tunedIn.add(player);
-        Helpers.sendMessage(player," Now playing: " + ChatColor.YELLOW + midiName.replace("_", " "));
+        Helpers.sendMessage(player,manager.TranslationManager.getTranslation("MIDI_MANAGER_NOW_PLAYING")+" " + ChatColor.YELLOW + midiName.replace("_", " "));
     }
 
     public void tuneOut(Player player) {
@@ -111,12 +111,12 @@ public class MinecraftMidiPlayer implements MidiPlayer {
                 midiTracks.add(midiTrack);
             }
         } catch (InvalidMidiDataException ex) {
-                System.err.println("Invalid midi file: " + midiName);
+                System.err.println(manager.TranslationManager.getTranslation("MIDI_MANAGER_INVALID_MIDI")+" " + midiName);
         } catch (IOException ex) {
-                System.err.println("Can't read file: " + midiName);
+                System.err.println(manager.TranslationManager.getTranslation("MIDI_MANAGER_CORRUPT_MIDI")+" " + midiName);
         }
         for (Player player : tunedIn) {
-            Helpers.sendMessage(player, " Now playing: " + ChatColor.YELLOW + midiName.replace("_", " "));
+            Helpers.sendMessage(player,manager.TranslationManager.getTranslation("MIDI_MANAGER_NOW_PLAYING")+" " + ChatColor.YELLOW + midiName.replace("_", " "));
         }
         timer.scheduleAtFixedRate(new TickTask(), MILLIS_PER_TICK, MILLIS_PER_TICK);
         return true;
