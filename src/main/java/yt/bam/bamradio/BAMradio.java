@@ -32,7 +32,7 @@ public class BAMradio extends JavaPlugin {
         
         ConfigurationManager = (ConfigurationManager) registerManager(new ConfigurationManager(this));
         TranslationManager = (TranslationManager) registerManager(new TranslationManager(this,ConfigurationManager));
-        CommandManager = (CommandManager) registerManager(new CommandManager(this,TranslationManager,new String[]{"bamradio","br"}));
+        CommandManager = (CommandManager) registerManager(new CommandManager(this,TranslationManager,new String[]{"bamradio","br"},"yt.bam.bamradio.managers.commandmanager.commands"));
         MidiManager = (MidiManager) registerManager(new MidiManager(this,TranslationManager,ConfigurationManager));
         
         for(IManager manager : managers){

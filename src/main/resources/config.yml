@@ -12,7 +12,7 @@ force-software-sequencer: false
 
 # Default language is english if empty or "en". 
 # To switch language put in the name of the languagefile (e.g. "de" for de.yml)
-language: "de"
+language: "en"
 
 #MC Hammer!
 config-version: 1

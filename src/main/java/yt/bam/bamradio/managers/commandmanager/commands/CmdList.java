@@ -18,6 +18,7 @@ public class CmdList implements ICommand{
 	@Override
 	public void execute(CommandSender sender, String commandLabel, String[] args) {
             Helpers.sendMessage(sender,ChatColor.GREEN + BAMradio.Instance.TranslationManager.getTranslation("COMMAND_LIST_TITLE"));
+            
             String[] fileList = BAMradio.Instance.MidiManager.listMidiFiles();
             int i = 0;
             for (String name : fileList) {

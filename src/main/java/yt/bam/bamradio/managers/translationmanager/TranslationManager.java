@@ -24,34 +24,31 @@ public class TranslationManager implements IManager {
     public ConfigurationManager ConfigurationManager;
     private Map<String,String> translation;
     private Map<String,String> defaultTranslation;
-    private String selectedLanguage;
     private FileConfiguration loadedlanguage;
     
     public TranslationManager(Plugin plugin,ConfigurationManager configurationManager){
         Plugin = plugin;
         ConfigurationManager = configurationManager;
-        if(ConfigurationManager.Language == null){
-            selectedLanguage = "en";
+        reloadTranslation();
+    }
+    
+    public void reloadTranslation(){
+        if(ConfigurationManager.Language == null || ConfigurationManager.Language.equals("en")){
+            loadDefaults();
+            return;
         }else{
             File f = new File(Plugin.getDataFolder()+File.separator+ BAMradio.Instance.ConfigurationManager.Language+".yml");
             if(f.exists()) {
-                this.selectedLanguage=ConfigurationManager.Language;
+                File languageFile = new File(Plugin.getDataFolder()+File.separator+ConfigurationManager.Language+".yml");
+                loadedlanguage = YamlConfiguration.loadConfiguration(languageFile);
+                loadTranslation();
             }else{
-                selectedLanguage = "en";
                 logger.warning("Languagefile "+ConfigurationManager.Language+".yml not found, falling back to english language!");
+                loadDefaults();
             }
         }
-        reloadTranslation();
     }
-    public void reloadTranslation(){
-        if(selectedLanguage.equals("en")){
-            loadDefaults();
-        }else{
-            File languageFile = new File(Plugin.getDataFolder()+File.separator+selectedLanguage+".yml");
-            loadedlanguage = YamlConfiguration.loadConfiguration(languageFile);
-            loadTranslation();
-        }
-    }
+    
     public String getTranslation(String key){
         if(translation!=null){
             String value = translation.get("translation."+key);
@@ -78,9 +75,11 @@ public class TranslationManager implements IManager {
         defaultTranslation.put("MIDI_MANAGER_INVALID_MIDI" , "Invalid midi file:");
         defaultTranslation.put("MIDI_MANAGER_CORRUPT_MIDI" , "Can't read file:");
         defaultTranslation.put("MIDI_MANAGER_NOW_PLAYING" , "Now playing:");
+        defaultTranslation.put("COMMAND_MANAGER_UNKNOWN_COMMAND" , "Unknown command. Type \"/br help\" for help." );
+        defaultTranslation.put("COMMAND_MANAGER_NO_PERMISSION" , "Missing permission:" );
         defaultTranslation.put("COMMAND_ABOUT_BY" , "by" );
         defaultTranslation.put("COMMAND_ABOUT_FOR" , "for");
-        defaultTranslation.put("COMMAND_ABOUT_HELP " , "Credits");
+        defaultTranslation.put("COMMAND_ABOUT_HELP" , "Credits");
         defaultTranslation.put("COMMAND_HELP_HELP" , "Shows all commands" );
         defaultTranslation.put("COMMAND_LIST_TITLE" , "List of midi files:");
         defaultTranslation.put("COMMAND_LIST_HELP" , "List all midis");

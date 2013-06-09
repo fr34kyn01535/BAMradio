@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.sound.midi.MidiUnavailableException;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import yt.bam.bamradio.BAMradio;
 import yt.bam.bamradio.IManager;
 import yt.bam.bamradio.managers.configurationmanager.ConfigurationManager;
 import yt.bam.bamradio.managers.translationmanager.TranslationManager;
@@ -52,16 +54,15 @@ public class MidiManager implements IManager {
         return midiFile;
     }
 	
-    public String[] listMidiFiles() {
-            File[] files = Plugin.getDataFolder().listFiles();
-            List<String> midiFiles = new ArrayList<String>();
-            for (File file : files) {
-
-                    if (file.getName().endsWith(".mid")) {
-                        midiFiles.add(file.getName().substring(0, file.getName().lastIndexOf(".mid")));
-                    }
-            }
-            return midiFiles.toArray(new String[0]);
+    public static String[] listMidiFiles() {
+        File[] files = BAMradio.Instance.getDataFolder().listFiles();
+        List<String> midiFiles = new ArrayList<String>();
+        for (File file : files) {
+                if (file.getName().endsWith(".mid")) {
+                    midiFiles.add(file.getName().substring(0, file.getName().lastIndexOf(".mid")));
+                }
+        }
+        return midiFiles.toArray(new String[0]);
     }	
 
     public void onEnable() {

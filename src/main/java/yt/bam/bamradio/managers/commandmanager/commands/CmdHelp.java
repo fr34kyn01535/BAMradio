@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
 import yt.bam.bamradio.BAMradio;
 import yt.bam.bamradio.managers.commandmanager.ICommand;
+import yt.bam.bamradio.managers.commandmanager.ICommand;
 
 /**
  * @author fr34kyn01535
@@ -16,7 +17,7 @@ public class CmdHelp implements ICommand{
         public static final Logger logger = Bukkit.getLogger();
 	@Override
 	public void execute(CommandSender sender, String commandLabel, String[] args) {
-            sender.sendMessage(ChatColor.BOLD+""+ChatColor.GREEN+"############   BAMradio "+BAMradio.Instance.getDescription().getVersion()+" by FR34KYN01535   ##########");
+            sender.sendMessage(ChatColor.BOLD+""+ChatColor.GREEN+"############   BAMradio "+BAMradio.Instance.getDescription().getVersion()+" by FR34KYN01535   ###########");
             for(ICommand cmd : BAMradio.Instance.CommandManager.AllCommands){
                 if(cmd.getPermissions() == null || sender.hasPermission(cmd.getPermissions())){
                     sender.sendMessage(ChatColor.BOLD +cmd.getSyntax()+" - "+cmd.getHelp());

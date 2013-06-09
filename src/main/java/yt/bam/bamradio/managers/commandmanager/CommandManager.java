@@ -4,17 +4,21 @@ import yt.bam.bamradio.managers.commandmanager.commands.CmdHelp;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.sf.extcos.ComponentQuery;
-import net.sf.extcos.ComponentScanner;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.libs.jline.internal.Log;
+import org.bukkit.craftbukkit.libs.jline.internal.Log.Level;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
+import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
 import yt.bam.bamradio.Helpers;
 import yt.bam.bamradio.IManager;
+import yt.bam.bamradio.managers.commandmanager.commands.*;
 import yt.bam.bamradio.managers.translationmanager.TranslationManager;
 
 /**
@@ -33,7 +37,7 @@ public class CommandManager implements IManager {
     
     Set<Class<? extends ICommand>> commandClasses = new HashSet<Class<? extends ICommand>>();
 
-    public CommandManager(Plugin plugin,TranslationManager translationManager,String[] rootCommands){
+    public CommandManager(Plugin plugin,TranslationManager translationManager,String[] rootCommands,String commandPath){
         Plugin = plugin;
         TranslationManager = translationManager;
         for(String rootCommand :rootCommands) {
@@ -42,24 +46,17 @@ public class CommandManager implements IManager {
         //Commands
         AllCommands = new ArrayList<ICommand>();
         
-        ComponentScanner scanner = new ComponentScanner();
-        scanner.getClasses(new ComponentQuery() {
-            @Override
-            protected void query() {
-                select().
-                from(this.getClass().getPackage().getName()).
-                andStore(thoseImplementing(ICommand.class).into(commandClasses)).
-                
-                returning(none());
-            }
-        });
+         Reflections reflections = new Reflections(new ConfigurationBuilder()
+                .setScanners(new SubTypesScanner()).setUrls(ClasspathHelper.forPackage(commandPath)));
+        commandClasses = reflections.getSubTypesOf(ICommand.class);
+ 
         for (Class<? extends ICommand> c :commandClasses){
             try {
                 AllCommands.add((ICommand)c.newInstance());
             } catch (InstantiationException ex) {
-                Logger.getLogger(CommandManager.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CommandManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             } catch (IllegalAccessException ex) {
-                Logger.getLogger(CommandManager.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CommandManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
         }
     }
@@ -100,7 +97,7 @@ public class CommandManager implements IManager {
                     return true;
                 }
             } catch (Exception e) {
-                
+                logger.info(e.getMessage());
             } finally {
                 return true;
             }
@@ -113,7 +110,7 @@ public class CommandManager implements IManager {
     if(player.hasPermission(permission)){
         return true;
     }else{    
-        Helpers.sendMessage(player, ChatColor.RED + TranslationManager.getTranslation("COMMAND_MANAGER_NO_PERMISSION")+ " ("+permission.toString()+")");                 
+        Helpers.sendMessage(player, ChatColor.RED + TranslationManager.getTranslation("COMMAND_MANAGER_NO_PERMISSION")+ " ("+permission.getName()+")");                 
         return false;
         }
     }
