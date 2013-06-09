@@ -8,7 +8,6 @@ import org.bukkit.permissions.Permission;
 import yt.bam.bamradio.BAMradio;
 import yt.bam.bamradio.Helpers;
 import yt.bam.bamradio.managers.commandmanager.ICommand;
-import yt.bam.bamradio.managers.commandmanager.ICommand;
 
 /**
  * @author fr34kyn01535
@@ -29,7 +28,7 @@ public class CmdList implements ICommand{
 
 	@Override
 	public String getHelp() {
-		return BAMradio.Instance.TranslationManager.getTranslation("COMMAND_HELP_HELP");
+		return BAMradio.Instance.TranslationManager.getTranslation("COMMAND_LIST_HELP");
 	}
 
 	@Override

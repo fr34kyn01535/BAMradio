@@ -7,7 +7,6 @@ import org.bukkit.permissions.Permission;
 import yt.bam.bamradio.BAMradio;
 import yt.bam.bamradio.Helpers;
 import yt.bam.bamradio.managers.commandmanager.ICommand;
-import yt.bam.bamradio.managers.commandmanager.ICommand;
 
 /**
  * @author fr34kyn01535

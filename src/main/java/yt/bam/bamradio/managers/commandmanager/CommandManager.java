@@ -49,6 +49,7 @@ public class CommandManager implements IManager {
                 select().
                 from(this.getClass().getPackage().getName()).
                 andStore(thoseImplementing(ICommand.class).into(commandClasses)).
+                
                 returning(none());
             }
         });
