@@ -31,9 +31,9 @@ public class MinecraftMidiPlayer implements MidiPlayer {
     public static final Logger logger = Bukkit.getLogger();
     public static final long MILLIS_PER_TICK = 2;
 
-    private final List<Player> tunedIn = new ArrayList<Player>();
-    private final List<MidiTrack> midiTracks = new ArrayList<MidiTrack>();
-    private final Map<Integer, Integer> channelPatches = new HashMap<Integer, Integer>();
+    private final List<Player> tunedIn;
+    private final List<MidiTrack> midiTracks;
+    private final Map<Integer, Integer> channelPatches;
 
     private boolean nowPlaying = false;
     private float tempo;
@@ -42,7 +42,7 @@ public class MinecraftMidiPlayer implements MidiPlayer {
     private float currentTick = 0;
 
     private int currentSong = 0;
-    private String midiName;
+    private String midiName="";
 
     private Timer timer;
     
@@ -51,6 +51,9 @@ public class MinecraftMidiPlayer implements MidiPlayer {
     public MinecraftMidiPlayer(MidiManager manager) {
         this.manager = manager;
         timer = new Timer();
+        tunedIn = new ArrayList<Player>();
+        midiTracks = new ArrayList<MidiTrack>();
+        channelPatches = new HashMap<Integer, Integer>();
     }
 
     public boolean isNowPlaying() {
@@ -59,7 +62,9 @@ public class MinecraftMidiPlayer implements MidiPlayer {
 
     public void tuneIn(Player player) {
         tunedIn.add(player);
-        Helpers.sendMessage(player,manager.TranslationManager.getTranslation("MIDI_MANAGER_NOW_PLAYING")+" " + ChatColor.YELLOW + midiName.replace("_", " "));
+        if(midiName!=null){
+            Helpers.sendMessage(player,manager.TranslationManager.getTranslation("MIDI_MANAGER_NOW_PLAYING")+" " + ChatColor.YELLOW + midiName.replace("_", " "));
+        }
     }
 
     public void tuneOut(Player player) {
@@ -183,7 +188,7 @@ public class MinecraftMidiPlayer implements MidiPlayer {
 
                     if (timeLeft <= 0) {
                         stopPlaying();
-                        if(manager.ConfigurationManager.AutoPlayNext){
+                        if(manager.AutoPlayNext){
                             new BukkitRunnable() {
                                     @Override
                                     public void run() {

@@ -8,8 +8,6 @@ import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.libs.jline.internal.Log;
-import org.bukkit.craftbukkit.libs.jline.internal.Log.Level;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
 import org.reflections.Reflections;
@@ -18,7 +16,6 @@ import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import yt.bam.bamradio.Helpers;
 import yt.bam.bamradio.IManager;
-import yt.bam.bamradio.managers.commandmanager.commands.*;
 import yt.bam.bamradio.managers.translationmanager.TranslationManager;
 
 /**
@@ -29,44 +26,24 @@ import yt.bam.bamradio.managers.translationmanager.TranslationManager;
 
 public class CommandManager implements IManager {
     public static final Logger logger = Bukkit.getLogger();
+    
     public Plugin Plugin;
     public static TranslationManager TranslationManager;
+    public static ArrayList<String> RootCommands;
+    public String CommandPath;
     
     public static ArrayList<ICommand> AllCommands;
-    public static ArrayList<String> RootCommands = new ArrayList<String>();
-    
     Set<Class<? extends ICommand>> commandClasses = new HashSet<Class<? extends ICommand>>();
 
     public CommandManager(Plugin plugin,TranslationManager translationManager,String[] rootCommands,String commandPath){
         Plugin = plugin;
         TranslationManager = translationManager;
+        RootCommands = new ArrayList<String>();
+        CommandPath = commandPath;
+        
         for(String rootCommand :rootCommands) {
             RootCommands.add(rootCommand.toLowerCase());
         }
-        //Commands
-        AllCommands = new ArrayList<ICommand>();
-        AllCommands.add(new CmdAbout());
-        AllCommands.add(new CmdHelp());
-        AllCommands.add(new CmdList());
-        AllCommands.add(new CmdMute());
-        AllCommands.add(new CmdNext());
-        AllCommands.add(new CmdPlay());
-        AllCommands.add(new CmdStop());
-        AllCommands.add(new CmdUnmute());
-        /*
-         Reflections reflections = new Reflections(new ConfigurationBuilder()
-                .setScanners(new SubTypesScanner()).setUrls(ClasspathHelper.forPackage(commandPath)));
-        commandClasses = reflections.getSubTypesOf(ICommand.class);
- 
-        for (Class<? extends ICommand> c :commandClasses){
-            try {
-                AllCommands.add((ICommand)c.newInstance());
-            } catch (InstantiationException ex) {
-                Logger.getLogger(CommandManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(CommandManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            }
-        }*/
     }
     
     public static boolean onCommand(CommandSender sender, org.bukkit.command.Command root, String commandLabel, String[] args) {
@@ -125,7 +102,29 @@ public class CommandManager implements IManager {
     }
     
     public void onEnable() {
-    //
+        AllCommands = new ArrayList<ICommand>();
+        /*Commands
+        AllCommands.add(new CmdAbout());
+        AllCommands.add(new CmdHelp());
+        AllCommands.add(new CmdList());
+        AllCommands.add(new CmdMute());
+        AllCommands.add(new CmdNext());
+        AllCommands.add(new CmdPlay());
+        AllCommands.add(new CmdStop());
+        AllCommands.add(new CmdUnmute());*/
+        
+        Reflections reflections = new Reflections(new ConfigurationBuilder().setScanners(new SubTypesScanner()).setUrls(ClasspathHelper.forPackage(CommandPath)));
+        commandClasses = reflections.getSubTypesOf(ICommand.class);
+        logger.info("["+Plugin.getDescription().getName()+"] CommandManager: "+commandClasses.size()+" commands found!");
+        for (Class<? extends ICommand> c :commandClasses){
+            try {
+                AllCommands.add((ICommand)c.newInstance());
+            } catch (InstantiationException ex) {
+                logger.log(java.util.logging.Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                logger.log(java.util.logging.Level.SEVERE, null, ex);
+            }
+        }
     }
 
     public void onDisable() {

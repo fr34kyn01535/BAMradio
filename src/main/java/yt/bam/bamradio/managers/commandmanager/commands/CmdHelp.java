@@ -19,15 +19,13 @@ public class CmdHelp implements ICommand{
             sender.sendMessage(ChatColor.BOLD+""+ChatColor.GREEN+"############   BAMradio "+BAMradio.Instance.getDescription().getVersion()+" by FR34KYN01535   ###########");
             for(ICommand cmd : BAMradio.Instance.CommandManager.AllCommands){
                 if(cmd.getPermissions() == null || sender.hasPermission(cmd.getPermissions())){
-                    sender.sendMessage(cmd.getSyntax()+" - "+cmd.getHelp());
+                    sender.sendMessage(ChatColor.WHITE+cmd.getSyntax()+" - "+cmd.getHelp());
                     if(cmd.getExtendedHelp()!=null){
                         sender.sendMessage(ChatColor.GRAY+""+ ChatColor.ITALIC+cmd.getExtendedHelp());
                     }
                 }
-                
             }
             sender.sendMessage(ChatColor.BOLD+""+ChatColor.GREEN+ "#####################################################"); 
-            
         }
 
 	@Override

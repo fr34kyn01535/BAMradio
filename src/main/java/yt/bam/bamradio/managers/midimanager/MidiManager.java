@@ -6,12 +6,9 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.sound.midi.MidiUnavailableException;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import yt.bam.bamradio.BAMradio;
 import yt.bam.bamradio.IManager;
-import yt.bam.bamradio.managers.configurationmanager.ConfigurationManager;
 import yt.bam.bamradio.managers.translationmanager.TranslationManager;
 
 /**
@@ -20,31 +17,19 @@ import yt.bam.bamradio.managers.translationmanager.TranslationManager;
 
 public class MidiManager implements IManager {
     public static final Logger logger = Bukkit.getLogger();
-    public Plugin Plugin;
+    public static Plugin Plugin;
     public TranslationManager TranslationManager;
-    public ConfigurationManager ConfigurationManager;
+    public boolean AutoPlay;
+    public boolean AutoPlayNext;
+    public boolean ForceSoftwareSequencer;
     public MidiPlayer MidiPlayer;
     
-    public MidiManager(Plugin plugin,TranslationManager translationManager,ConfigurationManager configurationManager) {
-        this.Plugin = plugin;
-        ConfigurationManager = configurationManager;
+    public MidiManager(Plugin plugin,TranslationManager translationManager,boolean autoPlay,boolean autoPlayNext,boolean forceSoftwareSequencer) {
+        Plugin = plugin;
+        AutoPlay = autoPlay;
+        AutoPlayNext = autoPlayNext;
         TranslationManager = translationManager;
-        try {
-            MidiPlayer = new SequencerMidiPlayer(this);
-        } catch (MidiUnavailableException ex) {
-            logger.severe(TranslationManager.getTranslation("MIDI_MANAGER_EXCEPTION_MIDI_UNAVAILABLE"));
-            MidiPlayer = new MinecraftMidiPlayer(this);
-        }
-        Player[] onlinePlayerList = plugin.getServer().getOnlinePlayers();
-        for(Player player : onlinePlayerList){
-        if (MidiPlayer != null)
-            MidiPlayer.tuneIn(player);
-        }
-        if(ConfigurationManager.AutoPlay){
-            String[] midis = listMidiFiles();
-            if (midis.length > 0)
-                MidiPlayer.playSong(midis[0]);
-        }
+        ForceSoftwareSequencer = forceSoftwareSequencer;
     }
 
     public File getMidiFile(String fileName) {
@@ -55,7 +40,7 @@ public class MidiManager implements IManager {
     }
 	
     public static String[] listMidiFiles() {
-        File[] files = BAMradio.Instance.getDataFolder().listFiles();
+        File[] files = Plugin.getDataFolder().listFiles();
         List<String> midiFiles = new ArrayList<String>();
         for (File file : files) {
                 if (file.getName().endsWith(".mid")) {
@@ -66,7 +51,26 @@ public class MidiManager implements IManager {
     }	
 
     public void onEnable() {
-    //
+        if(ForceSoftwareSequencer){
+            MidiPlayer = new MinecraftMidiPlayer(this);
+        }else{
+            try {
+                MidiPlayer = new SequencerMidiPlayer(this);
+            } catch (MidiUnavailableException ex) {
+                logger.severe(TranslationManager.getTranslation("MIDI_MANAGER_EXCEPTION_MIDI_UNAVAILABLE"));
+                MidiPlayer = new MinecraftMidiPlayer(this);
+            }
+        }
+        Player[] onlinePlayerList = Plugin.getServer().getOnlinePlayers();
+        for(Player player : onlinePlayerList){
+        if (MidiPlayer != null)
+            MidiPlayer.tuneIn(player);
+        }
+        if(AutoPlay){
+            String[] midis = listMidiFiles();
+            if (midis.length > 0)
+                MidiPlayer.playSong(midis[0]);
+        }
     }
 
     public void onDisable() {

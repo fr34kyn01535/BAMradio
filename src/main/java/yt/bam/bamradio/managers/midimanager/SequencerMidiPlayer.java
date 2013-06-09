@@ -29,8 +29,8 @@ import yt.bam.bamradio.Helpers;
 public class SequencerMidiPlayer implements MidiPlayer, Receiver {
     public static final Logger logger = Bukkit.getLogger();
     private final Sequencer sequencer;
-    private final List<Player> tunedIn = new ArrayList<Player>();
-    private final Map<Integer, Byte> channelPatches = new HashMap<Integer, Byte>(); 
+    private final List<Player> tunedIn;
+    private final Map<Integer, Byte> channelPatches; 
 
     private boolean nowPlaying = false;
     private int currentSong = 0;
@@ -38,6 +38,8 @@ public class SequencerMidiPlayer implements MidiPlayer, Receiver {
     private MidiManager manager;
     public SequencerMidiPlayer(MidiManager manager) throws MidiUnavailableException {
         this.manager = manager;
+        tunedIn = new ArrayList<Player>();
+        channelPatches = new HashMap<Integer, Byte>(); 
         sequencer = MidiSystem.getSequencer();
         sequencer.open();
         sequencer.getTransmitter().setReceiver(this);
@@ -106,7 +108,7 @@ public class SequencerMidiPlayer implements MidiPlayer, Receiver {
 
                                 if (!sequencer.isRunning() || sequencer.getMicrosecondPosition() > sequencer.getMicrosecondLength()) {
                                         stopPlaying();
-                                        if(manager.ConfigurationManager.AutoPlayNext){
+                                        if(manager.AutoPlayNext){
                                             playNextSong();
                                         }
                                 }

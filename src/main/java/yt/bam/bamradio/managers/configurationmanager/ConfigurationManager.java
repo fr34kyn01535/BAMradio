@@ -22,9 +22,6 @@ public class ConfigurationManager implements IManager {
     
     public ConfigurationManager(Plugin plugin){
         Plugin=plugin;
-        Plugin.saveDefaultConfig();
-        Plugin.reloadConfig();
-        readConfiguration();
     }
     
     public void readConfiguration(){

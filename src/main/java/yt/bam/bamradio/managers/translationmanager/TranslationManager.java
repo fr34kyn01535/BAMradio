@@ -8,9 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
-import yt.bam.bamradio.BAMradio;
 import yt.bam.bamradio.IManager;
-import yt.bam.bamradio.managers.configurationmanager.ConfigurationManager;
 
 /**
  * TranslationManager
@@ -21,29 +19,28 @@ import yt.bam.bamradio.managers.configurationmanager.ConfigurationManager;
 public class TranslationManager implements IManager {
     private static final Logger logger = Bukkit.getLogger();
     public Plugin Plugin;
-    public ConfigurationManager ConfigurationManager;
+    public String Language;
     private Map<String,String> translation;
     private Map<String,String> defaultTranslation;
     private FileConfiguration loadedlanguage;
     
-    public TranslationManager(Plugin plugin,ConfigurationManager configurationManager){
+    public TranslationManager(Plugin plugin,String language){
         Plugin = plugin;
-        ConfigurationManager = configurationManager;
-        reloadTranslation();
+        Language = language;
     }
     
     public void reloadTranslation(){
-        if(ConfigurationManager.Language == null || ConfigurationManager.Language.equals("en")){
+        if(Language == null || Language.equals("en")){
             loadDefaults();
             return;
         }else{
-            File f = new File(Plugin.getDataFolder()+File.separator+ BAMradio.Instance.ConfigurationManager.Language+".yml");
+            File f = new File(Plugin.getDataFolder()+File.separator+ Language+".yml");
             if(f.exists()) {
-                File languageFile = new File(Plugin.getDataFolder()+File.separator+ConfigurationManager.Language+".yml");
+                File languageFile = new File(Plugin.getDataFolder()+File.separator+Language+".yml");
                 loadedlanguage = YamlConfiguration.loadConfiguration(languageFile);
                 loadTranslation();
             }else{
-                logger.warning("Languagefile "+ConfigurationManager.Language+".yml not found, falling back to english language!");
+                logger.warning("Languagefile "+Language+".yml not found, falling back to english language!");
                 loadDefaults();
             }
         }
@@ -62,12 +59,14 @@ public class TranslationManager implements IManager {
             return defaultTranslation.get(key);
         }
     }
+    
     private void loadTranslation(){
         translation = new HashMap<String, String>();
         for(Map.Entry<String,Object> entry : loadedlanguage.getValues(true).entrySet()){
             translation.put(entry.getKey(),entry.getValue().toString());
         }
     }
+    
     private void loadDefaults(){
         defaultTranslation = new HashMap<String, String>();
         defaultTranslation.put("MIDI_MANAGER_EXCEPTION_MIDI_UNAVAILABLE" , "Could not obtain sequencer device - Falling back to software sequencer.");
@@ -96,7 +95,7 @@ public class TranslationManager implements IManager {
     }
 
     public void onEnable() {
-    //
+        reloadTranslation();
     }
 
     public void onDisable() {

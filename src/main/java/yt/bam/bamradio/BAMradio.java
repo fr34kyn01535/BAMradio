@@ -17,7 +17,7 @@ import yt.bam.bamradio.managers.translationmanager.TranslationManager;
 
 public class BAMradio extends JavaPlugin {
     public static final Logger logger = Bukkit.getLogger();
-    private ArrayList<IManager> managers = new ArrayList<IManager>();
+    private ArrayList<IManager> managers;
     public static BAMradio Instance;
     
     public ConfigurationManager ConfigurationManager;
@@ -28,21 +28,20 @@ public class BAMradio extends JavaPlugin {
     @Override
     public void onEnable() {
         BAMradio.Instance = this;
+        managers = new ArrayList<IManager>();
         ConfigurationManager = (ConfigurationManager) registerManager(new ConfigurationManager(this));
-        TranslationManager = (TranslationManager) registerManager(new TranslationManager(this,ConfigurationManager));
-        CommandManager = (CommandManager) registerManager(new CommandManager(this,TranslationManager,new String[]{"bamradio","br"},"yt.bam.bamradio.managers.commandmanager.commands"));
-        MidiManager = (MidiManager) registerManager(new MidiManager(this,TranslationManager,ConfigurationManager));
-        for(IManager manager : managers){
-            manager.onEnable();
-        }
+        TranslationManager = (TranslationManager) registerManager(new TranslationManager(this,ConfigurationManager.Language));
+        MidiManager = (MidiManager) registerManager(new MidiManager(this,TranslationManager,ConfigurationManager.AutoPlay,ConfigurationManager.AutoPlayNext,ConfigurationManager.ForceSoftwareSequencer));
+        CommandManager = (CommandManager) registerManager(new CommandManager(this,TranslationManager,new String[]{"bamradio","br"},"yt/bam/bamradio/managers/commandmanager/commands"));
         registerListener();
     }
 	
     @Override
     public void onDisable() {
-        for(IManager manager : managers){
-            manager.onDisable();
-        }
+        CommandManager.onDisable();
+        MidiManager.onDisable();
+        TranslationManager.onDisable();
+        ConfigurationManager.onDisable();
     }
     
     @Override
@@ -52,6 +51,7 @@ public class BAMradio extends JavaPlugin {
     
     private IManager registerManager(IManager manager){
         managers.add(manager);
+        manager.onEnable();
         return manager;
     }
     
