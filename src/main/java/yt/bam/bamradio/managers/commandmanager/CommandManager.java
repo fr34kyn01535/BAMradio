@@ -45,7 +45,15 @@ public class CommandManager implements IManager {
         }
         //Commands
         AllCommands = new ArrayList<ICommand>();
-        
+        AllCommands.add(new CmdAbout());
+        AllCommands.add(new CmdHelp());
+        AllCommands.add(new CmdList());
+        AllCommands.add(new CmdMute());
+        AllCommands.add(new CmdNext());
+        AllCommands.add(new CmdPlay());
+        AllCommands.add(new CmdStop());
+        AllCommands.add(new CmdUnmute());
+        /*
          Reflections reflections = new Reflections(new ConfigurationBuilder()
                 .setScanners(new SubTypesScanner()).setUrls(ClasspathHelper.forPackage(commandPath)));
         commandClasses = reflections.getSubTypesOf(ICommand.class);
@@ -58,7 +66,7 @@ public class CommandManager implements IManager {
             } catch (IllegalAccessException ex) {
                 Logger.getLogger(CommandManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
-        }
+        }*/
     }
     
     public static boolean onCommand(CommandSender sender, org.bukkit.command.Command root, String commandLabel, String[] args) {
@@ -97,6 +105,7 @@ public class CommandManager implements IManager {
                     return true;
                 }
             } catch (Exception e) {
+                sender.sendMessage(commandLabel);
                 logger.info(e.getMessage());
             } finally {
                 return true;
