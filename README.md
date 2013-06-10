@@ -1,8 +1,1 @@
-BAMradio
-=======
-Howto:
-Just put the midi's into the BAMradio folder.
-
-
-Permissions:
-bamradio.play -- Play a midi
+See http://dev.bukkit.org/bukkit-mods/bamradio/ for the project description and help.
