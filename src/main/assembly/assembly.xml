@@ -6,16 +6,6 @@
     </formats>
     <fileSets>
         <fileSet>
-            <directory>${project.basedir}/src/main/plugin/</directory>
-            <outputDirectory>/BAMradio/</outputDirectory>
-            <includes>
-                <include>League_of_Legends_-_Season_1.mid</include>
-                <include>Depeche_Mode_-_Enjoy_The_Silence.mid</include>
-                <include>Comptine_d'Un_Autre_Ete.mid</include>
-                <include>Manu_Chao_-_Bongo_Bongo.mid</include>
-            </includes>
-        </fileSet>
-        <fileSet>
             <directory>${project.basedir}/src/main/resources/</directory>
             <outputDirectory>/BAMradio/</outputDirectory>
             <includes>

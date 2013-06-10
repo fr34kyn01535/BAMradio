@@ -25,7 +25,7 @@ public class CmdPlay implements ICommand{
                     if (BAMradio.Instance.MidiManager.MidiPlayer.isNowPlaying()) {
                         BAMradio.Instance.MidiManager.MidiPlayer.stopPlaying();
                     }
-                     if(isInteger(args[1])){
+                    if(isInteger(args[1])){
                         int index = Integer.parseInt(args[1]); 
                         String [] fileList = BAMradio.Instance.MidiManager.listMidiFiles();
                         if(index<fileList.length){
@@ -56,7 +56,7 @@ public class CmdPlay implements ICommand{
               return false;  
            }  
         }  
-        
+       
 	@Override
 	public String getHelp() {
 		return BAMradio.Instance.TranslationManager.getTranslation("COMMAND_PLAY_HELP");
@@ -79,5 +79,9 @@ public class CmdPlay implements ICommand{
         @Override
         public String getExtendedHelp() {
             return BAMradio.Instance.TranslationManager.getTranslation("COMMAND_PLAY_EXTENDED_HELP");
+        }
+        @Override
+        public boolean allowedInConsole() {
+            return true;
         }
 }

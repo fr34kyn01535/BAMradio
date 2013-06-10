@@ -10,6 +10,8 @@ translation:
   MIDI_MANAGER_CORRUPT_MIDI : "Kann Midi Datei nicht lesen:"
   COMMAND_MANAGER_UNKNOWN_COMMAND : "Unbekannter Befehl. Tippe \"/br help\" für Hilfe."
   COMMAND_MANAGER_NO_PERMISSION : "Dazu fehlt dir die Berechtigung:"
+  COMMAND_MANAGER_INVALID_PARAMETER: "Ungültiger Parameter Tippe \"/br help\" für Hilfe."
+  COMMAND_MANAGER_ONLY_CHAT : "Dieser Befehl ist nicht in der Konsole verfügbar"
   COMMAND_ABOUT_BY : "von" 
   COMMAND_ABOUT_FOR : "für"
   COMMAND_ABOUT_HELP  : "Credits"
@@ -25,4 +27,12 @@ translation:
   COMMAND_PLAY_HELP : "Spielt ein Midi ab"
   COMMAND_PLAY_EXCEPTION_NOT_FOUND : "Kann folgendes Midi nicht finden:"
   COMMAND_PLAY_EXTENDED_HELP : "/br play League_of_Legends_-_Season_1.mid oder /br play 42"
+  COMMAND_GET_NOT_FOUND: "Kein Midi gefunden"
+  COMMAND_GET_HELP: "Lade ein Midi vom BAMradio Webservice"
+  COMMAND_SEARCH_TITLE : "Liste der verfügbaren Midis"
+  COMMAND_SEARCH_HELP : "Suche nach Midis im Webservice"
+  COMMAND_SEARCH_EXTENDED_HELP : "/br search league"
+  
+  
+  
 

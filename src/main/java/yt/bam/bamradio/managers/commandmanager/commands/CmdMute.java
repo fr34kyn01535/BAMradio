@@ -8,8 +8,6 @@ import org.bukkit.permissions.Permission;
 import yt.bam.bamradio.BAMradio;
 import yt.bam.bamradio.Helpers;
 import yt.bam.bamradio.managers.commandmanager.ICommand;
-import yt.bam.bamradio.managers.commandmanager.ICommand;
-import yt.bam.bamradio.managers.commandmanager.ICommand;
 
 /**
  * @author fr34kyn01535
@@ -45,5 +43,9 @@ public class CmdMute implements ICommand{
         @Override
         public String getExtendedHelp() {
             return null;
+        }
+        @Override
+        public boolean allowedInConsole() {
+            return false;
         }
 }

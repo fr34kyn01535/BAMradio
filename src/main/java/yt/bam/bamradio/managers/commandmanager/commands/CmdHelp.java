@@ -30,7 +30,7 @@ public class CmdHelp implements ICommand{
 
 	@Override
 	public String getHelp() {
-		return BAMradio.Instance.TranslationManager.getTranslation("COMMAND_HELP_HELP");
+            return BAMradio.Instance.TranslationManager.getTranslation("COMMAND_HELP_HELP");
 	}
 
 	@Override
@@ -50,5 +50,9 @@ public class CmdHelp implements ICommand{
         @Override
         public String getExtendedHelp() {
             return null;
+        }
+        @Override
+        public boolean allowedInConsole() {
+            return true;
         }
 }

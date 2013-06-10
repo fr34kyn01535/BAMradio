@@ -24,7 +24,7 @@ public class BAMradio extends JavaPlugin {
     public CommandManager CommandManager;
     public TranslationManager TranslationManager;
     public MidiManager MidiManager;
-    
+   
     @Override
     public void onEnable() {
         BAMradio.Instance = this;

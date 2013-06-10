@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
 import org.reflections.Reflections;
@@ -78,7 +79,11 @@ public class CommandManager implements IManager {
             try {
                 Permission permission = command.getPermissions();
                 if(permission == null || hasPermission(sender,permission)){
-                    command.execute(sender, commandLabel, args); // Execute
+                    if(!command.allowedInConsole() && !(sender instanceof Player)){
+                        Helpers.sendMessage(sender, ChatColor.RED + TranslationManager.getTranslation("COMMAND_MANAGER_ONLY_CHAT"));
+                    }else{
+                        command.execute(sender, commandLabel, args); // Execute
+                    }
                     return true;
                 }
             } catch (Exception e) {
@@ -103,16 +108,7 @@ public class CommandManager implements IManager {
     
     public void onEnable() {
         AllCommands = new ArrayList<ICommand>();
-        /*Commands
-        AllCommands.add(new CmdAbout());
-        AllCommands.add(new CmdHelp());
-        AllCommands.add(new CmdList());
-        AllCommands.add(new CmdMute());
-        AllCommands.add(new CmdNext());
-        AllCommands.add(new CmdPlay());
-        AllCommands.add(new CmdStop());
-        AllCommands.add(new CmdUnmute());*/
-        
+
         Reflections reflections = new Reflections(new ConfigurationBuilder().setScanners(new SubTypesScanner()).setUrls(ClasspathHelper.forPackage(CommandPath)));
         commandClasses = reflections.getSubTypesOf(ICommand.class);
         logger.info("["+Plugin.getDescription().getName()+"] CommandManager: "+commandClasses.size()+" commands found!");

@@ -29,12 +29,17 @@
             <artifactId>reflections</artifactId>
             <version>0.9.9-RC1</version>
         </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20090211</version>
+        </dependency>
     </dependencies>
     <repositories>
-            <repository>
-                    <id>bukkit-repo</id>
-                    <url>http://repo.bukkit.org/content/groups/public/</url>
-            </repository>
+        <repository>
+            <id>bukkit-repo</id>
+            <url>http://repo.bukkit.org/content/groups/public/</url>
+        </repository>
     </repositories>
     <build>
         <finalName>BAMradio</finalName>

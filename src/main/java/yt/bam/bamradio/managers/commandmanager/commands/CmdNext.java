@@ -45,4 +45,8 @@ public class CmdNext implements ICommand{
         public String getExtendedHelp() {
             return null;
         }
+        @Override
+        public boolean allowedInConsole() {
+            return true;
+        }
 }

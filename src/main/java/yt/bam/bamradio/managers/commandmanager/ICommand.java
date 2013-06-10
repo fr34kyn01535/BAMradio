@@ -35,4 +35,9 @@ public interface ICommand {
      * @return name of the command (/RootCommand <name>)
      */
     public String[] getName(); 
+    
+    /**
+     * @return allowedInConsole
+     */
+    public boolean allowedInConsole(); 
 }

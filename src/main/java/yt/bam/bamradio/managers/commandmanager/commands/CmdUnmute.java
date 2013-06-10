@@ -43,4 +43,8 @@ public class CmdUnmute implements ICommand{
         public String getExtendedHelp() {
             return null;
         }
+        @Override
+        public boolean allowedInConsole() {
+            return false;
+        }
 }
