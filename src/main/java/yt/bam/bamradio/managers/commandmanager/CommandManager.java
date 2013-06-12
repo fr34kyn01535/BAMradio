@@ -11,12 +11,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
-import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
 import yt.bam.bamradio.Helpers;
 import yt.bam.bamradio.IManager;
+import yt.bam.bamradio.managers.commandmanager.commands.*;
 import yt.bam.bamradio.managers.translationmanager.TranslationManager;
 
 /**
@@ -108,19 +105,29 @@ public class CommandManager implements IManager {
     
     public void onEnable() {
         AllCommands = new ArrayList<ICommand>();
-
-        Reflections reflections = new Reflections(new ConfigurationBuilder().setScanners(new SubTypesScanner()).setUrls(ClasspathHelper.forPackage(CommandPath)));
-        commandClasses = reflections.getSubTypesOf(ICommand.class);
-        logger.info("["+Plugin.getDescription().getName()+"] CommandManager: "+commandClasses.size()+" commands found!");
-        for (Class<? extends ICommand> c :commandClasses){
-            try {
-                AllCommands.add((ICommand)c.newInstance());
-            } catch (InstantiationException ex) {
-                logger.log(java.util.logging.Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                logger.log(java.util.logging.Level.SEVERE, null, ex);
-            }
-        }
+        AllCommands.add(new CmdAbout());
+        AllCommands.add(new CmdGet());
+        AllCommands.add(new CmdHelp());
+        AllCommands.add(new CmdList());
+        AllCommands.add(new CmdMute());
+        AllCommands.add(new CmdNext());
+        AllCommands.add(new CmdPlay());
+        AllCommands.add(new CmdSearch());
+        AllCommands.add(new CmdStop());
+        AllCommands.add(new CmdUnmute());
+        
+        //Reflections reflections = new Reflections(new ConfigurationBuilder().setScanners(new SubTypesScanner()).setUrls(ClasspathHelper.forPackage(CommandPath)));
+        //commandClasses = reflections.getSubTypesOf(ICommand.class);
+        //logger.info("["+Plugin.getDescription().getName()+"] CommandManager: "+commandClasses.size()+" commands found!");
+        //for (Class<? extends ICommand> c :commandClasses){
+        //    try {
+        //        AllCommands.add((ICommand)c.newInstance());
+        //    } catch (InstantiationException ex) {
+        //        logger.log(java.util.logging.Level.SEVERE, null, ex);
+        //    } catch (IllegalAccessException ex) {
+        //        logger.log(java.util.logging.Level.SEVERE, null, ex);
+        //    }
+        //}
     }
 
     public void onDisable() {
