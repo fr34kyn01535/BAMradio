@@ -32,6 +32,9 @@
             </configuration>
           </execution>
         </executions>
+        <configuration>
+          <minimizeJar>true</minimizeJar>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
