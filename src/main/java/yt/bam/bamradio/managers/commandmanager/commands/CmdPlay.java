@@ -22,20 +22,20 @@ public class CmdPlay implements ICommand{
                     CmdList list = new CmdList();
                     list.execute(sender, commandLabel, args);
                 }else{
-                    if (BAMradio.Instance.MidiManager.MidiPlayer.isNowPlaying()) {
-                        BAMradio.Instance.MidiManager.MidiPlayer.stopPlaying();
+                    if (BAMradio.Instance.getRadioManager().isNowPlaying()) {
+                        BAMradio.Instance.getRadioManager().stopPlaying();
                     }
                     if(isInteger(args[1])){
                         int index = Integer.parseInt(args[1]); 
-                        String [] fileList = BAMradio.Instance.MidiManager.listMidiFiles();
+                        String [] fileList = BAMradio.Instance.getRadioManager().listRadioFiles();
                         if(index<fileList.length){
-                            BAMradio.Instance.MidiManager.MidiPlayer.playSong(fileList[index]);
+                            BAMradio.Instance.getRadioManager().playSong(fileList[index]);
                         }else{    
-                            Helpers.sendMessage(sender, ChatColor.RED + BAMradio.Instance.TranslationManager.getTranslation("COMMAND_PLAY_EXCEPTION_NOT_FOUND")+" \""+args[1]+"\"");  
+                            Helpers.sendMessage(sender, ChatColor.RED + BAMradio.Instance.getTranslationManager().getTranslation("COMMAND_PLAY_EXCEPTION_NOT_FOUND")+" \""+args[1]+"\"");  
                         }
                     }else{ 
-                        if(!BAMradio.Instance.MidiManager.MidiPlayer.playSong(args[1])){
-                            Helpers.sendMessage(sender, ChatColor.RED + BAMradio.Instance.TranslationManager.getTranslation("COMMAND_PLAY_EXCEPTION_NOT_FOUND")+" \""+args[1]+"\"");
+                        if(!BAMradio.Instance.getRadioManager().playSong(args[1])){
+                            Helpers.sendMessage(sender, ChatColor.RED + BAMradio.Instance.getTranslationManager().getTranslation("COMMAND_PLAY_EXCEPTION_NOT_FOUND")+" \""+args[1]+"\"");
                         }
                     }
                 }
@@ -59,7 +59,7 @@ public class CmdPlay implements ICommand{
        
 	@Override
 	public String getHelp() {
-		return BAMradio.Instance.TranslationManager.getTranslation("COMMAND_PLAY_HELP");
+		return BAMradio.Instance.getTranslationManager().getTranslation("COMMAND_PLAY_HELP");
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class CmdPlay implements ICommand{
 	}
         @Override
         public String getExtendedHelp() {
-            return BAMradio.Instance.TranslationManager.getTranslation("COMMAND_PLAY_EXTENDED_HELP");
+            return BAMradio.Instance.getTranslationManager().getTranslation("COMMAND_PLAY_EXTENDED_HELP");
         }
         @Override
         public boolean allowedInConsole() {

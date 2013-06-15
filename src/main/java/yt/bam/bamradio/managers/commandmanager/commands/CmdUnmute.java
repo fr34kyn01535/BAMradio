@@ -17,12 +17,12 @@ public class CmdUnmute implements ICommand{
         public static final Logger logger = Bukkit.getLogger();
 	@Override
 	public void execute(CommandSender sender, String commandLabel, String[] args) {
-            BAMradio.Instance.MidiManager.MidiPlayer.tuneIn((Player) sender);
+            BAMradio.Instance.getRadioManager().tuneIn((Player) sender);
         }
 
 	@Override
 	public String getHelp() {
-		return BAMradio.Instance.TranslationManager.getTranslation("COMMAND_UNMUTE_HELP");
+		return BAMradio.Instance.getTranslationManager().getTranslation("COMMAND_UNMUTE_HELP");
 	}
 
 	@Override

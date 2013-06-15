@@ -16,12 +16,12 @@ public class PlayerListener implements Listener {
 	
         @EventHandler
 	public static void onPlayerQuit(PlayerQuitEvent event) {
-		if (BAMradio.Instance != null && BAMradio.Instance.MidiManager != null && BAMradio.Instance.MidiManager.MidiPlayer != null)
-                    BAMradio.Instance.MidiManager.MidiPlayer.tuneOut(event.getPlayer());
+		if (BAMradio.Instance != null && BAMradio.Instance.getRadioManager() != null)
+                    BAMradio.Instance.getRadioManager().tuneOut(event.getPlayer());
 	}
         @EventHandler
 	public static void onPlayerJoin(PlayerJoinEvent event) {
-		if (BAMradio.Instance != null && BAMradio.Instance.MidiManager != null && BAMradio.Instance.MidiManager.MidiPlayer != null)
-                    BAMradio.Instance.MidiManager.MidiPlayer.tuneIn(event.getPlayer());
+		if (BAMradio.Instance != null && BAMradio.Instance.getRadioManager() != null)
+                    BAMradio.Instance.getRadioManager().tuneIn(event.getPlayer());
 	}
 }

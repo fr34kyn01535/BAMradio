@@ -73,7 +73,6 @@ public class TranslationManager implements IManager {
         defaultTranslation.put("MIDI_MANAGER_NOW_PLAYING" , "Now playing:");
         defaultTranslation.put("MIDI_MANAGER_INVALID_MIDI" , "Invalid midi file:");
         defaultTranslation.put("MIDI_MANAGER_CORRUPT_MIDI" , "Can't read file:");
-        defaultTranslation.put("MIDI_MANAGER_NOW_PLAYING" , "Now playing:");
         defaultTranslation.put("COMMAND_MANAGER_UNKNOWN_COMMAND" , "Unknown command. Type \"/br help\" for help." );
         defaultTranslation.put("COMMAND_MANAGER_INVALID_PARAMETER" , "Invalid parameter. Type \"/br help\" for help." );
         defaultTranslation.put("COMMAND_MANAGER_NO_PERMISSION" , "Missing permission:" );
@@ -82,21 +81,20 @@ public class TranslationManager implements IManager {
         defaultTranslation.put("COMMAND_ABOUT_FOR" , "for");
         defaultTranslation.put("COMMAND_ABOUT_HELP" , "Credits");
         defaultTranslation.put("COMMAND_HELP_HELP" , "Shows all commands" );
-        defaultTranslation.put("COMMAND_LIST_TITLE" , "List of midi files:");
-        defaultTranslation.put("COMMAND_LIST_HELP" , "List all midis");
+        defaultTranslation.put("COMMAND_LIST_TITLE" , "List of tracks:");
+        defaultTranslation.put("COMMAND_LIST_HELP" , "List all tracks");
         defaultTranslation.put("COMMAND_MUTE_MESSAGE" , "Muted BAMradio.");
         defaultTranslation.put("COMMAND_MUTE_HELP" , "Mute BAMradio");
         defaultTranslation.put("COMMAND_UNMUTE_HELP" , "Unmute BAMradio");
-        defaultTranslation.put("COMMAND_NEXT_HELP" , "Skip to next midi");
+        defaultTranslation.put("COMMAND_NEXT_HELP" , "Skip to next track");
         defaultTranslation.put("COMMAND_STOP_MESSAGE" , "Stopped playing...");
-        defaultTranslation.put("COMMAND_STOP_HELP" , "Stop a midi");
-        defaultTranslation.put("COMMAND_PLAY_HELP" , "Play a midi");
-        defaultTranslation.put("COMMAND_PLAY_EXCEPTION_NOT_FOUND" , "Can not find midi:");
-        defaultTranslation.put("COMMAND_PLAY_HELP" , "Play a midis");
+        defaultTranslation.put("COMMAND_STOP_HELP" , "Stop a track");
+        defaultTranslation.put("COMMAND_PLAY_HELP" , "Play a track");
+        defaultTranslation.put("COMMAND_PLAY_EXCEPTION_NOT_FOUND" , "Can not find track:");
         defaultTranslation.put("COMMAND_PLAY_EXTENDED_HELP" , "/br play League_of_Legends_-_Season_1.mid or /br play 42");
-        defaultTranslation.put("COMMAND_GET_NOT_FOUND" , "midi not found in Webservice");
-        defaultTranslation.put("COMMAND_GET_HELP" , "Get a midi from the BAMradio Webservice");
-        defaultTranslation.put("COMMAND_SEARCH_TITLE" , "List of available midis");
+        defaultTranslation.put("COMMAND_GET_NOT_FOUND" , "track not found in Webservice");
+        defaultTranslation.put("COMMAND_GET_HELP" , "Get a track from the BAMradio Webservice");
+        defaultTranslation.put("COMMAND_SEARCH_TITLE" , "List of available tracks");
         defaultTranslation.put("COMMAND_SEARCH_HELP" , "Search the BAMradio Webservice");
         defaultTranslation.put("COMMAND_SEARCH_EXTENDED_HELP" , "/br search league");
     }

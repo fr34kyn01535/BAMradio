@@ -17,13 +17,13 @@ public class CmdMute implements ICommand{
         public static final Logger logger = Bukkit.getLogger();
 	@Override
 	public void execute(CommandSender sender, String commandLabel, String[] args) {
-            BAMradio.Instance.MidiManager.MidiPlayer.tuneOut((Player) sender);
-            Helpers.sendMessage(sender,BAMradio.Instance.TranslationManager.getTranslation("COMMAND_MUTE_MESSAGE"));
+            BAMradio.Instance.getRadioManager().tuneOut((Player) sender);
+            Helpers.sendMessage(sender,BAMradio.Instance.getTranslationManager().getTranslation("COMMAND_MUTE_MESSAGE"));
         }
 
 	@Override
 	public String getHelp() {
-		return BAMradio.Instance.TranslationManager.getTranslation("COMMAND_MUTE_HELP");
+		return BAMradio.Instance.getTranslationManager().getTranslation("COMMAND_MUTE_HELP");
 	}
 
 	@Override

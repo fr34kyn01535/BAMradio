@@ -17,7 +17,7 @@ public class CmdHelp implements ICommand{
 	@Override
 	public void execute(CommandSender sender, String commandLabel, String[] args) {
             sender.sendMessage(ChatColor.BOLD+""+ChatColor.GREEN+"############   BAMradio "+BAMradio.Instance.getDescription().getVersion()+" by FR34KYN01535   ###########");
-            for(ICommand cmd : BAMradio.Instance.CommandManager.AllCommands){
+            for(ICommand cmd : BAMradio.Instance.getCommandManager().AllCommands){
                 if(cmd.getPermissions() == null || sender.hasPermission(cmd.getPermissions())){
                     sender.sendMessage(ChatColor.WHITE+cmd.getSyntax()+" - "+cmd.getHelp());
                     if(cmd.getExtendedHelp()!=null){
@@ -30,7 +30,7 @@ public class CmdHelp implements ICommand{
 
 	@Override
 	public String getHelp() {
-            return BAMradio.Instance.TranslationManager.getTranslation("COMMAND_HELP_HELP");
+            return BAMradio.Instance.getTranslationManager().getTranslation("COMMAND_HELP_HELP");
 	}
 
 	@Override

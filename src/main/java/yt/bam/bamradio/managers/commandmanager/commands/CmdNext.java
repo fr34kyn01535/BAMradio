@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
 import yt.bam.bamradio.BAMradio;
 import yt.bam.bamradio.managers.commandmanager.ICommand;
-import yt.bam.bamradio.managers.commandmanager.ICommand;
+import yt.bam.bamradio.managers.radiomanager.MidiPlayer;
 
 /**
  * @author fr34kyn01535
@@ -16,15 +16,15 @@ public class CmdNext implements ICommand{
         public static final Logger logger = Bukkit.getLogger();
 	@Override
 	public void execute(CommandSender sender, String commandLabel, String[] args) {
-            if (BAMradio.Instance.MidiManager.MidiPlayer.isNowPlaying()) {
-                BAMradio.Instance.MidiManager.MidiPlayer.stopPlaying();
+            if (BAMradio.Instance.getRadioManager().isNowPlaying()) {
+                BAMradio.Instance.getRadioManager().stopPlaying();
             }
-            BAMradio.Instance.MidiManager.MidiPlayer.playNextSong();
+            BAMradio.Instance.getRadioManager().playNextSong();
         }
 
 	@Override
 	public String getHelp() {
-		return BAMradio.Instance.TranslationManager.getTranslation("COMMAND_NEXT_HELP");
+		return BAMradio.Instance.getTranslationManager().getTranslation("COMMAND_NEXT_HELP");
 	}
 
 	@Override

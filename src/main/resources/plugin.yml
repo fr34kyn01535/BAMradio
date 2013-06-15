@@ -1,7 +1,8 @@
 name: BAMradio
 main: yt.bam.bamradio.BAMradio
-version: 1.4
+version: 1.5
 description: Plays midi files.
+softdepend: [NoteBlockAPI]
 commands:
   bamradio:
     description: Show all BAMradio commands

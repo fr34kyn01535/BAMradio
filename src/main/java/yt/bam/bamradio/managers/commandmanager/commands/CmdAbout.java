@@ -17,13 +17,13 @@ public class CmdAbout implements ICommand{
         public static final Logger logger = Bukkit.getLogger();
 	@Override
 	public void execute(CommandSender sender, String commandLabel, String[] args) {
-            Helpers.sendMessage(sender, ChatColor.GREEN + "BAMradio "+ChatColor.WHITE +BAMradio.Instance.TranslationManager.getTranslation("COMMAND_ABOUT_BY")+ChatColor.GREEN +" FR34KYN01535@bam.yt");
-            Helpers.sendMessage(sender, ChatColor.GREEN + "Coded "+ChatColor.WHITE +BAMradio.Instance.TranslationManager.getTranslation("COMMAND_ABOUT_FOR")+ChatColor.GREEN +" BAMcraft (bam.yt)");
+            Helpers.sendMessage(sender, ChatColor.GREEN + "BAMradio "+ChatColor.WHITE +BAMradio.Instance.getTranslationManager().getTranslation("COMMAND_ABOUT_BY")+ChatColor.GREEN +" FR34KYN01535@bam.yt");
+            Helpers.sendMessage(sender, ChatColor.GREEN + "Coded "+ChatColor.WHITE +BAMradio.Instance.getTranslationManager().getTranslation("COMMAND_ABOUT_FOR")+ChatColor.GREEN +" BAMcraft (bam.yt)");
         }
 
 	@Override
 	public String getHelp() {
-		return BAMradio.Instance.TranslationManager.getTranslation("COMMAND_ABOUT_HELP");
+		return BAMradio.Instance.getTranslationManager().getTranslation("COMMAND_ABOUT_HELP");
 	}
 
 	@Override

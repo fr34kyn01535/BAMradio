@@ -1,4 +1,4 @@
-package yt.bam.bamradio.managers.midimanager;
+package yt.bam.bamradio.managers.radiomanager;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,67 +29,38 @@ import yt.bam.bamradio.Helpers;
 
 public class MinecraftMidiPlayer implements MidiPlayer {
     public static final Logger logger = Bukkit.getLogger();
-    public static final long MILLIS_PER_TICK = 2;
+    public static final long MILLIS_PER_TICK = 3;
 
-    private final List<Player> tunedIn;
     private final List<MidiTrack> midiTracks;
     private final Map<Integer, Integer> channelPatches;
 
-    private boolean nowPlaying = false;
     private float tempo;
     private int resolution;
     private long timeLeft;
     private float currentTick = 0;
 
-    private int currentSong = 0;
-    private String midiName="";
-
     private Timer timer;
     
-    private MidiManager manager;
+    private RadioManager manager;
 
-    public MinecraftMidiPlayer(MidiManager manager) {
+    public MinecraftMidiPlayer(RadioManager manager) {
         this.manager = manager;
         timer = new Timer();
-        tunedIn = new ArrayList<Player>();
         midiTracks = new ArrayList<MidiTrack>();
         channelPatches = new HashMap<Integer, Integer>();
     }
 
-    public boolean isNowPlaying() {
-        return nowPlaying;
-    }
-
-    public void tuneIn(Player player) {
-        tunedIn.add(player);
-        if(midiName!=null){
-            Helpers.sendMessage(player,manager.TranslationManager.getTranslation("MIDI_MANAGER_NOW_PLAYING")+" " + ChatColor.YELLOW + midiName.replace("_", " "));
-        }
-    }
-
-    public void tuneOut(Player player) {
-        tunedIn.remove(player);
-    }
-
     public void stopPlaying() {
         synchronized (midiTracks) {
-            nowPlaying = false;
+            manager.nowPlaying = false;
             midiTracks.clear();
             timer.cancel();
             timer = new Timer();
         }
     }
 
-    public void playNextSong() {
-        currentSong++;
-        String[] midiFileNames = manager.listMidiFiles();
-        if(currentSong >= midiFileNames.length)
-            currentSong = 0;
-        playSong(midiFileNames[currentSong]);
-    }
-
     public boolean playSong(final String midiName) {
-        this.midiName = midiName;
+        manager.nowPlayingFile = midiName;
         File midiFile = manager.getMidiFile(midiName);
         if (midiFile == null)
             return false;
@@ -120,7 +91,7 @@ public class MinecraftMidiPlayer implements MidiPlayer {
         } catch (IOException ex) {
                 System.err.println(manager.TranslationManager.getTranslation("MIDI_MANAGER_CORRUPT_MIDI")+" " + midiName);
         }
-        for (Player player : tunedIn) {
+        for (Player player : manager.tunedIn) {
             Helpers.sendMessage(player,manager.TranslationManager.getTranslation("MIDI_MANAGER_NOW_PLAYING")+" " + ChatColor.YELLOW + midiName.replace("_", " "));
         }
         timer.scheduleAtFixedRate(new TickTask(), MILLIS_PER_TICK, MILLIS_PER_TICK);
@@ -143,7 +114,7 @@ public class MinecraftMidiPlayer implements MidiPlayer {
                     Sound instrument = Instrument.getInstrument(patch, channel);
                     float notePitch = NotePitch.getPitch(note);
                     if(instrument!=null){
-                        for (Player player : tunedIn) {
+                        for (Player player : manager.tunedIn) {
                                 player.playSound(player.getLocation(), instrument, volume, notePitch);
                         }
                     }
@@ -151,7 +122,7 @@ public class MinecraftMidiPlayer implements MidiPlayer {
                     channelPatches.put(message.getChannel(), message.getData1());
                 } else if (message.getCommand() == ShortMessage.STOP) {
                     stopPlaying();
-                    playNextSong();
+                    manager.playNextSong();
                 }
             } else if (event instanceof MetaMessage) {
                 MetaMessage message = (MetaMessage) event;
@@ -171,13 +142,13 @@ public class MinecraftMidiPlayer implements MidiPlayer {
 
             public TickTask() {
                     super();
-                    nowPlaying = true;
+                    manager.nowPlaying = true;
                     currentTick = 0;
             }
 
             @Override
             public void run() {
-                if (nowPlaying) {
+                if (manager.nowPlaying) {
                     currentTick += tempo * resolution;
                     synchronized (midiTracks) {
                         for (MidiTrack track : midiTracks) {
@@ -192,7 +163,7 @@ public class MinecraftMidiPlayer implements MidiPlayer {
                             new BukkitRunnable() {
                                     @Override
                                     public void run() {
-                                            playNextSong();
+                                            manager.playNextSong();
                                         }
                             }.runTask(manager.Plugin);
                         }

@@ -4,8 +4,8 @@
   <groupId>yt.bam</groupId>
   <artifactId>BAMradio</artifactId>
   <name>BAMradio</name>
-  <version>1.4</version>
-  <url>http://maven.apache.org</url>
+  <version>1.5</version>
+  <url>http://bam.yt</url>
   <build>
     <finalName>BAMradio</finalName>
     <plugins>
@@ -33,7 +33,9 @@
           </execution>
         </executions>
         <configuration>
+          <finalName>BAMradio</finalName>
           <minimizeJar>true</minimizeJar>
+          <shadedArtifactAttached>false</shadedArtifactAttached>
         </configuration>
       </plugin>
       <plugin>
@@ -48,10 +50,37 @@
           </execution>
         </executions>
         <configuration>
+          <finalName>BAMradio</finalName>
           <descriptors>
             <descriptor>src/main/assembly/assembly.xml</descriptor>
           </descriptors>
         </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>2.4.1</version>
+        <executions>
+          <execution>
+            <id>auto-clean</id>
+            <phase>install</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+            <configuration>
+              <excludeDefaultDirectories>true</excludeDefaultDirectories>
+              <filesets>
+                <fileset>
+                  <directory>target</directory>
+                  <includes>
+                    <include>*-shaded.jar</include>
+                    <include>original-*</include>
+                  </includes>
+                  <followSymlinks>false</followSymlinks>
+                </fileset>
+              </filesets>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
@@ -60,19 +89,30 @@
       <id>bukkit-repo</id>
       <url>http://repo.bukkit.org/content/groups/public/</url>
     </repository>
+    <repository>
+      <id>Plugin Metrics</id>
+      <url>http://repo.mcstats.org/content/repositories/public</url>
+    </repository>
   </repositories>
   <dependencies>
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
-      <version>1.5.2-R0.2-SNAPSHOT</version>
+      <version>1.5.2-R1.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>craftbukkit</artifactId>
-      <version>1.5.2-R0.2-SNAPSHOT</version>
+      <version>1.5.2-R1.0</version>
       <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.xxmicloxx</groupId>
+      <artifactId>NoteBlockAPI</artifactId>
+      <version>1.0.0</version>
+      <scope>system</scope>
+      <systemPath>C:\Users\Sven\Documents\GitHub\BAMradio/src/main/lib/NoteBlockAPI.jar</systemPath>
     </dependency>
   </dependencies>
   <properties>

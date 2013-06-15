@@ -1,4 +1,4 @@
-package yt.bam.bamradio.managers.midimanager;
+package yt.bam.bamradio.managers.radiomanager;
 
 /**
  * @author fr34kyn01535

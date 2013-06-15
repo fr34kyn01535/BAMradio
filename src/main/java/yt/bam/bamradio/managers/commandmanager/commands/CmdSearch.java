@@ -3,6 +3,7 @@ package yt.bam.bamradio.managers.commandmanager.commands;
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -22,22 +23,39 @@ public class CmdSearch implements ICommand{
 	@Override
 	public void execute(CommandSender sender, String commandLabel, String[] args) {
             try{
-                String url = "http://midi.bam.yt/";
+                String url = "http://radio.bam.yt/?f=json";
                 if(args.length>=2){
-                    url+="?q=";
-                    for(int i = 1;i<args.length;i++){
-                        url+=args[i]+"%20";
+                        if(!BAMradio.Instance.NoteBlockAPI){
+                            url+="&type=mid";
+                        }else{
+                            url+="&type=any";
+                        }
+                        url+="&q=";
+                        for(int i = 1;i<args.length;i++){
+                            url+=args[i]+"%20";
+                        }
+                        url=url.substring(0,url.length()-3);
+
+                       JSONArray json = readJsonFromUrl(url);
+                    if(json!=null){
+                        Helpers.sendMessage(sender,ChatColor.GREEN + BAMradio.Instance.getTranslationManager().getTranslation("COMMAND_SEARCH_TITLE"));
+
+                        for (int i = 0; i < json.length(); i++) {
+                            JSONObject row = json.getJSONObject(i);
+
+                            String suffix="";
+                            if(row.getString("type").toLowerCase().equals("mid")){
+                                suffix = ChatColor.DARK_BLUE+row.getString("type").toUpperCase()+" ";
+                            }
+                            if(row.getString("type").toLowerCase().equals("nbs")){
+                                suffix = ChatColor.DARK_GREEN+row.getString("type").toUpperCase()+" ";
+                            }
+
+                            sender.sendMessage(ChatColor.GREEN + "["+ChatColor.BOLD+row.getInt("id")+ChatColor.RESET+""+ChatColor.GREEN+"] "+suffix+ChatColor.RESET+ row.getString("artist") +" - "+row.getString("title"));
+                        }
                     }
-                    url=url.substring(0,url.length()-3);
-                    
-                }
-                JSONArray json = readJsonFromUrl(url);
-                
-                Helpers.sendMessage(sender,ChatColor.GREEN + BAMradio.Instance.TranslationManager.getTranslation("COMMAND_SEARCH_TITLE"));
-                
-                for (int i = 0; i < json.length(); i++) {
-                    JSONObject row = json.getJSONObject(i);
-                    sender.sendMessage(ChatColor.GREEN + "["+ChatColor.BOLD+row.getInt("id")+ChatColor.RESET+""+ChatColor.GREEN+"] "+ChatColor.RESET+ row.getString("artist") +" - "+row.getString("title"));
+                }else{   
+                    Helpers.sendMessage(sender, ChatColor.RED + BAMradio.Instance.getTranslationManager().getTranslation("COMMAND_MANAGER_INVALID_PARAMETER"));
                 }
             }catch (Exception e){
                 Helpers.sendMessage(sender, ChatColor.RED + e.getMessage());
@@ -60,14 +78,19 @@ public class CmdSearch implements ICommand{
             String jsonText = readAll(rd).trim();
             JSONArray json = new JSONArray(jsonText);
             return json;
-          } finally {
+          }
+            catch (Exception e){
+                logger.log(Level.SEVERE,e.getMessage());
+                return null;
+            }
+           finally {
             is.close();
           }
         }
        
 	@Override
 	public String getHelp() {
-		return BAMradio.Instance.TranslationManager.getTranslation("COMMAND_SEARCH_HELP");
+		return BAMradio.Instance.getTranslationManager().getTranslation("COMMAND_SEARCH_HELP");
 	}
 
 	@Override
@@ -86,7 +109,7 @@ public class CmdSearch implements ICommand{
 	}
         @Override
         public String getExtendedHelp() {
-            return BAMradio.Instance.TranslationManager.getTranslation("COMMAND_SEARCH_EXTENDED_HELP");
+            return BAMradio.Instance.getTranslationManager().getTranslation("COMMAND_SEARCH_EXTENDED_HELP");
         }
         @Override
         public boolean allowedInConsole() {

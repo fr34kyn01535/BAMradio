@@ -17,19 +17,31 @@ public class CmdList implements ICommand{
         public static final Logger logger = Bukkit.getLogger();
 	@Override
 	public void execute(CommandSender sender, String commandLabel, String[] args) {
-            Helpers.sendMessage(sender,ChatColor.GREEN + BAMradio.Instance.TranslationManager.getTranslation("COMMAND_LIST_TITLE"));
+            Helpers.sendMessage(sender,ChatColor.GREEN + BAMradio.Instance.getTranslationManager().getTranslation("COMMAND_LIST_TITLE"));
             
-            String[] fileList = BAMradio.Instance.MidiManager.listMidiFiles();
+            String[] fileList = BAMradio.Instance.getRadioManager().listRadioFilesWithExtensions();
             int i = 0;
             for (String name : fileList) {
-                sender.sendMessage(ChatColor.GREEN + "["+ChatColor.BOLD+i+ChatColor.RESET+""+ChatColor.GREEN+"] "+ChatColor.RESET+ name);
+                
+                String suffix="";
+                if(name.contains(".mid")){
+                    name=name.substring(0, name.lastIndexOf(".mid"));
+                    suffix = ChatColor.DARK_BLUE+"MID";
+                    
+                }
+                if(name.contains(".nbs")){
+                    name=name.substring(0, name.lastIndexOf(".nbs"));
+                    suffix = ChatColor.DARK_GREEN+"NBS";
+                }
+                
+                sender.sendMessage(ChatColor.GREEN + "["+ChatColor.BOLD+i+ChatColor.RESET+""+ChatColor.GREEN+"] "+suffix+" "+ChatColor.RESET+ name);
                 i++;
             }
         }
 
 	@Override
 	public String getHelp() {
-		return BAMradio.Instance.TranslationManager.getTranslation("COMMAND_LIST_HELP");
+		return BAMradio.Instance.getTranslationManager().getTranslation("COMMAND_LIST_HELP");
 	}
 
 	@Override

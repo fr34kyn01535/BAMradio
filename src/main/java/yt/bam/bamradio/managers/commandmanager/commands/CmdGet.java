@@ -27,12 +27,12 @@ public class CmdGet implements ICommand{
             try{
                 if(args.length>=2 && isInteger(args[1])){
                     int id = Integer.parseInt(args[1]); 
-                    JSONArray json = readJsonFromUrl("http://midi.bam.yt/?id="+id);
+                    JSONArray json = readJsonFromUrl("http://radio.bam.yt/?f=json&id="+id);
                     
                     if(json.length()==1){
                         JSONObject row = json.getJSONObject(0);
                         String filename = row.getString("filename");
-                        String surl = "http://midi.bam.yt/files/" +filename;
+                        String surl = "http://radio.bam.yt/?f=download&name=" +filename;
                 
                         File file = new File(BAMradio.Instance.getDataFolder()+File.separator+filename);
                         
@@ -43,8 +43,8 @@ public class CmdGet implements ICommand{
                             fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
                         }
                         
-                        if(!BAMradio.Instance.MidiManager.MidiPlayer.playSong(filename)){
-                            Helpers.sendMessage(sender, ChatColor.RED + BAMradio.Instance.TranslationManager.getTranslation("COMMAND_PLAY_EXCEPTION_NOT_FOUND")+" \""+args[1]+"\"");
+                        if(!BAMradio.Instance.getRadioManager().playSong(filename)){
+                            Helpers.sendMessage(sender, ChatColor.RED + BAMradio.Instance.getTranslationManager().getTranslation("COMMAND_PLAY_EXCEPTION_NOT_FOUND")+" \""+args[1]+"\"");
                         } 
                     }else{
                        Helpers.sendMessage(sender, ChatColor.RED + TranslationManager.getTranslation("COMMAND_GET_NOT_FOUND"));                 
@@ -92,7 +92,7 @@ public class CmdGet implements ICommand{
        
 	@Override
 	public String getHelp() {
-		return BAMradio.Instance.TranslationManager.getTranslation("COMMAND_GET_HELP");
+		return BAMradio.Instance.getTranslationManager().getTranslation("COMMAND_GET_HELP");
 	}
 
 	@Override

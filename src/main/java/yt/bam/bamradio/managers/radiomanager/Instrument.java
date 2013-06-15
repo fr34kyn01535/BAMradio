@@ -1,4 +1,4 @@
-package yt.bam.bamradio.managers.midimanager;
+package yt.bam.bamradio.managers.radiomanager;
 
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;

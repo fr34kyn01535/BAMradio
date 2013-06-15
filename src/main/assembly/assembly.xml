@@ -15,10 +15,10 @@
                 <exclude>plugin.yml</exclude>
             </excludes>
         </fileSet>
-        <fileSet>
+        <!--fileSet>
             <directory>${project.basedir}/lib/</directory>
             <outputDirectory>/BAMradio/</outputDirectory>
-        </fileSet>
+        </fileSet-->
     </fileSets>
     <files>
         <file>

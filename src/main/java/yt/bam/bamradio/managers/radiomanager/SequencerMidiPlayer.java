@@ -1,4 +1,4 @@
-package yt.bam.bamradio.managers.midimanager;
+package yt.bam.bamradio.managers.radiomanager;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,36 +28,19 @@ import yt.bam.bamradio.Helpers;
 
 public class SequencerMidiPlayer implements MidiPlayer, Receiver {
     public static final Logger logger = Bukkit.getLogger();
+    
     private final Sequencer sequencer;
-    private final List<Player> tunedIn;
     private final Map<Integer, Byte> channelPatches; 
-
-    private boolean nowPlaying = false;
-    private int currentSong = 0;
-    private String midiName;
-    private MidiManager manager;
-    public SequencerMidiPlayer(MidiManager manager) throws MidiUnavailableException {
+    
+    private RadioManager manager;
+    
+    public SequencerMidiPlayer(RadioManager manager) throws MidiUnavailableException {
         this.manager = manager;
-        tunedIn = new ArrayList<Player>();
+        manager.tunedIn = new ArrayList<Player>();
         channelPatches = new HashMap<Integer, Byte>(); 
         sequencer = MidiSystem.getSequencer();
         sequencer.open();
         sequencer.getTransmitter().setReceiver(this);
-    }
-
-    public void tuneIn(Player player) {
-        tunedIn.add(player);
-        if(midiName!=null){
-            Helpers.sendMessage(player,manager.TranslationManager.getTranslation("MIDI_MANAGER_NOW_PLAYING")+" " + ChatColor.YELLOW + midiName.replace("_", " ").replace(".mid",""));
-        }
-    }
-
-    public void tuneOut(Player player) {
-        tunedIn.remove(player);
-    }
-
-    public boolean isNowPlaying() {
-        return nowPlaying;
     }
 
     public void stopPlaying() {
@@ -65,20 +48,9 @@ public class SequencerMidiPlayer implements MidiPlayer, Receiver {
         manager.Plugin.getServer().getScheduler().cancelTasks(manager.Plugin);
     }
 
-    public void playNextSong() {
-            currentSong++;
-
-            String[] midiFileNames = manager.listMidiFiles();
-
-            if (currentSong >= midiFileNames.length)
-                    currentSong = 0;
-
-            playSong(midiFileNames[currentSong]);
-    }
-
     public boolean playSong(String midiName) {
             try{    
-                this.midiName = midiName;
+                manager.nowPlayingFile = midiName;
 
                 File midiFile = manager.getMidiFile(midiName);
                 if (midiFile == null){
@@ -89,31 +61,30 @@ public class SequencerMidiPlayer implements MidiPlayer, Receiver {
                         Sequence midi = MidiSystem.getSequence(midiFile);
                         sequencer.setSequence(midi);
                         sequencer.start();
-                        nowPlaying = true;
+                        manager.nowPlaying = true;
                 } catch (InvalidMidiDataException ex) {
                         System.err.println(manager.TranslationManager.getTranslation("MIDI_MANAGER_INVALID_MIDI")+" " + midiName);
                 } catch (IOException e) {
                         System.err.println(manager.TranslationManager.getTranslation("MIDI_MANAGER_CORRUPT_MIDI")+" " + midiName);
                 }
 
-                for (Player player : tunedIn) {
+                for (Player player : manager.tunedIn) {
                         Helpers.sendMessage(player,manager.TranslationManager.getTranslation("MIDI_MANAGER_NOW_PLAYING")+" " + ChatColor.YELLOW + midiName.replace("_", " ").replace(".mid",""));
                 }
 
                 new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                                if (!nowPlaying)
-                                        this.cancel();
+                    @Override
+                    public void run() {
+                        if (!manager.nowPlaying)
+                                this.cancel();
 
-                                if (!sequencer.isRunning() || sequencer.getMicrosecondPosition() > sequencer.getMicrosecondLength()) {
-                                        stopPlaying();
-                                        if(manager.AutoPlayNext){
-                                            playNextSong();
-                                        }
+                        if (!sequencer.isRunning() || sequencer.getMicrosecondPosition() > sequencer.getMicrosecondLength()) {
+                                stopPlaying();
+                                if(manager.AutoPlayNext){
+                                    manager.playNextSong();
                                 }
                         }
-
+                    }
                 }.runTaskTimer(manager.Plugin, 20L, 20L);
             }catch(Exception e){
                     System.err.println(manager.TranslationManager.getTranslation("MIDI_MANAGER_CORRUPT_MIDI")+" " + midiName+" ("+e.getMessage()+")");
@@ -154,7 +125,7 @@ public class SequencerMidiPlayer implements MidiPlayer, Receiver {
                     if (channelPatches.containsKey(channel))
                             patch = channelPatches.get(channel);
 
-                    for (Player player : tunedIn) {
+                    for (Player player : manager.tunedIn) {
                             Sound sound = Instrument.getInstrument(patch, channel);
                             if(sound!=null){
                                 if(sound==Sound.NOTE_PLING){
@@ -171,7 +142,7 @@ public class SequencerMidiPlayer implements MidiPlayer, Receiver {
 
             } else if (event.getCommand() == ShortMessage.STOP) {
                     stopPlaying();
-                    playNextSong();
+                    manager.playNextSong();
             }
     }
 
