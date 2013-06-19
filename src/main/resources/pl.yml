@@ -1,0 +1,34 @@
+# BAMradio -- Author: FR34KYN01535 
+# Polish languagefile -- Translator: Jebanany
+# For more information visit http://dev.bukkit.org/server-mods/bamradio/
+name: Polish
+lname: Polski
+translation:
+  MIDI_MANAGER_EXCEPTION_MIDI_UNAVAILABLE : "Wystapil blad podczas odtwarzania pliku."
+  MIDI_MANAGER_NOW_PLAYING : "Aktualnie odtwarzane:"
+  MIDI_MANAGER_INVALID_MIDI : "Nieprawidłowy plik Midi:"
+  MIDI_MANAGER_CORRUPT_MIDI : "Nie można odtworzyc pliku Midi:"
+  COMMAND_MANAGER_UNKNOWN_COMMAND : "Nieznana komenda. Wpisz \"/br help\" aby uzyskac pomoc."
+  COMMAND_MANAGER_NO_PERMISSION : "Nie posiadasz uprawnien:"
+  COMMAND_MANAGER_INVALID_PARAMETER: "Bledna wartosc. Wpisz \"/br help\" aby uzyskac pomoc."
+  COMMAND_MANAGER_ONLY_CHAT : "Tej komendy nie mozna wykonac w konsoli"
+  COMMAND_ABOUT_BY : "przez" 
+  COMMAND_ABOUT_FOR : "dla"
+  COMMAND_ABOUT_HELP  : "Credits"
+  COMMAND_HELP_HELP : "Wyswietla liste komend" 
+  COMMAND_LIST_TITLE : "Dostepne utwory:"
+  COMMAND_LIST_HELP : "Lista utworow"
+  COMMAND_MUTE_MESSAGE : "BAMradio zostalo wyciszone"
+  COMMAND_MUTE_HELP : "Wycisza BAMradio"
+  COMMAND_UNMUTE_HELP : "Odcisza BAMradio"
+  COMMAND_NEXT_HELP : "Odtwarza nastepny utwor"
+  COMMAND_STOP_MESSAGE : "Odtwarzanie zatrzymane"
+  COMMAND_STOP_HELP : "Zatrzymuje odtwarzanie"
+  COMMAND_PLAY_HELP : "Odtwarza utwor o danym ID lub nazwie"
+  COMMAND_PLAY_EXCEPTION_NOT_FOUND : "Nie mozna znalezc tego pliku:"
+  COMMAND_PLAY_EXTENDED_HELP : "/br play League_of_Legends_-_Season_1.mid lub /br play 42"
+  COMMAND_GET_NOT_FOUND: "Utwor o danym ID nie zostal znaleziony"
+  COMMAND_GET_HELP: "Pobiera utwor o danym ID z BAMradio Webservice"
+  COMMAND_SEARCH_TITLE : "Lista znalezionych utworow:"
+  COMMAND_SEARCH_HELP : "Wyszukuje utwor w bazie Webservice"
+  COMMAND_SEARCH_EXTENDED_HELP : "/br search league"
