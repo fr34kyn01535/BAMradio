@@ -1,4 +1,4 @@
-package yt.bam.bamradio;
+package yt.bam.bamradio.managers;
 
 /**
  * @author FR34KYN01535

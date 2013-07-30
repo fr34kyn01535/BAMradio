@@ -4,7 +4,7 @@
   <groupId>yt.bam</groupId>
   <artifactId>BAMradio</artifactId>
   <name>BAMradio</name>
-  <version>1.5</version>
+  <version>1.6</version>
   <url>http://bam.yt</url>
   <build>
     <finalName>BAMradio</finalName>
@@ -25,9 +25,11 @@
                 </transformer>
               </transformers>
               <artifactSet>
-                <excludes>
-                  <exclude>org.bukkit:*</exclude>
-                </excludes>
+                <includes>
+                  <include>org.apache.httpcomponents:*</include>
+                  <include>org.json:json</include>
+                  <include>org.mcstats.bukkit:metrics</include>
+                </includes>
               </artifactSet>
             </configuration>
           </execution>
@@ -93,26 +95,36 @@
       <id>Plugin Metrics</id>
       <url>http://repo.mcstats.org/content/repositories/public</url>
     </repository>
+    <repository>
+      <id>sk89q-repo</id>
+      <url>http://maven.sk89q.com/repo/</url>
+    </repository>
   </repositories>
   <dependencies>
-    <dependency>
-      <groupId>org.bukkit</groupId>
-      <artifactId>bukkit</artifactId>
-      <version>1.5.2-R1.0</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.bukkit</groupId>
-      <artifactId>craftbukkit</artifactId>
-      <version>1.5.2-R1.0</version>
-      <scope>compile</scope>
-    </dependency>
     <dependency>
       <groupId>com.xxmicloxx</groupId>
       <artifactId>NoteBlockAPI</artifactId>
       <version>1.0.0</version>
       <scope>system</scope>
       <systemPath>C:\Users\Sven\Documents\GitHub\BAMradio/src/main/lib/NoteBlockAPI.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>com.sk89q</groupId>
+      <artifactId>worldguard</artifactId>
+      <version>5.7.3</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.bukkit</groupId>
+      <artifactId>craftbukkit</artifactId>
+      <version>1.6.2-R0.1-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.bukkit</groupId>
+      <artifactId>bukkit</artifactId>
+      <version>1.6.2-R0.1-SNAPSHOT</version>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
   <properties>

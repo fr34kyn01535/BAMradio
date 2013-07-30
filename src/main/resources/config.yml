@@ -1,6 +1,8 @@
 # BAMradio -- Author: FR34KYN01535 
 # For more information visit http://dev.bukkit.org/server-mods/bamradio/
 
+auto-update: true
+
 #Start playing when the server starts
 auto-play: true
 
@@ -10,9 +12,9 @@ auto-play-next: true
 #Force usage of software sequencer, even if a midi sequencer device is found
 force-software-sequencer: false
 
+# If you want to hear the tracks only in a specific WorldGuard region then put in the name, otherwise leave it blank
+region: ""
+
 # Default language is english if empty or "en". 
 # To switch language put in the name of the languagefile (e.g. "de" for de.yml)
 language: "en"
-
-#MC Hammer!
-config-version: 1

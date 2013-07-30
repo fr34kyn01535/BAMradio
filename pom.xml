@@ -4,7 +4,7 @@
 
   <groupId>yt.bam</groupId>
   <artifactId>BAMradio</artifactId>
-  <version>1.5</version>
+  <version>1.6</version>
   <packaging>jar</packaging>
 
   <name>BAMradio</name>
@@ -14,16 +14,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
     <dependencies>
-    <dependency>
-      <groupId>org.bukkit</groupId>
-      <artifactId>bukkit</artifactId>
-      <version>1.5.2-R1.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.bukkit</groupId>
-      <artifactId>craftbukkit</artifactId>
-      <version>1.5.2-R1.0</version>
-    </dependency>
     <dependency>
         <groupId>org.json</groupId>
         <artifactId>json</artifactId>
@@ -47,6 +37,22 @@
             <artifactId>httpclient</artifactId>
             <version>4.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.sk89q</groupId>
+            <artifactId>worldguard</artifactId>
+            <version>5.7.3</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>craftbukkit</artifactId>
+            <version>1.6.2-R0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>bukkit</artifactId>
+            <version>1.6.2-R0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
     <repositories>
         <repository>
@@ -56,6 +62,10 @@
         <repository>
             <id>Plugin Metrics</id>
             <url>http://repo.mcstats.org/content/repositories/public</url>
+        </repository>
+        <repository>
+          <id>sk89q-repo</id>
+          <url>http://maven.sk89q.com/repo/</url>
         </repository>
     </repositories>
     <build>
@@ -83,9 +93,11 @@
                 </transformer>
               </transformers>
               <artifactSet>
-                  <excludes>
-                      <exclude>org.bukkit:*</exclude>
-                  </excludes>
+                  <includes>
+                      <include>org.apache.httpcomponents:*</include>
+                      <include>org.json:json</include>
+                      <include>org.mcstats.bukkit:metrics</include>
+                  </includes>
               </artifactSet>
             </configuration>
           </execution>

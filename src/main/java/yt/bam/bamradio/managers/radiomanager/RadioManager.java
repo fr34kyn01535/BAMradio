@@ -1,5 +1,6 @@
 package yt.bam.bamradio.managers.radiomanager;
 
+import com.mewin.WGRegionEvents.events.RegionEnterEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +12,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import yt.bam.bamradio.BAMradio;
+import com.mewin.WGRegionEvents.events.RegionLeaveEvent;
+import org.bukkit.event.EventHandler;
 import yt.bam.bamradio.Helpers;
-import yt.bam.bamradio.IManager;
+import yt.bam.bamradio.managers.IManager;
 import yt.bam.bamradio.managers.translationmanager.TranslationManager;
 
 /**
@@ -25,6 +28,7 @@ public class RadioManager implements IManager {
     public TranslationManager TranslationManager;
     public boolean AutoPlay;
     public boolean AutoPlayNext;
+    public String RegionName = "";
     
     public List<Player> tunedIn;
     public boolean nowPlaying = false;
@@ -35,12 +39,13 @@ public class RadioManager implements IManager {
     private MidiPlayer MidiPlayer;
     private NoteBlockPlayer NoteBlockPlayer;
     
-    public RadioManager(Plugin plugin,TranslationManager translationManager,boolean autoPlay,boolean autoPlayNext,boolean forceSoftwareSequencer) {
+    public RadioManager(Plugin plugin,TranslationManager translationManager,boolean autoPlay,boolean autoPlayNext,boolean forceSoftwareSequencer,String regionName) {
         Plugin = plugin;
         AutoPlay = autoPlay;
         AutoPlayNext = autoPlayNext;
         TranslationManager = translationManager;
         ForceSoftwareSequencer = forceSoftwareSequencer;
+        RegionName = regionName;
         tunedIn = new ArrayList<Player>();
         
         if(BAMradio.Instance.NoteBlockAPI){
@@ -69,11 +74,9 @@ public class RadioManager implements IManager {
         }
     }
     
-    
     public boolean isNowPlaying() {
         return nowPlaying;
     }
-    
     
     public void playNextSong() {
         nowPlayingIndex++;
@@ -83,6 +86,14 @@ public class RadioManager implements IManager {
         playSong(midiFileNames[nowPlayingIndex]);
     }
     
+    public void playRandomSong() {
+        String[] midiFileNames = listRadioFiles();
+        nowPlayingIndex = (int)(Math.random() * (midiFileNames.length + 1));
+        if(nowPlayingIndex >= midiFileNames.length)
+            nowPlayingIndex = 0;
+        playSong(midiFileNames[nowPlayingIndex]);
+    }    
+             
     public boolean playSong(String fileName) {
         if(nowPlaying){
             stopPlaying();
@@ -101,6 +112,7 @@ public class RadioManager implements IManager {
         }
         return false;
     }   
+    
     public void stopPlaying(){
         MidiPlayer.stopPlaying();
         if(NoteBlockPlayer!=null)NoteBlockPlayer.stopPlaying();
@@ -112,12 +124,14 @@ public class RadioManager implements IManager {
                 return null;
         return midiFile;
     }
+    
     public File getNoteBlockFile(String fileName) {
         File noteBlockFile = new File(Plugin.getDataFolder(), fileName.replace(".nbs", "") + ".nbs");
         if (!noteBlockFile.exists())
                 return null;
         return noteBlockFile;
     }
+    
     public static String[] listRadioFiles() {
         File[] files = Plugin.getDataFolder().listFiles();
         List<String> radioFiles = new ArrayList<String>();
@@ -131,6 +145,7 @@ public class RadioManager implements IManager {
         }
         return radioFiles.toArray(new String[0]);
     }	
+    
     public static String[] listRadioFilesWithExtensions() {
         File[] files = Plugin.getDataFolder().listFiles();
         List<String> radioFiles = new ArrayList<String>();
@@ -169,5 +184,22 @@ public class RadioManager implements IManager {
 
     public void onDisable() {
         stopPlaying();
+    }
+    
+    @EventHandler
+    public void onRegionEnter(RegionEnterEvent e)
+    {
+        if(e.getRegion().getId()!=null && !e.getRegion().getId().isEmpty() && e.getRegion().getId().toLowerCase().equals(RegionName.toLowerCase())){
+            tuneOut(e.getPlayer());
+            tuneIn(e.getPlayer());
+        }
+    }
+    
+    @EventHandler
+    public void onRegionLeave(RegionLeaveEvent e)
+    {
+        if(e.getRegion().getId()!=null && !e.getRegion().getId().isEmpty() && e.getRegion().getId().toLowerCase().equals(RegionName.toLowerCase())){
+            tuneOut(e.getPlayer());
+        }
     }
 }

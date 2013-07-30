@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
 import yt.bam.bamradio.Helpers;
-import yt.bam.bamradio.IManager;
+import yt.bam.bamradio.managers.IManager;
 import yt.bam.bamradio.managers.commandmanager.commands.*;
 import yt.bam.bamradio.managers.translationmanager.TranslationManager;
 
@@ -112,6 +112,7 @@ public class CommandManager implements IManager {
         AllCommands.add(new CmdMute());
         AllCommands.add(new CmdNext());
         AllCommands.add(new CmdPlay());
+        AllCommands.add(new CmdRandom());
         AllCommands.add(new CmdSearch());
         AllCommands.add(new CmdStop());
         AllCommands.add(new CmdUnmute());

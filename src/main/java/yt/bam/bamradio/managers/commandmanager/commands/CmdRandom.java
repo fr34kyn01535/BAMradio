@@ -3,41 +3,43 @@ package yt.bam.bamradio.managers.commandmanager.commands;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import yt.bam.bamradio.BAMradio;
 import yt.bam.bamradio.managers.commandmanager.ICommand;
+import yt.bam.bamradio.managers.radiomanager.MidiPlayer;
 
 /**
  * @author fr34kyn01535
  */
 
-public class CmdUnmute implements ICommand{
+public class CmdRandom implements ICommand{
         public static final Logger logger = Bukkit.getLogger();
 	@Override
 	public void execute(CommandSender sender, String commandLabel, String[] args) {
-            BAMradio.Instance.getRadioManager().tuneOut((Player) sender);
-            BAMradio.Instance.getRadioManager().tuneIn((Player) sender);
+            if (BAMradio.Instance.getRadioManager().isNowPlaying()) {
+                BAMradio.Instance.getRadioManager().stopPlaying();
+            }
+            BAMradio.Instance.getRadioManager().playRandomSong();
         }
 
 	@Override
 	public String getHelp() {
-		return BAMradio.Instance.getTranslationManager().getTranslation("COMMAND_UNMUTE_HELP");
+		return BAMradio.Instance.getTranslationManager().getTranslation("COMMAND_RANDOM_HELP");
 	}
 
 	@Override
 	public String getSyntax() {
-		return "/br unmute";
+		return "/br random";
 	}
 
 	@Override
 	public Permission getPermissions() {
-		return new Permission("bamradio.mute");
+		return new Permission("bamradio.play");
 	}
         
         @Override
 	public String[] getName() {
-		return new String[] {"unmute"};
+		return new String[] {"random"};
 	}
         @Override
         public String getExtendedHelp() {
@@ -45,6 +47,6 @@ public class CmdUnmute implements ICommand{
         }
         @Override
         public boolean allowedInConsole() {
-            return false;
+            return true;
         }
 }
