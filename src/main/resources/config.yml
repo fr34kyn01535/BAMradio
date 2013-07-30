@@ -1,7 +1,11 @@
 # BAMradio -- Author: FR34KYN01535 
 # For more information visit http://dev.bukkit.org/server-mods/bamradio/
 
-auto-update: true
+#Search for updates and alert if there are new
+check-for-updates: true
+
+#Enable Metrics and help the developers :)
+enable-metrics: true
 
 #Start playing when the server starts
 auto-play: true

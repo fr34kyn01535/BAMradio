@@ -1,5 +1,6 @@
 name: BAMradio
 main: yt.bam.bamradio.BAMradio
+author: FR34KYN01535
 version: 1.6
 description: Plays midi files.
 softdepend: [NoteBlockAPI,WorldGuard]

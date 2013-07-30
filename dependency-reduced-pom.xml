@@ -29,6 +29,7 @@
                   <include>org.apache.httpcomponents:*</include>
                   <include>org.json:json</include>
                   <include>org.mcstats.bukkit:metrics</include>
+                  <include>yt.bam:BAMLibrary</include>
                 </includes>
               </artifactSet>
             </configuration>
@@ -87,6 +88,10 @@
     </plugins>
   </build>
   <repositories>
+    <repository>
+      <id>bamyt-repo</id>
+      <url>http://repo.bam.yt/</url>
+    </repository>
     <repository>
       <id>bukkit-repo</id>
       <url>http://repo.bukkit.org/content/groups/public/</url>
