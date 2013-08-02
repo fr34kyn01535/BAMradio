@@ -1,4 +1,4 @@
-package yt.bam.bamradio.radiomanager.worldguard;
+package yt.bam.bamradio.radiomanager.listener;
 
 /**
  *

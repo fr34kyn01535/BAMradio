@@ -166,7 +166,7 @@ public class MinecraftMidiPlayer implements MidiPlayer {
                                     public void run() {
                                             manager.playNextSong();
                                         }
-                            }.runTask(manager.Plugin);
+                            }.runTask(BAMradio.Instance);
                         }
                     }
                 } else {

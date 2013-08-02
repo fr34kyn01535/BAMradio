@@ -1,9 +1,9 @@
-package yt.bam.bamradio.radiomanager.worldguard;
+package yt.bam.bamradio.radiomanager.listener;
 
-import yt.bam.bamradio.radiomanager.worldguard.events.RegionEnterEvent;
-import yt.bam.bamradio.radiomanager.worldguard.events.RegionEnteredEvent;
-import yt.bam.bamradio.radiomanager.worldguard.events.RegionLeaveEvent;
-import yt.bam.bamradio.radiomanager.worldguard.events.RegionLeftEvent;
+import yt.bam.bamradio.radiomanager.listener.worldguard.RegionEnterEvent;
+import yt.bam.bamradio.radiomanager.listener.worldguard.RegionEnteredEvent;
+import yt.bam.bamradio.radiomanager.listener.worldguard.RegionLeaveEvent;
+import yt.bam.bamradio.radiomanager.listener.worldguard.RegionLeftEvent;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashMap;
@@ -21,7 +21,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;

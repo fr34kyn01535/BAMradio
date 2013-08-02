@@ -1,11 +1,13 @@
 package yt.bam.bamradio;
 
-import yt.bam.bamradio.radiomanager.worldguard.WGRegionEventsListener;
+import yt.bam.bamradio.radiomanager.listener.PlayerListener;
+import yt.bam.bamradio.radiomanager.listener.WGRegionEventsListener;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -13,6 +15,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import yt.bam.bamradio.commands.*;
 import yt.bam.bamradio.radiomanager.RadioManager;
+import yt.bam.bamradio.radiomanager.listener.RegionListener;
 import yt.bam.library.BAMLibrary;
 import yt.bam.library.ICommand;
 
@@ -61,6 +64,7 @@ public class BAMradio extends JavaPlugin {
         defaultTranslation.put("COMMAND_SEARCH_HELP" , "Search the BAMradio Webservice");
         defaultTranslation.put("COMMAND_SEARCH_EXTENDED_HELP" , "/br search league");
         defaultTranslation.put("COMMAND_RANDOM_HELP" , "Play a random track");
+        defaultTranslation.put("COMMAND_INFO_HELP" , "Show name of current track");
         
         ArrayList<ICommand> commands= new ArrayList<ICommand>();
         commands.add(new CmdGet());
@@ -70,6 +74,7 @@ public class BAMradio extends JavaPlugin {
         commands.add(new CmdPlay());
         commands.add(new CmdRandom());
         commands.add(new CmdSearch());
+        commands.add(new CmdInfo());
         commands.add(new CmdStop());
         commands.add(new CmdUnmute());
         
@@ -107,19 +112,39 @@ public class BAMradio extends JavaPlugin {
     }
     
     public void customOnEnable(){
+        boolean autoPlay = BAMradio.Library.Configuration.getBoolean("auto-play", false);
+        boolean autoPlayNext = BAMradio.Library.Configuration.getBoolean("auto-play-next", false);
+        boolean forceSoftwareSequencer = BAMradio.Library.Configuration.getBoolean("force-software-sequencer", false);
+        String regionName = BAMradio.Library.Configuration.getString("region", "");
+        RadioManager = new RadioManager(autoPlay,autoPlayNext,forceSoftwareSequencer,regionName); 
         if (getServer().getPluginManager().getPlugin("NoteBlockAPI") != null) {
             getLogger().info("Detected NoteBlockAPI!");
             NoteBlockAPI = true;
         }else{
             NoteBlockAPI = false;
         }
-        getServer().getPluginManager().registerEvents(new PlayerListener(), this);
-        WorldGuardInstance = getWGPlugin();
-        if (WorldGuardInstance != null)
-        {
-            getLogger().info("Detected WorldGuard!");
-            getServer().getPluginManager().registerEvents(new WGRegionEventsListener(),this);
+        
+        
+        if(Library.Configuration.getString("region", "").equals("")){
+            getServer().getPluginManager().registerEvents(new PlayerListener(), this);
+        }else{
+            WorldGuardInstance = getWGPlugin();
+            if (WorldGuardInstance != null)
+            {
+                try{     
+                    getLogger().info("Detected WorldGuard!");
+                    getServer().getPluginManager().registerEvents(new WGRegionEventsListener(),WorldGuardInstance);
+                    getServer().getPluginManager().registerEvents(new RegionListener(),this);
+                }catch(Exception e){
+                    getServer().getPluginManager().registerEvents(new PlayerListener(), this);
+                    getLogger().log(Level.INFO, "Was not able to bind to WorldGuard! {0}", e.getMessage());
+                }
+            }else{
+                getLogger().info("WorldGuard was not detected, disabling region suppport");
+                getServer().getPluginManager().registerEvents(new PlayerListener(), this);
+            }
         }
+        RadioManager.onEnable();
     }
     
     

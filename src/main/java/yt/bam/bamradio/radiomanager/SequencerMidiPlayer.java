@@ -45,7 +45,7 @@ public class SequencerMidiPlayer implements MidiPlayer, Receiver {
 
     public void stopPlaying() {
         sequencer.stop();
-        manager.Plugin.getServer().getScheduler().cancelTasks(manager.Plugin);
+        BAMradio.Instance.getServer().getScheduler().cancelTasks(BAMradio.Instance);
     }
 
     public boolean playSong(String midiName) {
@@ -85,7 +85,7 @@ public class SequencerMidiPlayer implements MidiPlayer, Receiver {
                                 }
                         }
                     }
-                }.runTaskTimer(manager.Plugin, 20L, 20L);
+                }.runTaskTimer(BAMradio.Instance, 20L, 20L);
             }catch(Exception e){
                     System.err.println(BAMradio.Library.Translation.getTranslation("MIDI_MANAGER_CORRUPT_MIDI")+" " + midiName+" ("+e.getMessage()+")");
             }

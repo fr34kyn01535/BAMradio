@@ -1,4 +1,4 @@
-package yt.bam.bamradio;
+package yt.bam.bamradio.radiomanager.listener;
 
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import yt.bam.bamradio.BAMradio;
 
 /**
  * @author fr34kyn01535

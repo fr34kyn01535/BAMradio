@@ -16,6 +16,9 @@ auto-play-next: true
 #Force usage of software sequencer, even if a midi sequencer device is found
 force-software-sequencer: false
 
+#Force usage of software sequencer, even if a midi sequencer device is found
+show-current-track: true
+
 # If you want to hear the tracks only in a specific WorldGuard region then put in the name, otherwise leave it blank
 region: ""
 

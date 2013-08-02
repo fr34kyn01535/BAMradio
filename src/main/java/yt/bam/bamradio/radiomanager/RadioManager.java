@@ -1,17 +1,15 @@
 package yt.bam.bamradio.radiomanager;
 
-import yt.bam.bamradio.radiomanager.worldguard.events.RegionEnterEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.midi.MidiUnavailableException;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import yt.bam.bamradio.radiomanager.worldguard.events.RegionLeaveEvent;
-import org.bukkit.event.EventHandler;
 import yt.bam.bamradio.BAMradio;
 import yt.bam.library.Helpers;
 
@@ -21,7 +19,6 @@ import yt.bam.library.Helpers;
 
 public class RadioManager {
     public static final Logger logger = Bukkit.getLogger();
-    public static Plugin Plugin;
     public boolean AutoPlay;
     public boolean AutoPlayNext;
     public String RegionName = "";
@@ -56,9 +53,7 @@ public class RadioManager {
         if(NoteBlockPlayer!=null){
             NoteBlockPlayer.tuneIn(player);
         }
-        if(nowPlaying){
-            Helpers.sendMessage(player,BAMradio.Library.Translation.getTranslation("MIDI_MANAGER_NOW_PLAYING")+" " + ChatColor.YELLOW + nowPlayingFile.replace("_", " "));
-        }
+        NowPlaying(player,false);
     }
 
     public void tuneOut(Player player) {
@@ -88,22 +83,24 @@ public class RadioManager {
         playSong(midiFileNames[nowPlayingIndex]);
     }    
              
-    public boolean playSong(String fileName) {
+    public boolean playSong(String fileName){
         if(nowPlaying){
             stopPlaying();
         }
-        if(MidiPlayer!=null){
             File file = getMidiFile(fileName);
             if(file!=null){
-                return MidiPlayer.playSong(fileName);
-            }
-            if(NoteBlockPlayer!=null){
-                file = getNoteBlockFile(fileName);
-                if(file!=null){
-                    return NoteBlockPlayer.playSong(fileName);
+                if(MidiPlayer!=null){
+                    return MidiPlayer.playSong(fileName);
                 }
             }
-        }
+            file = getNoteBlockFile(fileName);
+            if(file!=null){
+                if(NoteBlockPlayer!=null){
+                    return NoteBlockPlayer.playSong(fileName);
+                }else{
+                    BAMradio.Instance.getLogger().log(Level.WARNING ,"NoteBlockAPI not found, can not play NBS file!");
+                }
+            }
         return false;
     }   
     
@@ -113,21 +110,21 @@ public class RadioManager {
     }
     
     public File getMidiFile(String fileName) {
-        File midiFile = new File(Plugin.getDataFolder(), fileName.replace(".mid", "") + ".mid");
+        File midiFile = new File(BAMradio.Instance.getDataFolder(), fileName.replace(".mid", "") + ".mid");
         if (!midiFile.exists())
                 return null;
         return midiFile;
     }
     
     public File getNoteBlockFile(String fileName) {
-        File noteBlockFile = new File(Plugin.getDataFolder(), fileName.replace(".nbs", "") + ".nbs");
+        File noteBlockFile = new File(BAMradio.Instance.getDataFolder(), fileName.replace(".nbs", "") + ".nbs");
         if (!noteBlockFile.exists())
                 return null;
         return noteBlockFile;
     }
     
     public static String[] listRadioFiles() {
-        File[] files = Plugin.getDataFolder().listFiles();
+        File[] files = BAMradio.Instance.getDataFolder().listFiles();
         List<String> radioFiles = new ArrayList<String>();
         for (File file : files) {
                 if (file.getName().endsWith(".mid")) {
@@ -141,7 +138,7 @@ public class RadioManager {
     }	
     
     public static String[] listRadioFilesWithExtensions() {
-        File[] files = Plugin.getDataFolder().listFiles();
+        File[] files = BAMradio.Instance.getDataFolder().listFiles();
         List<String> radioFiles = new ArrayList<String>();
         for (File file : files) {
                 if (file.getName().endsWith(".mid")) {
@@ -165,7 +162,7 @@ public class RadioManager {
                 MidiPlayer = new MinecraftMidiPlayer(this);
             }
         }
-        Player[] onlinePlayerList = Plugin.getServer().getOnlinePlayers();
+        Player[] onlinePlayerList = BAMradio.Instance.getServer().getOnlinePlayers();
         for(Player player : onlinePlayerList){
             tuneIn(player);
         }
@@ -179,21 +176,15 @@ public class RadioManager {
     public void onDisable() {
         stopPlaying();
     }
-    
-    @EventHandler
-    public void onRegionEnter(RegionEnterEvent e)
-    {
-        if(e.getRegion().getId()!=null && !e.getRegion().getId().isEmpty() && e.getRegion().getId().toLowerCase().equals(RegionName.toLowerCase())){
-            tuneOut(e.getPlayer());
-            tuneIn(e.getPlayer());
+
+    public void NowPlaying(CommandSender player,boolean force) {
+        if(!force){
+            if(!BAMradio.Library.Configuration.getBoolean("show-current-track", true)){
+                return;
+            }
         }
-    }
-    
-    @EventHandler
-    public void onRegionLeave(RegionLeaveEvent e)
-    {
-        if(e.getRegion().getId()!=null && !e.getRegion().getId().isEmpty() && e.getRegion().getId().toLowerCase().equals(RegionName.toLowerCase())){
-            tuneOut(e.getPlayer());
+        if(nowPlaying){
+            Helpers.sendMessage(player,BAMradio.Library.Translation.getTranslation("MIDI_MANAGER_NOW_PLAYING")+" " + ChatColor.YELLOW + nowPlayingFile.replace("_", " "));
         }
     }
 }

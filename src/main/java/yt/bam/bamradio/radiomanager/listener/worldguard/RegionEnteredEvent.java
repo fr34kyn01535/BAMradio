@@ -1,6 +1,6 @@
-package yt.bam.bamradio.radiomanager.worldguard.events;
+package yt.bam.bamradio.radiomanager.listener.worldguard;
 
-import yt.bam.bamradio.radiomanager.worldguard.MovementWay;
+import yt.bam.bamradio.radiomanager.listener.MovementWay;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.entity.Player;
 
