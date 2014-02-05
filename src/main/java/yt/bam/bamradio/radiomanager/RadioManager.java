@@ -22,6 +22,7 @@ public class RadioManager {
     public boolean AutoPlay;
     public boolean AutoPlayNext;
     public String RegionName = "";
+    public int Volume = 0;
     
     public List<Player> tunedIn;
     public boolean nowPlaying = false;
@@ -32,11 +33,12 @@ public class RadioManager {
     private MidiPlayer MidiPlayer;
     private NoteBlockPlayer NoteBlockPlayer;
     
-    public RadioManager(boolean autoPlay,boolean autoPlayNext,boolean forceSoftwareSequencer,String regionName) {
+    public RadioManager(boolean autoPlay,boolean autoPlayNext,boolean forceSoftwareSequencer,String regionName,int volume) {
         AutoPlay = autoPlay;
         AutoPlayNext = autoPlayNext;
         ForceSoftwareSequencer = forceSoftwareSequencer;
         RegionName = regionName;
+        Volume = volume;
         tunedIn = new ArrayList<Player>();
         
         if(BAMradio.Instance.NoteBlockAPI){

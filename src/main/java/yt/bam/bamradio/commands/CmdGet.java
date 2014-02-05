@@ -31,6 +31,7 @@ public class CmdGet implements ICommand{
                     if(json.length()==1){
                         JSONObject row = json.getJSONObject(0);
                         String filename = row.getString("filename");
+                        
                         String surl = "http://radio.bam.yt/?f=download&name=" +filename;
                 
                         File file = new File(BAMradio.Instance.getDataFolder()+File.separator+filename);

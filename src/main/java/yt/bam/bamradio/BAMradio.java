@@ -65,7 +65,9 @@ public class BAMradio extends JavaPlugin {
         defaultTranslation.put("COMMAND_SEARCH_EXTENDED_HELP" , "/br search league");
         defaultTranslation.put("COMMAND_RANDOM_HELP" , "Play a random track");
         defaultTranslation.put("COMMAND_INFO_HELP" , "Show name of current track");
-        
+        defaultTranslation.put("COMMAND_VOLUME_HELP" , "Sets the volume of BAMradio");
+        defaultTranslation.put("COMMAND_VOLUME_CHANGED" , "Volume changed to: ");
+       
         ArrayList<ICommand> commands= new ArrayList<ICommand>();
         commands.add(new CmdGet());
         commands.add(new CmdList());
@@ -77,6 +79,7 @@ public class BAMradio extends JavaPlugin {
         commands.add(new CmdInfo());
         commands.add(new CmdStop());
         commands.add(new CmdUnmute());
+        commands.add(new CmdVolume());
         
         String[] rootCommands = new String[]{"bamradio","br"};
        
@@ -115,8 +118,9 @@ public class BAMradio extends JavaPlugin {
         boolean autoPlay = BAMradio.Library.Configuration.getBoolean("auto-play", false);
         boolean autoPlayNext = BAMradio.Library.Configuration.getBoolean("auto-play-next", false);
         boolean forceSoftwareSequencer = BAMradio.Library.Configuration.getBoolean("force-software-sequencer", false);
+        int volume = BAMradio.Library.Configuration.getInt("volume", 0);
         String regionName = BAMradio.Library.Configuration.getString("region", "");
-        RadioManager = new RadioManager(autoPlay,autoPlayNext,forceSoftwareSequencer,regionName); 
+        RadioManager = new RadioManager(autoPlay,autoPlayNext,forceSoftwareSequencer,regionName,volume); 
         if (getServer().getPluginManager().getPlugin("NoteBlockAPI") != null) {
             getLogger().info("Detected NoteBlockAPI!");
             NoteBlockAPI = true;

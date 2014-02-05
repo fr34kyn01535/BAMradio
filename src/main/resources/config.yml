@@ -10,13 +10,16 @@ enable-metrics: true
 #Start playing when the server starts
 auto-play: true
 
+#Initial volume (Can be negative)
+volume: 15
+
 #Auto play new song after the current has ended
 auto-play-next: true
 
 #Force usage of software sequencer, even if a midi sequencer device is found
 force-software-sequencer: false
 
-#Force usage of software sequencer, even if a midi sequencer device is found
+#Show current / new track message
 show-current-track: true
 
 # If you want to hear the tracks only in a specific WorldGuard region then put in the name, otherwise leave it blank

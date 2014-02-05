@@ -17,12 +17,10 @@ import javax.sound.midi.Sequence;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Track;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import yt.bam.bamradio.BAMradio;
-import yt.bam.library.Helpers;
 
 /**
  * @author fr34kyn01535
@@ -93,8 +91,8 @@ public class MinecraftMidiPlayer implements MidiPlayer {
                 System.err.println(BAMradio.Library.Translation.getTranslation("MIDI_MANAGER_CORRUPT_MIDI")+" " + midiName);
         }
         for (Player player : manager.tunedIn) {
-            Helpers.sendMessage(player,BAMradio.Library.Translation.getTranslation("MIDI_MANAGER_NOW_PLAYING")+" " + ChatColor.YELLOW + midiName.replace("_", " "));
-        }
+            manager.NowPlaying(player, false);
+         }
         timer.scheduleAtFixedRate(new TickTask(), MILLIS_PER_TICK, MILLIS_PER_TICK);
         return true;
     }
@@ -107,6 +105,7 @@ public class MinecraftMidiPlayer implements MidiPlayer {
                     float volume = message.getData2();
                     if (volume == 0)
                         volume =1;
+                    volume = volume + BAMradio.Instance.RadioManager.Volume;
                     int note = Integer.valueOf((midiNote - 6) % 24);
                     int channel = message.getChannel();
                     int patch = 1;

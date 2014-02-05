@@ -69,7 +69,7 @@ public class SequencerMidiPlayer implements MidiPlayer, Receiver {
                 }
 
                 for (Player player : manager.tunedIn) {
-                        Helpers.sendMessage(player,BAMradio.Library.Translation.getTranslation("MIDI_MANAGER_NOW_PLAYING")+" " + ChatColor.YELLOW + midiName.replace("_", " ").replace(".mid",""));
+                    manager.NowPlaying(player, false);
                 }
 
                 new BukkitRunnable() {
@@ -116,8 +116,10 @@ public class SequencerMidiPlayer implements MidiPlayer, Receiver {
                     float volume = event.getData2() / 127;
 
                     if (volume == 0)
-                            volume = 3;
+                            volume = 1;
 
+                    volume = volume + BAMradio.Instance.RadioManager.Volume;
+                    
                     int note = Integer.valueOf((midiNote - 6) % 24);
 
                     int channel = event.getChannel();
@@ -129,7 +131,7 @@ public class SequencerMidiPlayer implements MidiPlayer, Receiver {
                             Sound sound = Instrument.getInstrument(patch, channel);
                             if(sound!=null){
                                 if(sound==Sound.NOTE_PLING){
-                                     player.playSound(player.getLocation().add(0, 20, 0), sound, 5, NotePitch.getPitch(note));
+                                     player.playSound(player.getLocation().add(0, 20, 0), sound, volume, NotePitch.getPitch(note));
                                 }else{
                                     player.playSound(player.getLocation(), sound, volume, NotePitch.getPitch(note));
                                 } 

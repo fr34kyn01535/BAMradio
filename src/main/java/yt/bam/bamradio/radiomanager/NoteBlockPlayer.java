@@ -13,27 +13,27 @@ import yt.bam.library.Helpers;
  */
 public class NoteBlockPlayer implements MidiPlayer, Listener{
     private RadioManager manager;
-    private Song s = null;
+    public static Song CurrentSong = null;
     
     public NoteBlockPlayer(RadioManager manager){
         this.manager=manager;
     }
     
     public void tuneIn(Player player) {
-        if(s!=null){
-            s.addPlayer(player);
+        if(CurrentSong!=null){
+            CurrentSong.addPlayer(player);
         }
     }
 
     public void tuneOut(Player player) {
-        if(s!=null){
-            s.removePlayer(player);
+        if(CurrentSong!=null){
+            CurrentSong.removePlayer(player);
         }
     }
     
     public void stopPlaying(){
-        if(s!=null){
-            s.setPlaying(false);
+        if(CurrentSong!=null){
+            CurrentSong.setPlaying(false);
         }
         manager.nowPlaying = false;
     }
@@ -41,18 +41,16 @@ public class NoteBlockPlayer implements MidiPlayer, Listener{
     public boolean playSong(String fileName){
         manager.nowPlayingFile=fileName;
         manager.nowPlaying = true;
-
-        
-        
         try{
             File nbs = manager.getNoteBlockFile(fileName);
-            s = NBSDecoder.parse(nbs);
-            s.setAutoDestroy(false);
+            CurrentSong = NBSDecoder.parse(nbs);
+            CurrentSong.setAutoDestroy(false);
+            System.out.println(CurrentSong.getVolume());
             for (Player player : manager.tunedIn) {
-                s.addPlayer(player);
-                Helpers.sendMessage(player,BAMradio.Library.Translation.getTranslation("MIDI_MANAGER_NOW_PLAYING")+" " + ChatColor.YELLOW + fileName.replace("_", " ").replace(".nbs",""));
-            }
-            s.setPlaying(true);
+                CurrentSong.addPlayer(player);
+                manager.NowPlaying(player, false);
+             }
+            CurrentSong.setPlaying(true);
             return true;
         }
         catch(Exception e){

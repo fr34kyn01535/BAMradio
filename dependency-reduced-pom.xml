@@ -4,7 +4,7 @@
   <groupId>yt.bam</groupId>
   <artifactId>BAMradio</artifactId>
   <name>BAMradio</name>
-  <version>1.6</version>
+  <version>1.7</version>
   <url>http://bam.yt</url>
   <build>
     <finalName>BAMradio</finalName>
@@ -116,19 +116,19 @@
     <dependency>
       <groupId>com.sk89q</groupId>
       <artifactId>worldguard</artifactId>
-      <version>5.7.3</version>
+      <version>5.8</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>craftbukkit</artifactId>
-      <version>1.6.2-R0.1-SNAPSHOT</version>
+      <version>1.7.2-R0.2</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
-      <version>1.6.2-R0.1-SNAPSHOT</version>
+      <version>1.7.2-R0.2</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>
