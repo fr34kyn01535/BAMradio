@@ -36,11 +36,13 @@ public class CmdGet implements ICommand{
                 
                         File file = new File(BAMradio.Instance.getDataFolder()+File.separator+filename);
                         
-                        if(!file.exists()){
+                        if(!file.exists() && (surl.endsWith(".mid") || surl.endsWith(".midi") || surl.endsWith(".nbs"))){
                             URL url = new URL(surl);
                             ReadableByteChannel rbc = Channels.newChannel(url.openStream());
                             FileOutputStream fos = new FileOutputStream(BAMradio.Instance.getDataFolder()+File.separator+filename);
                             fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+                        }else{
+                            Helpers.sendMessage(sender, ChatColor.RED + BAMradio.Library.Translation.getTranslation("COMMAND_MANAGER_INVALID_PARAMETER"));
                         }
                         
                         if(!BAMradio.Instance.RadioManager.playSong(filename)){
