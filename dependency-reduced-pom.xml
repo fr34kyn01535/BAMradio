@@ -4,14 +4,14 @@
   <groupId>yt.bam</groupId>
   <artifactId>BAMradio</artifactId>
   <name>BAMradio</name>
-  <version>1.7</version>
+  <version>1.8</version>
   <url>http://bam.yt</url>
   <build>
     <finalName>BAMradio</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>2.0</version>
+        <version>2.2</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -109,26 +109,26 @@
     <dependency>
       <groupId>com.xxmicloxx</groupId>
       <artifactId>NoteBlockAPI</artifactId>
-      <version>1.0.0</version>
+      <version>1.1.0</version>
       <scope>system</scope>
-      <systemPath>C:\Users\Sven\Documents\GitHub\BAMradio/src/main/lib/NoteBlockAPI.jar</systemPath>
+      <systemPath>C:\Users\FR34KYN01535\Documents\GitHub\BAMradio/src/main/lib/NoteBlockAPI-1.1.0.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>com.sk89q</groupId>
       <artifactId>worldguard</artifactId>
-      <version>5.8</version>
+      <version>5.9.1-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>craftbukkit</artifactId>
-      <version>1.7.2-R0.2</version>
+      <version>1.7.2-R0.3</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
-      <version>1.7.2-R0.2</version>
+      <version>1.7.2-R0.3</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>

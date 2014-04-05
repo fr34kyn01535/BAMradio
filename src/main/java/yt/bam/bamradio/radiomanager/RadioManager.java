@@ -128,6 +128,7 @@ public class RadioManager {
     public static String[] listRadioFiles() {
         File[] files = BAMradio.Instance.getDataFolder().listFiles();
         List<String> radioFiles = new ArrayList<String>();
+        if(files==null)return null;
         for (File file : files) {
                 if (file.getName().endsWith(".mid")) {
                     radioFiles.add(file.getName().substring(0, file.getName().lastIndexOf(".mid")));
@@ -170,7 +171,7 @@ public class RadioManager {
         }
         if(AutoPlay){
             String[] midis = listRadioFiles();
-            if (midis.length > 0)
+            if (midis != null && midis.length > 0)
                 playSong(midis[0]);
         }
     }

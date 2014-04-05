@@ -15,12 +15,10 @@ import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import yt.bam.bamradio.BAMradio;
-import yt.bam.library.Helpers;
 
 /**
  * @author fr34kyn01535

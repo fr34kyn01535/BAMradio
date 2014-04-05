@@ -7,7 +7,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath org.bukkit.craftbukkit.Main -P ../ --nojline</exec.args>
+                <exec.args>-classpath C:\Users\FR34KYN01535\.m2\repository\org\bukkit\craftbukkit\1.7.2-R0.3\craftbukkit-1.7.2-R0.3.jar org.bukkit.craftbukkit.Main -P ../ --nojline</exec.args>
                 <exec.executable>java</exec.executable>
                 <exec.workingdir>target/server</exec.workingdir>
             </properties>

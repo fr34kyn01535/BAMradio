@@ -1,13 +1,12 @@
 package yt.bam.bamradio;
 
-import yt.bam.bamradio.radiomanager.listener.PlayerListener;
-import yt.bam.bamradio.radiomanager.listener.WGRegionEventsListener;
-import java.util.ArrayList;
-import java.util.logging.Logger;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -15,7 +14,9 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import yt.bam.bamradio.commands.*;
 import yt.bam.bamradio.radiomanager.RadioManager;
+import yt.bam.bamradio.radiomanager.listener.PlayerListener;
 import yt.bam.bamradio.radiomanager.listener.RegionListener;
+import yt.bam.bamradio.radiomanager.listener.WGRegionEventsListener;
 import yt.bam.library.BAMLibrary;
 import yt.bam.library.ICommand;
 
@@ -115,12 +116,15 @@ public class BAMradio extends JavaPlugin {
     }
     
     public void customOnEnable(){
+        File f = new File(this.getDataFolder() + "/");
+        if(!f.exists()) f.mkdir();
+        
         boolean autoPlay = BAMradio.Library.Configuration.getBoolean("auto-play", false);
         boolean autoPlayNext = BAMradio.Library.Configuration.getBoolean("auto-play-next", false);
         boolean forceSoftwareSequencer = BAMradio.Library.Configuration.getBoolean("force-software-sequencer", false);
         int volume = BAMradio.Library.Configuration.getInt("volume", 0);
         String regionName = BAMradio.Library.Configuration.getString("region", "");
-        RadioManager = new RadioManager(autoPlay,autoPlayNext,forceSoftwareSequencer,regionName,volume); 
+       
         if (getServer().getPluginManager().getPlugin("NoteBlockAPI") != null) {
             getLogger().info("Detected NoteBlockAPI!");
             NoteBlockAPI = true;
@@ -128,6 +132,7 @@ public class BAMradio extends JavaPlugin {
             NoteBlockAPI = false;
         }
         
+        RadioManager = new RadioManager(autoPlay,autoPlayNext,forceSoftwareSequencer,regionName,volume); 
         
         if(Library.Configuration.getString("region", "").equals("")){
             getServer().getPluginManager().registerEvents(new PlayerListener(), this);

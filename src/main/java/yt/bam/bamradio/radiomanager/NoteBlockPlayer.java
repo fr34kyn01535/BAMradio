@@ -2,38 +2,36 @@ package yt.bam.bamradio.radiomanager;
 
 import com.xxmicloxx.NoteBlockAPI.*;
 import java.io.File;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import yt.bam.bamradio.BAMradio;
-import yt.bam.library.Helpers;
 /**
  *
  * @author FR34KYN01535
  */
 public class NoteBlockPlayer implements MidiPlayer, Listener{
     private RadioManager manager;
-    public static Song CurrentSong = null;
+    public SongPlayer Player;
     
     public NoteBlockPlayer(RadioManager manager){
         this.manager=manager;
     }
     
     public void tuneIn(Player player) {
-        if(CurrentSong!=null){
-            CurrentSong.addPlayer(player);
+        if(Player!=null){
+            Player.addPlayer(player);
         }
     }
 
     public void tuneOut(Player player) {
-        if(CurrentSong!=null){
-            CurrentSong.removePlayer(player);
+        if(Player!=null){
+            Player.removePlayer(player);
         }
     }
     
     public void stopPlaying(){
-        if(CurrentSong!=null){
-            CurrentSong.setPlaying(false);
+        if(Player!=null){
+            Player.setPlaying(false);
         }
         manager.nowPlaying = false;
     }
@@ -42,15 +40,14 @@ public class NoteBlockPlayer implements MidiPlayer, Listener{
         manager.nowPlayingFile=fileName;
         manager.nowPlaying = true;
         try{
-            File nbs = manager.getNoteBlockFile(fileName);
-            CurrentSong = NBSDecoder.parse(nbs);
-            CurrentSong.setAutoDestroy(false);
-            System.out.println(CurrentSong.getVolume());
+            Song s = NBSDecoder.parse(new File(BAMradio.Instance.getDataFolder(),fileName+".nbs"));
+            Player = new RadioSongPlayer(s);
+            Player.setAutoDestroy(false);
             for (Player player : manager.tunedIn) {
-                CurrentSong.addPlayer(player);
+                Player.addPlayer(player);
                 manager.NowPlaying(player, false);
              }
-            CurrentSong.setPlaying(true);
+            Player.setPlaying(true);
             return true;
         }
         catch(Exception e){

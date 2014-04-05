@@ -25,11 +25,11 @@ public class CmdSearch implements ICommand{
             try{
                 String url = "http://radio.bam.yt/?f=json";
                 if(args.length>=2){
-                        if(!BAMradio.Instance.NoteBlockAPI){
+                        //if(!BAMradio.Instance.NoteBlockAPI){
                             url+="&type=mid";
-                        }else{
-                            url+="&type=any";
-                        }
+                        //}else{
+                        //    url+="&type=any";
+                        //}
                         url+="&q=";
                         for(int i = 1;i<args.length;i++){
                             url+=args[i]+"%20";

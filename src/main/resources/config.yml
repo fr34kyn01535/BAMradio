@@ -25,6 +25,9 @@ show-current-track: true
 # If you want to hear the tracks only in a specific WorldGuard region then put in the name, otherwise leave it blank
 region: ""
 
+# If you want to hear the tracks only in a specific world then put in the name, otherwise leave it blank
+world: ""
+
 # Default language is english if empty or "en". 
 # To switch language put in the name of the languagefile (e.g. "de" for de.yml)
 language: "en"
